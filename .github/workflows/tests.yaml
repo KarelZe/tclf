@@ -26,6 +26,6 @@ jobs:
     - name: Install dependencies
       run: conda install numpy scipy scikit-learn codecov pytest-cov
     - name: Test with pytest
-      run: pytest -v --cov=skltemplate --pyargs skltemplate
+      run: pytest -v --cov=tclf --pyargs tclf
     - name: Code coverage
       run: codecov
