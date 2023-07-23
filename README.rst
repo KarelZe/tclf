@@ -8,12 +8,11 @@
 .. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/coy2qqaqr1rnnt5y/branch/master?svg=true
 .. _AppVeyor: https://ci.appveyor.com/project/glemaitre/project-template
 
-.. |Codecov| image:: https://codecov.io/gh/scikit-learn-contrib/project-template/branch/master/graph/badge.svg
-.. _Codecov: https://codecov.io/gh/scikit-learn-contrib/project-template
+.. |Codecov| image:: https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg
+.. _Codecov: https://codecov.io/gh/karelze/tclf
 
-.. |CircleCI| image:: https://circleci.com/gh/scikit-learn-contrib/project-template.svg?style=shield&circle-token=:circle-token
-.. _CircleCI: https://circleci.com/gh/scikit-learn-contrib/project-template/tree/master
-
+.. |CircleCI| image:: https://dl.circleci.com/status-badge/img/gh/KarelZe/tclf/tree/master.svg?style=svg
+.. _CircleCI: https://circleci.com/gh/KarelZe/tclf/tree/master
 .. |ReadTheDocs| image:: https://readthedocs.org/projects/tclf/badge/?version=latest
 .. _ReadTheDocs: https://tclf.readthedocs.io/en/latest/?badge=latest
 
