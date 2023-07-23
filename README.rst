@@ -6,7 +6,7 @@
 .. _Travis: https://travis-ci.org/scikit-learn-contrib/project-template
 
 .. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/coy2qqaqr1rnnt5y/branch/master?svg=true
-.. _AppVeyor: https://ci.appveyor.com/project/glemaitre/project-template
+.. _AppVeyor: https://ci.appveyor.com/project/karelze/tclf
 
 .. |Codecov| image:: https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg
 .. _Codecov: https://codecov.io/gh/karelze/tclf
