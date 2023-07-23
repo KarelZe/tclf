@@ -1,16 +1,11 @@
 .. -*- mode: rst -*-
 
-|Travis|_ |AppVeyor|_ |Codecov|_ |CircleCI|_ |ReadTheDocs|_
+|GitHubActions|_ |Codecov|_ |CircleCI|_ |ReadTheDocs|_
 
-.. |Travis| image:: https://travis-ci.org/scikit-learn-contrib/project-template.svg?branch=master
-.. _Travis: https://travis-ci.org/scikit-learn-contrib/project-template
-
-.. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/coy2qqaqr1rnnt5y/branch/master?svg=true
-.. _AppVeyor: https://ci.appveyor.com/project/karelze/tclf
-
+.. |GitHubActions| image:: https://github.com/karelze/tclf/actions/workflows/tests.yml/badge.svg
+.. _GitHubActions: https://github.com/karelze/tclf/actions
 .. |Codecov| image:: https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg
 .. _Codecov: https://codecov.io/gh/karelze/tclf
-
 .. |CircleCI| image:: https://dl.circleci.com/status-badge/img/gh/KarelZe/tclf/tree/master.svg?style=svg
 .. _CircleCI: https://circleci.com/gh/KarelZe/tclf/tree/master
 .. |ReadTheDocs| image:: https://readthedocs.org/projects/tclf/badge/?version=latest
