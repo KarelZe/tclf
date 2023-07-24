@@ -21,11 +21,10 @@ Algorithms
 ====================
 
 +-----------+------+------+-------+-----+------+------+---------+-------+
-|           | Tick | Q    | LR    | EM  | C    | D    | Tr      | St    |
-|           | Test | uote | -Algo | O-R | LNV- | epth | adesize | acked |
-|           |      | Rule | rithm | ule | Rule | Rule | Rule    | Rule  |
+|           | Tick | Quote    | LR    | EMO  | CLNV    | Depth    | Tradesize      | Stacked    |
+|           | Test     | Rule | Algorithm | Rule | Rule | Rule | Rule    | Rule  |
 +===========+======+======+=======+=====+======+======+=========+=======+
-| Supported | ✅   | ✅   | ✅    | ✅  | ✅   | ✅   | ✅     | (✅)   |
+| Supported | ✅   | ✅   | ✅    | ✅  | ✅   | ✅   | ✅      | ✅   |
 |           |      |      |       |     |      |      |         |       |
 |           |      |      |       |     |      |      |         |       |
 +-----------+------+------+-------+-----+------+------+---------+-------+
