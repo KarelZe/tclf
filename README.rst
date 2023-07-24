@@ -47,16 +47,6 @@ References
 
 .. raw:: html
 
-   <title>
-
-Bibliography
-
-.. raw:: html
-
-   </title>
-
-.. raw:: html
-
    </head>
 
 .. raw:: html
