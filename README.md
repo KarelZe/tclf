@@ -3,7 +3,7 @@
 ![CircleCI](https://dl.circleci.com/status-badge/img/gh/KarelZe/tclf/tree/master.svg?style=svg)
 ![ReadTheDocs](https://readthedocs.org/projects/tclf/badge/?version=latest)
 
-# TCLF 💸
+# tclf 💸
 
 [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
@@ -19,7 +19,7 @@
 
 ## Usage
 
-<https://tclf.readthedocs.io/en/latest/quick_start.html>
+Documentation is available [here](https://tclf.readthedocs.io/en/latest/quick_start.html).
 
 ## References
 
