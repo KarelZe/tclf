@@ -29,5 +29,5 @@ jobs:
         pip install .[dev]
     - name: Test with pytest
       run: pytest -v --cov=tclf --pyargs tclf
-    - name: Code coverage
-      run: codecov
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v2
