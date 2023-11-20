@@ -71,6 +71,12 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
     ):
         """Initialize a ClassicalClassifier.
 
+        Examples:
+            >>> clf = ClassicalClassifier(layers=[("lr", "all")], strategy="const")
+
+            Or equivalent:
+            >>> clf = ClassicalClassifier(layers=[("quote", "all"), ("tick", "all")], strategy="const")
+
         Args:
             layers (List[ tuple[ str, str, ] ]): Layers of classical rule.
             features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
@@ -477,7 +483,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             func = self.func_mapping_[func_str]
             pred = np.where(
                 np.isnan(pred),
-                func(subset),
+                func(subset),  # type: ignore [operator]
                 pred,
             )
 

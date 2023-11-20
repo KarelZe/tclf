@@ -1,9 +1,8 @@
----
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: check-added-large-files
@@ -13,57 +12,23 @@ repos:
       - id: check-symlinks
       - id: check-toml
       - id: check-yaml
+        args: ['--unsafe']
       - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
-  - repo: https://github.com/python-poetry/poetry
-    rev: '1.5.1'
-    hooks:
-      - id: poetry-check
-      - id: poetry-lock
-      - id: poetry-export
-        args: ["-f", "requirements.txt", "-o", "requirements.txt"]
-  - repo: https://github.com/PyCQA/autoflake
-    rev: v1.7.7
-    hooks:
-      - id: autoflake
-        args:
-          - "--ignore-init-module-imports"
-          - "--remove-all-unused-imports"
-          - "--remove-unused-variables"
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        name: isort (python)
+      - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.4.1
+    rev: v1.7.0
     hooks:
       - id: mypy
         # yaml requires additional stubs.
         # Similar to: https://stackoverflow.com/a/73603491/5755604
         additional_dependencies: ['types-PyYAML']
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.10.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
     hooks:
-      - id: python-use-type-annotations
-  - repo: https://github.com/psf/black.git
-    rev: 23.7.0
-    hooks:
-      - id: black
-        language_version: python3
-        exclude: ^(tests\/hooks-abort-render\/hooks|docs)
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-absolute-import
-          - flake8-black
-          - flake8-docstrings
-          - flake8-bugbear
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.9.0
-    hooks:
-      - id: pyupgrade
-exclude: "^(doc)"
+    - id: ruff
+      args:
+      - --fix
+    - id: ruff-format
+exclude: "^(references|reports)"
