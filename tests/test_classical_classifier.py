@@ -16,7 +16,6 @@ class TestClassicalClassifier(ClassifierMixin):
     """Perform automated tests for ClassicalClassifier.
 
     Args:
-    ----
         unittest (_type_): unittest module
     """
 
