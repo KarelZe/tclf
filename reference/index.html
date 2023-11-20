@@ -393,28 +393,63 @@
   
       <p>ClassicalClassifier implements several trade classification rules.</p>
 <p>Including:
-* Tick test
-* Reverse tick test
-* Quote rule
-* LR algorithm
-* LR algorithm with reverse tick test
-* EMO algorithm
-* EMO algorithm with reverse tick test
-* CLNV algorithm
-* CLNV algorithm with reverse tick test
-* Trade size rule
-* Depth rule
-* nan</p>
-      <hr />
-<div class="codehilite"><pre><span></span><code><span class="nx">ClassifierMixin</span><span class="w"> </span><span class="p">(</span><span class="nx">_type_</span><span class="p">):</span><span class="w"> </span><span class="nx">ClassifierMixin</span>
-<span class="nx">BaseEstimator</span><span class="w"> </span><span class="p">(</span><span class="nx">_type_</span><span class="p">):</span><span class="w"> </span><span class="nx">Baseestimator</span>
-</code></pre></div>
+Tick test,
+Reverse tick test,
+Quote rule,
+LR algorithm,
+EMO algorithm,
+CLNV algorithm,
+Trade size rule,
+Depth rule,
+and nan</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>classifier</code></td>
+          <td>
+                <code>mixin (ClassifierMixin</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>mixin for classifier functionality, such as <code>predict_proba()</code></p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>base</code></td>
+          <td>
+                <code>estimator (BaseEstimator</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>base estimator for basic functionality, such as <code>transform()</code></p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
             <details class="quote">
               <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 38</span>
 <span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
@@ -903,40 +938,34 @@
 <span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="normal">527</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassicalClassifier implements several trade classification rules.</span>
 
 <span class="sd">    Including:</span>
-<span class="sd">    * Tick test</span>
-<span class="sd">    * Reverse tick test</span>
-<span class="sd">    * Quote rule</span>
-<span class="sd">    * LR algorithm</span>
-<span class="sd">    * LR algorithm with reverse tick test</span>
-<span class="sd">    * EMO algorithm</span>
-<span class="sd">    * EMO algorithm with reverse tick test</span>
-<span class="sd">    * CLNV algorithm</span>
-<span class="sd">    * CLNV algorithm with reverse tick test</span>
-<span class="sd">    * Trade size rule</span>
-<span class="sd">    * Depth rule</span>
-<span class="sd">    * nan</span>
+<span class="sd">    Tick test,</span>
+<span class="sd">    Reverse tick test,</span>
+<span class="sd">    Quote rule,</span>
+<span class="sd">    LR algorithm,</span>
+<span class="sd">    EMO algorithm,</span>
+<span class="sd">    CLNV algorithm,</span>
+<span class="sd">    Trade size rule,</span>
+<span class="sd">    Depth rule,</span>
+<span class="sd">    and nan</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">    ----</span>
-<span class="sd">        ClassifierMixin (_type_): ClassifierMixin</span>
-<span class="sd">        BaseEstimator (_type_): Baseestimator</span>
+<span class="sd">        classifier mixin (ClassifierMixin): mixin for classifier functionality, such as `predict_proba()`</span>
+<span class="sd">        base estimator (BaseEstimator): base estimator for basic functionality, such as `transform()`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
         <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
             <span class="nb">tuple</span><span class="p">[</span>
                 <span class="nb">str</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">,</span>
             <span class="p">]</span>
         <span class="p">],</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">random_state</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
         <span class="n">strategy</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
@@ -1255,15 +1284,15 @@
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+        <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
         <span class="n">sample_weight</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClassicalClassifier</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the classifier.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (npt.NDArray | pd.DataFrame): features</span>
-<span class="sd">            y (npt.NDArray | pd.Series): ground truth (ignored)</span>
+<span class="sd">            X (MatrixLike): features</span>
+<span class="sd">            y (ArrayLike): ground truth (ignored)</span>
 <span class="sd">            sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.</span>
 
 <span class="sd">        Raises:</span>
@@ -1330,11 +1359,11 @@
 
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (npt.NDArray | pd.DataFrame): feature matrix.</span>
+<span class="sd">            X (MatrixLike): feature matrix.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: Predicted traget values for X.</span>
@@ -1370,7 +1399,7 @@
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span>
         <span class="k">return</span> <span class="n">pred</span>
 
-    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">        Probabilities are either 0 or 1 depending on the class.</span>
@@ -1378,7 +1407,7 @@
 <span class="sd">        For strategy &#39;constant&#39; probabilities are (0.5,0.5) for unclassified classes.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (npt.NDArray | pd.DataFrame): feature matrix</span>
+<span class="sd">            X (MatrixLike): feature matrix</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: probabilities</span>
@@ -1421,7 +1450,7 @@
 
 
 <h2 id="tclf.classical_classifier.ClassicalClassifier.__init__" class="doc doc-heading">
-          <code class=" language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">)</span></code>
+          <code class=" language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">)</span></code>
 
 <a href="#tclf.classical_classifier.ClassicalClassifier.__init__" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -1513,7 +1542,9 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
@@ -1541,17 +1572,15 @@
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
     <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
         <span class="nb">tuple</span><span class="p">[</span>
             <span class="nb">str</span><span class="p">,</span>
             <span class="nb">str</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">random_state</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
     <span class="n">strategy</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
@@ -1612,7 +1641,7 @@
         <tr>
           <td><code>X</code></td>
           <td>
-                <code><span title="numpy.NDArray">NDArray</span> | <span title="pandas.DataFrame">DataFrame</span></code>
+                <code><span title="tclf.types.MatrixLike">MatrixLike</span></code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1626,7 +1655,7 @@
         <tr>
           <td><code>y</code></td>
           <td>
-                <code><span title="numpy.NDArray">NDArray</span> | <span title="pandas.Series">Series</span></code>
+                <code><span title="tclf.types.ArrayLike">ArrayLike</span></code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1724,7 +1753,9 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
 <span class="normal">385</span>
 <span class="normal">386</span>
 <span class="normal">387</span>
@@ -1797,19 +1828,17 @@
 <span class="normal">454</span>
 <span class="normal">455</span>
 <span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<span class="normal">457</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
     <span class="n">sample_weight</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClassicalClassifier</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fit the classifier.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        X (npt.NDArray | pd.DataFrame): features</span>
-<span class="sd">        y (npt.NDArray | pd.Series): ground truth (ignored)</span>
+<span class="sd">        X (MatrixLike): features</span>
+<span class="sd">        y (ArrayLike): ground truth (ignored)</span>
 <span class="sd">        sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.</span>
 
 <span class="sd">    Raises:</span>
@@ -1913,7 +1942,7 @@
         <tr>
           <td><code>X</code></td>
           <td>
-                <code><span title="numpy.NDArray">NDArray</span> | <span title="pandas.DataFrame">DataFrame</span></code>
+                <code><span title="tclf.types.MatrixLike">MatrixLike</span></code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1953,7 +1982,9 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -1989,13 +2020,11 @@
 <span class="normal">494</span>
 <span class="normal">495</span>
 <span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">497</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        X (npt.NDArray | pd.DataFrame): feature matrix.</span>
+<span class="sd">        X (MatrixLike): feature matrix.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        npt.NDArray: Predicted traget values for X.</span>
@@ -2070,7 +2099,7 @@
         <tr>
           <td><code>X</code></td>
           <td>
-                <code><span title="numpy.NDArray">NDArray</span> | <span title="pandas.DataFrame">DataFrame</span></code>
+                <code><span title="tclf.types.MatrixLike">MatrixLike</span></code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -2110,7 +2139,9 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">501</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
 <span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
@@ -2136,9 +2167,7 @@
 <span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">527</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">    Probabilities are either 0 or 1 depending on the class.</span>
@@ -2146,7 +2175,7 @@
 <span class="sd">    For strategy &#39;constant&#39; probabilities are (0.5,0.5) for unclassified classes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        X (npt.NDArray | pd.DataFrame): feature matrix</span>
+<span class="sd">        X (MatrixLike): feature matrix</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        npt.NDArray: probabilities</span>
