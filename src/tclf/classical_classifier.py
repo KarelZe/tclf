@@ -73,9 +73,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         Args:
             layers (List[ tuple[ str, str, ] ]): Layers of classical rule.
-            features (List[str] | None, optional): List of feature names in order of
-            columns. Required to match columns in feature matrix with label.
-            Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
+            features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
             random_state (float | None, optional): random seed. Defaults to 42.
             strategy (Literal[&quot;random&quot;, &quot;const&quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &quot;random&quot;.
         """
@@ -388,8 +386,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Args:
             X (npt.NDArray | pd.DataFrame): features
             y (npt.NDArray | pd.Series): ground truth (ignored)
-            sample_weight (npt.NDArray | None, optional):  Sample weights.
-            Defaults to None.
+            sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.
 
         Raises:
             ValueError: Unknown subset e. g., 'ise'

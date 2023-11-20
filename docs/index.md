@@ -1,8 +1,4 @@
-![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)
-![Codecov](https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg)
-![CircleCI](https://dl.circleci.com/status-badge/img/gh/KarelZe/tclf/tree/master.svg?style=svg)
-
-# tclf 💸
+# Trade classification for python
 
 [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
@@ -15,10 +11,6 @@
 - CLNV rule
 - Depth rule
 - Tradesize rule
-
-## Usage
-
-Documentation is available [here](https://KarelZe.github.io/tclf/).
 
 ## References
 
