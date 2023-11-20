@@ -899,7 +899,13 @@
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassicalClassifier implements several trade classification rules.</span>
 
 <span class="sd">    Including:</span>
@@ -936,6 +942,12 @@
         <span class="n">strategy</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a ClassicalClassifier.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;lr&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
+
+<span class="sd">            Or equivalent:</span>
+<span class="sd">            &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;all&quot;), (&quot;tick&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            layers (List[ tuple[ str, str, ] ]): Layers of classical rule.</span>
@@ -1343,7 +1355,7 @@
             <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span><span class="p">[</span><span class="n">func_str</span><span class="p">]</span>
             <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span>
-                <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
+                <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>  <span class="c1"># type: ignore [operator]</span>
                 <span class="n">pred</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -1417,6 +1429,15 @@
   <div class="doc doc-contents ">
   
       <p>Initialize a ClassicalClassifier.</p>
+
+
+
+<p><strong>Examples:</strong></p>
+    <div class="codehilite"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
+</code></pre></div>
+    <p>Or equivalent:</p>
+    <div class="codehilite"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;tick&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 
 
@@ -1516,7 +1537,13 @@
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
@@ -1530,6 +1557,12 @@
     <span class="n">strategy</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize a ClassicalClassifier.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;lr&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
+
+<span class="sd">        Or equivalent:</span>
+<span class="sd">        &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;all&quot;), (&quot;tick&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        layers (List[ tuple[ str, str, ] ]): Layers of classical rule.</span>
@@ -1691,13 +1724,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
 <span class="normal">385</span>
 <span class="normal">386</span>
 <span class="normal">387</span>
@@ -1766,7 +1793,13 @@
 <span class="normal">450</span>
 <span class="normal">451</span>
 <span class="normal">452</span>
-<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
@@ -1920,13 +1953,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -1958,7 +1985,13 @@
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
-<span class="normal">493</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">    Args:</span>
@@ -1983,7 +2016,7 @@
         <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span><span class="p">[</span><span class="n">func_str</span><span class="p">]</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span>
-            <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>  <span class="c1"># type: ignore [operator]</span>
             <span class="n">pred</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -2077,13 +2110,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">501</span>
 <span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
@@ -2105,7 +2132,13 @@
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">    Probabilities are either 0 or 1 depending on the class.</span>
