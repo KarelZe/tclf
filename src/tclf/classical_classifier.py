@@ -15,6 +15,8 @@ from sklearn.utils import check_random_state
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.validation import _check_sample_weight, check_is_fitted, check_X_y
 
+from tclf.types import ArrayLike, MatrixLike
+
 allowed_func_str = (
     "tick",
     "rev_tick",
@@ -37,34 +39,30 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
     """ClassicalClassifier implements several trade classification rules.
 
     Including:
-    * Tick test
-    * Reverse tick test
-    * Quote rule
-    * LR algorithm
-    * LR algorithm with reverse tick test
-    * EMO algorithm
-    * EMO algorithm with reverse tick test
-    * CLNV algorithm
-    * CLNV algorithm with reverse tick test
-    * Trade size rule
-    * Depth rule
-    * nan
+    Tick test,
+    Reverse tick test,
+    Quote rule,
+    LR algorithm,
+    EMO algorithm,
+    CLNV algorithm,
+    Trade size rule,
+    Depth rule,
+    and nan
 
     Args:
-    ----
-        ClassifierMixin (_type_): ClassifierMixin
-        BaseEstimator (_type_): Baseestimator
+        classifier mixin (ClassifierMixin): mixin for classifier functionality, such as `predict_proba()`
+        base estimator (BaseEstimator): base estimator for basic functionality, such as `transform()`
     """
 
     def __init__(
         self,
-        *,
         layers: list[
             tuple[
                 str,
                 str,
             ]
         ],
+        *,
         features: list[str] | None = None,
         random_state: float | None = 42,
         strategy: Literal["random", "const"] = "random",
@@ -383,15 +381,15 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
     def fit(
         self,
-        X: npt.NDArray | pd.DataFrame,
-        y: npt.NDArray | pd.Series,
+        X: MatrixLike,
+        y: ArrayLike,
         sample_weight: npt.NDArray | None = None,
     ) -> ClassicalClassifier:
         """Fit the classifier.
 
         Args:
-            X (npt.NDArray | pd.DataFrame): features
-            y (npt.NDArray | pd.Series): ground truth (ignored)
+            X (MatrixLike): features
+            y (ArrayLike): ground truth (ignored)
             sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.
 
         Raises:
@@ -458,11 +456,11 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         return self
 
-    def predict(self, X: npt.NDArray | pd.DataFrame) -> npt.NDArray:
+    def predict(self, X: MatrixLike) -> npt.NDArray:
         """Perform classification on test vectors `X`.
 
         Args:
-            X (npt.NDArray | pd.DataFrame): feature matrix.
+            X (MatrixLike): feature matrix.
 
         Returns:
             npt.NDArray: Predicted traget values for X.
@@ -498,7 +496,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         del self.X_
         return pred
 
-    def predict_proba(self, X: npt.NDArray | pd.DataFrame) -> npt.NDArray:
+    def predict_proba(self, X: MatrixLike) -> npt.NDArray:
         """Predict class probabilities for X.
 
         Probabilities are either 0 or 1 depending on the class.
@@ -506,7 +504,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         For strategy 'constant' probabilities are (0.5,0.5) for unclassified classes.
 
         Args:
-            X (npt.NDArray | pd.DataFrame): feature matrix
+            X (MatrixLike): feature matrix
 
         Returns:
             npt.NDArray: probabilities

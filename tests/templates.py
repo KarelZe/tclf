@@ -12,12 +12,7 @@ from sklearn.utils.estimator_checks import check_estimator
 
 
 class ClassifierMixin:
-    """Perform automated tests for Classifiers.
-
-    Args:
-    ----
-        unittest (_type_): unittest module
-    """
+    """Perform automated tests for Classifiers."""
 
     clf: BaseEstimator
     x_test: pd.DataFrame
