@@ -1,0 +1,55 @@
+site_name: tclf
+site_description: tclf, a scikit-learn-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
+site_url: https://typer.tiangolo.com/
+
+theme:
+  name: material
+  palette:
+    primary: black
+    accent: teal
+  icon:
+    repo: fontawesome/brands/github-alt
+
+repo_name: karelze/tclf
+repo_url: https://github.com/karelze/tclf
+edit_uri: ""
+
+nav:
+  - Home: index.md
+  - API reference: reference.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - admonition
+  - codehilite
+  - extra
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format ''
+  - pymdownx.tabbed:
+      alternate_style: true
+  - mdx_include:
+      base_path: docs
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/karelze/tclf
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/markus-bilz/
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js

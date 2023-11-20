@@ -1,31 +1,24 @@
 name: Tests
-
 on: [push, pull_request]
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: [3.9]
-    # Needed by miniconda
-    # https://github.com/marketplace/actions/setup-miniconda#important
-    defaults:
-      run:
-        shell: bash -l {0}
-
+        python-version: ["3.12"]
     steps:
     - name: Git clone
-      uses: actions/checkout@v2
-    - name: Set up virtual environment
-      uses: conda-incubator/setup-miniconda@v2
+      uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-        channels: defaults, conda-forge
     - name: Install dependencies
-      run: conda install numpy scipy scikit-learn codecov pytest-cov
+      run: |
+        python -m pip install --upgrade pip setuptools
+        pip install .[test]
     - name: Test with pytest
-      run: pytest -v --cov=tclf --pyargs tclf
-    - name: Code coverage
-      run: codecov
+      run: pytest -v --cov=src tests/
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
