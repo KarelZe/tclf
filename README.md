@@ -1,6 +1,5 @@
 ![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)
 ![Codecov](https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg)
-![CircleCI](https://dl.circleci.com/status-badge/img/gh/KarelZe/tclf/tree/master.svg?style=svg)
 
 # tclf 💸
 
