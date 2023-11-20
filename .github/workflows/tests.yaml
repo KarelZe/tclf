@@ -19,6 +19,6 @@ jobs:
         python -m pip install --upgrade pip setuptools
         pip install .[dev]
     - name: Test with pytest
-      run: pytest -v --cov=tclf --pyargs tclf
+      run: pytest -v --cov=src tests/
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v3
