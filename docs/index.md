@@ -1,8 +1,8 @@
 # Trade classification for python
 
-[`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
+`tclf` is [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
-## Algorithms
+## Supported Algorithms
 
 - Tick test
 - Quote rule
