@@ -1,7 +1,9 @@
-# https://packaging.python.org/en/latest/tutorials/packaging-projects/
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["tclf"]
 
 [project]
 name = "otc"
@@ -20,22 +22,14 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 
-dynamic = ["version"]
-
-[project.optional-dependencies]
-dev = [
-  "autoflake",
-  "black",
-  "coverage",
-  "flake8",
-  "isort",
-  "mypy",
-  "pre-commit",
-  "pytest",
-  "pytest-cov",
-  "sphinx",
-  "tox",
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn"
 ]
+
+
+dynamic = ["version"]
 
 [project.urls]
 "Homepage" = "https://github.com/KarelZe/thesis"
@@ -58,26 +52,15 @@ disallow_untyped_defs = true
 disallow_untyped_calls = true
 disallow_incomplete_defs = true
 
-[tool.poetry]
-name = "tclf"
-version = "0.1.0"
-description = "Library to perform trade classifcation."
-authors = ["Markus Bilz <github@markusbilz.com>"]
-readme = "README.rst"
-packages = [{include = "tclf"}]
+[project.optional-dependencies]
+dev=[
+    "build",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-numpy = "^1.25.1"
-pandas = "^2.0.3"
-scikit-learn = "^1.3.0"
-
-[tool.poetry.group.dev.dependencies]
-myst-parser = "^2.0.0"
-furo = "^2023.7.26"
-numpydoc = "^1.5.0"
-sphinx-gallery = "^0.13.0"
-matplotlib = "^3.7.2"
 
 [tool.pylint.TYPECHECK]
 # List of members which are set dynamically and missed by Pylint inference
@@ -86,7 +69,7 @@ generated-members=["numpy.*", "torch.*"]
 
 [tool.pytest.ini_options]
 minversion = 7.0
-addopts = "-ra -p no:warnings -v --cov --cov-report term-missing"
+addopts = "-ra -p no:warnings -v --cov --cov-report term-missing --doctest-modules"
 pythonpath = ["src"]
 testpaths = ["tests"]
 
@@ -95,3 +78,19 @@ omit = [
     "debug_*.py",
     "tclf/tests/*",
 ]
+branch = true
+source = ["tclf"]
+include = ["*/tclf/*"]
+
+[tool.coverage.report]
+exclude_also = [
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "@(abc\\.)?abstractmethod",
+    "if self.verbose:"
+    ]
+show_missing = true
