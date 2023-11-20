@@ -17,14 +17,16 @@ jobs:
 
     steps:
     - name: Git clone
-      uses: actions/checkout@v2
-    - name: Set up virtual environment
-      uses: conda-incubator/setup-miniconda@v2
+      uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         channels: defaults, conda-forge
     - name: Install dependencies
-      run: conda install numpy scipy scikit-learn codecov pytest-cov
+      run: |
+        python -m pip install --upgrade pip setuptools
+        pip install .[dev]
     - name: Test with pytest
       run: pytest -v --cov=tclf --pyargs tclf
     - name: Code coverage
