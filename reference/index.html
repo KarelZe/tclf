@@ -899,10 +899,7 @@
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassicalClassifier implements several trade classification rules.</span>
 
 <span class="sd">    Including:</span>
@@ -942,9 +939,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            layers (List[ tuple[ str, str, ] ]): Layers of classical rule.</span>
-<span class="sd">            features (List[str] | None, optional): List of feature names in order of</span>
-<span class="sd">            columns. Required to match columns in feature matrix with label.</span>
-<span class="sd">            Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
+<span class="sd">            features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
 <span class="sd">            random_state (float | None, optional): random seed. Defaults to 42.</span>
 <span class="sd">            strategy (Literal[&amp;quot;random&amp;quot;, &amp;quot;const&amp;quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &amp;quot;random&amp;quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1257,8 +1252,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            X (npt.NDArray | pd.DataFrame): features</span>
 <span class="sd">            y (npt.NDArray | pd.Series): ground truth (ignored)</span>
-<span class="sd">            sample_weight (npt.NDArray | None, optional):  Sample weights.</span>
-<span class="sd">            Defaults to None.</span>
+<span class="sd">            sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Unknown subset e. g., &#39;ise&#39;</span>
@@ -1458,7 +1452,7 @@
           </td>
           <td>
             <div class="doc-md-description">
-              <p>List of feature names in order of</p>
+              <p>List of feature names in order of columns. Required to match columns in feature matrix with label. Can be <code>None</code>, if <code>pd.DataFrame</code> is passed. Defaults to None.</p>
             </div>
           </td>
           <td>
@@ -1522,9 +1516,7 @@
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
@@ -1541,9 +1533,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        layers (List[ tuple[ str, str, ] ]): Layers of classical rule.</span>
-<span class="sd">        features (List[str] | None, optional): List of feature names in order of</span>
-<span class="sd">        columns. Required to match columns in feature matrix with label.</span>
-<span class="sd">        Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
+<span class="sd">        features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
 <span class="sd">        random_state (float | None, optional): random seed. Defaults to 42.</span>
 <span class="sd">        strategy (Literal[&amp;quot;random&amp;quot;, &amp;quot;const&amp;quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &amp;quot;random&amp;quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1621,7 +1611,7 @@
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Sample weights.</p>
+              <p>Sample weights. Defaults to None.</p>
             </div>
           </td>
           <td>
@@ -1701,7 +1691,9 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">380</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
 <span class="normal">383</span>
@@ -1774,10 +1766,7 @@
 <span class="normal">450</span>
 <span class="normal">451</span>
 <span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
@@ -1788,8 +1777,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        X (npt.NDArray | pd.DataFrame): features</span>
 <span class="sd">        y (npt.NDArray | pd.Series): ground truth (ignored)</span>
-<span class="sd">        sample_weight (npt.NDArray | None, optional):  Sample weights.</span>
-<span class="sd">        Defaults to None.</span>
+<span class="sd">        sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: Unknown subset e. g., &#39;ise&#39;</span>
@@ -1932,7 +1920,10 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">458</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
 <span class="normal">459</span>
 <span class="normal">460</span>
 <span class="normal">461</span>
@@ -1967,10 +1958,7 @@
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">493</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">    Args:</span>
@@ -2089,7 +2077,10 @@
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">498</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
 <span class="normal">499</span>
 <span class="normal">500</span>
 <span class="normal">501</span>
@@ -2114,10 +2105,7 @@
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">    Probabilities are either 0 or 1 depending on the class.</span>
