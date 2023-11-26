@@ -449,7 +449,9 @@ and nan</p>
 
             <details class="quote">
               <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 38</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
 <span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
@@ -934,11 +936,7 @@ and nan</p>
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassicalClassifier implements several trade classification rules.</span>
 
 <span class="sd">    Including:</span>
@@ -973,13 +971,25 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a ClassicalClassifier.</span>
 
 <span class="sd">        Examples:</span>
-<span class="sd">            &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;lr&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
-
-<span class="sd">            Or equivalent:</span>
-<span class="sd">            &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;all&quot;), (&quot;tick&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; X = pd.DataFrame(</span>
+<span class="sd">            ... [</span>
+<span class="sd">            ...     [1.5, 1, 3],</span>
+<span class="sd">            ...     [2.5, 1, 3],</span>
+<span class="sd">            ...     [1.5, 3, 1],</span>
+<span class="sd">            ...     [2.5, 3, 1],</span>
+<span class="sd">            ...     [1, np.nan, 1],</span>
+<span class="sd">            ...     [3, np.nan, np.nan],</span>
+<span class="sd">            ... ],</span>
+<span class="sd">            ... columns=[&quot;trade_price&quot;, &quot;bid_ex&quot;, &quot;ask_ex&quot;],</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; y = pd.Series([-1, 1, 1, -1, -1, 1])</span>
+<span class="sd">            &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;ex&quot;)], strategy=&quot;const&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; clf.fit(X, y)</span>
+<span class="sd">            ClassicalClassifier(layers=[(&#39;quote&#39;, &#39;ex&#39;)], strategy=&#39;const&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; pred = clf.predict_proba(X)</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            layers (List[ tuple[ str, str, ] ]): Layers of classical rule.</span>
+<span class="sd">            layers (List[ tuple[str, str] ]): Layers of classical rule.</span>
 <span class="sd">            features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
 <span class="sd">            random_state (float | None, optional): random seed. Defaults to 42.</span>
 <span class="sd">            strategy (Literal[&amp;quot;random&amp;quot;, &amp;quot;const&amp;quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &amp;quot;random&amp;quot;.</span>
@@ -1003,48 +1013,45 @@ and nan</p>
             <span class="s2">&quot;poor_score&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its trade price is above (below) the closest different price of a previous trade.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;all&amp;quot;, &amp;quot;ex&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;all&#39; or &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;all&#39; or &#39;ex&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of tick rule. Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lag&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lag&quot;</span><span class="p">],</span>
             <span class="mi">1</span><span class="p">,</span>
             <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lag&quot;</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lag&quot;</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_rev_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_rev_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a sell (buy) if its trade price is below (above) the closest different price of a subsequent trade.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;all&amp;quot;, &amp;quot;ex&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;all&#39; or &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i. e.,&#39;all&#39; or &#39;ex&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of reverse tick rule. Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lead&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lead&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">],</span>
             <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lead&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;price_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">_lead&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_quote</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_quote</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its trade price is above (below) the midpoint of the bid and ask spread. Trades executed at the midspread are not classified.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of quote rule. Can be np.NaN.</span>
@@ -1052,19 +1059,18 @@ and nan</p>
         <span class="n">mid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mid</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">mid</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">mid</span><span class="p">,</span>
             <span class="mi">1</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">mid</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">mid</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_lr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_lr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the tick test (all) to classify midspread trades.</span>
 
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.ndarray: result of the lee and ready algorithm with tick rule.</span>
@@ -1073,14 +1079,13 @@ and nan</p>
         <span class="n">q_r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">q_r</span><span class="p">),</span> <span class="n">q_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_rev_lr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_rev_lr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the reverse tick test (all) to classify midspread trades.</span>
 
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e.,&#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the lee and ready algorithm with reverse tick</span>
@@ -1089,13 +1094,13 @@ and nan</p>
         <span class="n">q_r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">q_r</span><span class="p">),</span> <span class="n">q_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_mid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_mid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the midpoint of the bid and ask spread.</span>
 
 <span class="sd">        Midpoint is calculated as the average of the bid and ask spread if the spread is positive. Otherwise, np.NaN is returned.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;best&amp;quot;, &amp;quot;ex&amp;quot;]): subset i. e.,</span>
+<span class="sd">            subset (str): subset i. e.,</span>
 <span class="sd">            &#39;ex&#39; or &#39;best&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: midpoints. Can be np.NaN.</span>
@@ -1106,27 +1111,27 @@ and nan</p>
             <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_is_at_ask_xor_bid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_is_at_ask_xor_bid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trade price is at the ask xor bid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
+<span class="sd">            subset (str): subset i. e.,</span>
 <span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.Series: boolean series with result.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">at_ask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
-        <span class="n">at_bid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="n">at_ask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="n">at_bid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">at_ask</span> <span class="o">^</span> <span class="n">at_bid</span>
 
     <span class="k">def</span> <span class="nf">_is_at_upper_xor_lower_quantile</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">],</span> <span class="n">quantiles</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quantiles</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trade price is at the ask xor bid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;best&amp;quot;, &amp;quot;ex&amp;quot;]): subset i. e., &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39;.</span>
 <span class="sd">            quantiles (float, optional): percentage of quantiles. Defaults to 0.3.</span>
 
 <span class="sd">        Returns:</span>
@@ -1135,23 +1140,22 @@ and nan</p>
         <span class="n">in_upper</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">quantiles</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
             <span class="o">+</span> <span class="n">quantiles</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-            <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span>
-        <span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
-        <span class="n">in_lower</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">]</span>
+            <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span>
+        <span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="n">in_lower</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">]</span>
             <span class="o">&lt;=</span> <span class="n">quantiles</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
             <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">quantiles</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">in_upper</span> <span class="o">^</span> <span class="n">in_lower</span>
 
-    <span class="k">def</span> <span class="nf">_emo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_emo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the tick test (all) to classify all other trades.</span>
 
 <span class="sd">        Adapted from Ellis et al. (2000).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1161,14 +1165,13 @@ and nan</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_ask_xor_bid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_rev_emo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_rev_emo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the reverse tick test (all) to classify all other trades.</span>
 
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset</span>
-<span class="sd">            i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with reverse tick rule.</span>
@@ -1178,7 +1181,7 @@ and nan</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_ask_xor_bid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_clnv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_clnv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade based on deciles of the bid and ask spread.</span>
 
 <span class="sd">        Spread is divided into ten deciles and trades are classified as follows:</span>
@@ -1190,8 +1193,7 @@ and nan</p>
 <span class="sd">        Adapted from Chakrabarty et al. (2007).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e.,&#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1203,7 +1205,7 @@ and nan</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_rev_clnv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_rev_clnv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade based on deciles of the bid and ask spread.</span>
 
 <span class="sd">        Spread is divided into ten deciles and trades are classified as follows:</span>
@@ -1215,8 +1217,7 @@ and nan</p>
 <span class="sd">        Similar to extension of emo algorithm proposed Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e.,</span>
-<span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1228,53 +1229,57 @@ and nan</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_trade_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_trade_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) the trade size matches exactly either the bid (ask) quote size.</span>
 
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the trade size rule. Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bid_eq_ask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;ask_size_ex&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;bid_size_ex&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span>
         <span class="p">)</span>
 
         <span class="n">ts_eq_bid</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_SIZE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;bid_size_ex&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_SIZE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
             <span class="o">&amp;</span> <span class="o">~</span><span class="n">bid_eq_ask</span>
         <span class="p">)</span>
         <span class="n">ts_eq_ask</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_SIZE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;ask_size_ex&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_SIZE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
             <span class="o">&amp;</span> <span class="o">~</span><span class="n">bid_eq_ask</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ts_eq_bid</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ts_eq_ask</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify midspread trades as buy (sell), if the ask size (bid size) exceeds the bid size (ask size).</span>
 
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;best&amp;quot;, &amp;quot;ex&amp;quot;]): subset</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of depth rule. Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">at_mid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_PRICE&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="n">at_mid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="n">at_mid</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;ask_size_ex&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;bid_size_ex&quot;</span><span class="p">]),</span>
+            <span class="n">at_mid</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]),</span>
             <span class="mi">1</span><span class="p">,</span>
             <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-                <span class="n">at_mid</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;ask_size_ex&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;bid_size_ex&quot;</span><span class="p">]),</span>
+                <span class="n">at_mid</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]),</span>
                 <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_nan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_nan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify nothing. Fast forward results from previous classifier.</span>
 
 <span class="sd">        Returns:</span>
@@ -1346,11 +1351,7 @@ and nan</p>
                 <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns, got </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">subset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_subsets</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unknown subset: </span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">, expected one of </span><span class="si">{</span><span class="n">allowed_subsets</span><span class="si">}</span><span class="s2">.&quot;</span>
-                <span class="p">)</span>
+        <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">func_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_func_str</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Unknown function string: </span><span class="si">{</span><span class="n">func_str</span><span class="si">}</span><span class="s2">,&quot;</span>
@@ -1373,18 +1374,13 @@ and nan</p>
         <span class="n">rs</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">X_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_</span><span class="p">)</span>
-
-        <span class="n">mapping_cols</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;BEST_ASK&quot;</span><span class="p">:</span> <span class="s2">&quot;ask_best&quot;</span><span class="p">,</span> <span class="s2">&quot;BEST_BID&quot;</span><span class="p">:</span> <span class="s2">&quot;bid_best&quot;</span><span class="p">}</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">mapping_cols</span><span class="p">)</span>
-
         <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">subset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span><span class="p">[</span><span class="n">func_str</span><span class="p">]</span>
             <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span>
-                <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>  <span class="c1"># type: ignore [operator]</span>
+                <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">),</span>
                 <span class="n">pred</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -1462,10 +1458,22 @@ and nan</p>
 
 
 <p><strong>Examples:</strong></p>
-    <div class="codehilite"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
-</code></pre></div>
-    <p>Or equivalent:</p>
-    <div class="codehilite"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;tick&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
+    <div class="codehilite"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span><span class="p">[</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">],</span>
+<span class="gp">... </span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">,</span> <span class="s2">&quot;bid_ex&quot;</span><span class="p">,</span> <span class="s2">&quot;ask_ex&quot;</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">ClassicalClassifier(layers=[(&#39;quote&#39;, &#39;ex&#39;)], strategy=&#39;const&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
 
 
@@ -1542,7 +1550,9 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
@@ -1572,7 +1582,17 @@ and nan</p>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
         <span class="nb">tuple</span><span class="p">[</span>
@@ -1588,13 +1608,25 @@ and nan</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize a ClassicalClassifier.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;lr&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
-
-<span class="sd">        Or equivalent:</span>
-<span class="sd">        &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;all&quot;), (&quot;tick&quot;, &quot;all&quot;)], strategy=&quot;const&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; X = pd.DataFrame(</span>
+<span class="sd">        ... [</span>
+<span class="sd">        ...     [1.5, 1, 3],</span>
+<span class="sd">        ...     [2.5, 1, 3],</span>
+<span class="sd">        ...     [1.5, 3, 1],</span>
+<span class="sd">        ...     [2.5, 3, 1],</span>
+<span class="sd">        ...     [1, np.nan, 1],</span>
+<span class="sd">        ...     [3, np.nan, np.nan],</span>
+<span class="sd">        ... ],</span>
+<span class="sd">        ... columns=[&quot;trade_price&quot;, &quot;bid_ex&quot;, &quot;ask_ex&quot;],</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; y = pd.Series([-1, 1, 1, -1, -1, 1])</span>
+<span class="sd">        &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;ex&quot;)], strategy=&quot;const&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; clf.fit(X, y)</span>
+<span class="sd">        ClassicalClassifier(layers=[(&#39;quote&#39;, &#39;ex&#39;)], strategy=&#39;const&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; pred = clf.predict_proba(X)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        layers (List[ tuple[ str, str, ] ]): Layers of classical rule.</span>
+<span class="sd">        layers (List[ tuple[str, str] ]): Layers of classical rule.</span>
 <span class="sd">        features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
 <span class="sd">        random_state (float | None, optional): random seed. Defaults to 42.</span>
 <span class="sd">        strategy (Literal[&amp;quot;random&amp;quot;, &amp;quot;const&amp;quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &amp;quot;random&amp;quot;.</span>
@@ -1753,12 +1785,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
@@ -1828,7 +1855,8 @@ and nan</p>
 <span class="normal">454</span>
 <span class="normal">455</span>
 <span class="normal">456</span>
-<span class="normal">457</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<span class="normal">457</span>
+<span class="normal">458</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">,</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
@@ -1892,11 +1920,7 @@ and nan</p>
             <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns, got </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">subset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_subsets</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Unknown subset: </span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">, expected one of </span><span class="si">{</span><span class="n">allowed_subsets</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span>
+    <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">func_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_func_str</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Unknown function string: </span><span class="si">{</span><span class="n">func_str</span><span class="si">}</span><span class="s2">,&quot;</span>
@@ -1982,8 +2006,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">459</span>
-<span class="normal">460</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">460</span>
 <span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
@@ -2016,11 +2039,7 @@ and nan</p>
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">493</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">    Args:</span>
@@ -2034,18 +2053,13 @@ and nan</p>
     <span class="n">rs</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">X_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_</span><span class="p">)</span>
-
-    <span class="n">mapping_cols</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;BEST_ASK&quot;</span><span class="p">:</span> <span class="s2">&quot;ask_best&quot;</span><span class="p">,</span> <span class="s2">&quot;BEST_BID&quot;</span><span class="p">:</span> <span class="s2">&quot;bid_best&quot;</span><span class="p">}</span>
-
-    <span class="bp">self</span><span class="o">.</span><span class="n">X_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">mapping_cols</span><span class="p">)</span>
-
     <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">subset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
         <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span><span class="p">[</span><span class="n">func_str</span><span class="p">]</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span>
-            <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>  <span class="c1"># type: ignore [operator]</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">),</span>
             <span class="n">pred</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -2139,7 +2153,11 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">499</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
 <span class="normal">500</span>
 <span class="normal">501</span>
 <span class="normal">502</span>
@@ -2163,11 +2181,7 @@ and nan</p>
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">    Probabilities are either 0 or 1 depending on the class.</span>
