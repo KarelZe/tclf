@@ -95,6 +95,7 @@ select = [
     "D",    # pydocstyle
     "E",    # pycodestyle errors
     "F",    # pyflakes
+    "FURB", # refurb
     "I",    # isort
     "N",    # pep8-naming
     "NPY",  # numpy
@@ -120,6 +121,12 @@ ignore = [
     "D206",  # indent with white space
     "W191",  # tab identation
 ]
+
+[tool.ruff.lint]
+preview = true
+
+[tool.ruff.format]
+preview = true
 
 [tool.ruff.isort]
 known-first-party = ["tclf"]

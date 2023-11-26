@@ -25,11 +25,11 @@ class TestClassicalClassifier(ClassifierMixin):
         Prepares inputs and expected outputs for testing.
         """
         self.x_train = pd.DataFrame(
-            [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["BEST_ASK", "BEST_BID"]
+            [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["ask_best", "bid_best"]
         )
         self.y_train = pd.Series([1, 1, -1, -1])
         self.x_test = pd.DataFrame(
-            [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["BEST_ASK", "BEST_BID"]
+            [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["ask_best", "bid_best"]
         )
         self.y_test = pd.Series([1, -1, 1, -1])
         self.clf = ClassicalClassifier(
@@ -126,12 +126,12 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-            columns=["TRADE_PRICE", "price_ex_lag", "price_all_lead"],
+            columns=["trade_price", "price_ex_lag", "price_all_lead"],
         )
         y_train = pd.Series([-1, 1, -1])
         x_test = pd.DataFrame(
             [[1, 2, 0], [2, 1, 3]],
-            columns=["TRADE_PRICE", "price_ex_lag", "price_all_lead"],
+            columns=["trade_price", "price_ex_lag", "price_all_lead"],
         )
         y_test = pd.Series([-1, 1])
         fitted_classifier = ClassicalClassifier(
@@ -152,7 +152,7 @@ class TestClassicalClassifier(ClassifierMixin):
         y_train = np.array([0, 0, 0])
         y_test = np.array([-1, 1])
 
-        columns = ["TRADE_PRICE", "price_ex_lag", "price_all_lead"]
+        columns = ["trade_price", "price_ex_lag", "price_all_lead"]
         fitted_classifier = ClassicalClassifier(
             layers=[("tick", "ex"), ("rev_tick", "all")],
             random_state=7,
@@ -166,7 +166,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """Test, if no mid is calculated, if bid exceeds ask etc."""
         x_train = pd.DataFrame(
             [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by rule, all other by random chance.
@@ -179,7 +179,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1, np.nan, 1],  # missing data
                 [3, np.nan, np.nan],  # missing_data
             ],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         fitted_classifier = ClassicalClassifier(
@@ -198,12 +198,12 @@ class TestClassicalClassifier(ClassifierMixin):
             subset (str): subset e. g., 'ex'
         """
         x_train = pd.DataFrame(
-            [[0, 0], [0, 0], [0, 0]], columns=["TRADE_PRICE", f"price_{subset}_lag"]
+            [[0, 0], [0, 0], [0, 0]], columns=["trade_price", f"price_{subset}_lag"]
         )
         y_train = pd.Series([-1, 1, -1])
         x_test = pd.DataFrame(
             [[1, 2], [2, 1], [1, 1], [1, np.nan]],
-            columns=["TRADE_PRICE", f"price_{subset}_lag"],
+            columns=["trade_price", f"price_{subset}_lag"],
         )
 
         # first two by rule (see p. 28 Grauer et al.), remaining two by random chance.
@@ -225,12 +225,12 @@ class TestClassicalClassifier(ClassifierMixin):
             subset (str): subset e. g., 'ex'
         """
         x_train = pd.DataFrame(
-            [[0, 0], [0, 0], [0, 0]], columns=["TRADE_PRICE", f"price_{subset}_lead"]
+            [[0, 0], [0, 0], [0, 0]], columns=["trade_price", f"price_{subset}_lead"]
         )
         y_train = pd.Series([-1, 1, -1])
         x_test = pd.DataFrame(
             [[1, 2], [2, 1], [1, 1], [1, np.nan]],
-            columns=["TRADE_PRICE", f"price_{subset}_lead"],
+            columns=["trade_price", f"price_{subset}_lead"],
         )
 
         # first two by rule (see p. 28 Grauer et al.), remaining two by random chance.
@@ -252,7 +252,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by rule (see p. 28 Grauer et al.), remaining four by random chance.
@@ -265,7 +265,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1, np.nan, 1],
                 [3, np.nan, np.nan],
             ],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         fitted_classifier = ClassicalClassifier(
@@ -285,13 +285,13 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by quote rule, remaining two by tick rule.
         x_test = pd.DataFrame(
             [[1, 1, 3, 0], [3, 1, 3, 0], [1, 1, 1, 0], [3, 2, 4, 4]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
         )
         y_test = pd.Series([-1, 1, 1, -1])
         fitted_classifier = ClassicalClassifier(
@@ -311,7 +311,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lead"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lead"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by quote rule, two by tick rule, and two by random chance.
@@ -324,7 +324,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1, 1, np.nan, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lead"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lead"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         fitted_classifier = ClassicalClassifier(
@@ -344,7 +344,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by quote rule, two by tick rule, two by random chance.
@@ -362,7 +362,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1, 1, np.inf, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lag"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         fitted_classifier = ClassicalClassifier(
@@ -382,7 +382,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-            columns=["TRADE_PRICE", f"bid_{subset}", f"ask_{subset}", "price_all_lead"],
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}", "price_all_lead"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by quote rule, two by tick rule, two by random chance.
@@ -395,7 +395,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1, 1, np.inf, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=["TRADE_PRICE", f"ask_{subset}", f"bid_{subset}", "price_all_lead"],
+            columns=["trade_price", f"ask_{subset}", f"bid_{subset}", "price_all_lead"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         fitted_classifier = ClassicalClassifier(
@@ -415,7 +415,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-            columns=["TRADE_PRICE", f"ask_{subset}", f"bid_{subset}", "price_all_lag"],
+            columns=["trade_price", f"ask_{subset}", f"bid_{subset}", "price_all_lag"],
         )
         y_train = pd.Series([-1, 1, -1])
         # first two by quote rule, two by tick rule, two by random chance.
@@ -428,7 +428,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1.7, 3, 1, 0],  # tick rule
                 [1.3, 3, 1, 1],  # quote rule
             ],
-            columns=["TRADE_PRICE", f"ask_{subset}", f"bid_{subset}", "price_all_lag"],
+            columns=["trade_price", f"ask_{subset}", f"bid_{subset}", "price_all_lag"],
         )
         y_test = pd.Series([1, -1, 1, -1, 1, -1])
         fitted_classifier = ClassicalClassifier(
@@ -448,7 +448,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         x_train = pd.DataFrame(
             [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-            columns=["TRADE_PRICE", f"ask_{subset}", f"bid_{subset}", "price_all_lead"],
+            columns=["trade_price", f"ask_{subset}", f"bid_{subset}", "price_all_lead"],
         )
         y_train = pd.Series([-1, 1, -1])
         # .
@@ -461,7 +461,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 [1.7, 3, 1, 0],  # rev tick rule
                 [1.3, 3, 1, 1],  # quote rule
             ],
-            columns=["TRADE_PRICE", f"ask_{subset}", f"bid_{subset}", "price_all_lead"],
+            columns=["trade_price", f"ask_{subset}", f"bid_{subset}", "price_all_lead"],
         )
         y_test = pd.Series([1, -1, 1, -1, 1, -1])
         fitted_classifier = ClassicalClassifier(
@@ -511,7 +511,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 "bid_size_ex",
                 "ask_ex",
                 "bid_ex",
-                "TRADE_PRICE",
+                "trade_price",
             ],
         )
         y_train = pd.Series([-1, 1, -1, 1])
@@ -529,7 +529,7 @@ class TestClassicalClassifier(ClassifierMixin):
                 "bid_size_ex",
                 "ask_ex",
                 "bid_ex",
-                "TRADE_PRICE",
+                "trade_price",
             ],
         )
         y_test = pd.Series([1, -1, 1, 1, -1])
