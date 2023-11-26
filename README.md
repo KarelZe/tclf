@@ -17,7 +17,25 @@
 
 ## Usage
 
-Documentation is available [here](https://KarelZe.github.io/tclf/).
+```python
+>>> X = pd.DataFrame(
+... [
+...     [1.5, 1, 3],
+...     [2.5, 1, 3],
+...     [1.5, 3, 1],
+...     [2.5, 3, 1],
+...     [1, np.nan, 1],
+...     [3, np.nan, np.nan],
+... ],
+... columns=["trade_price", "bid_ex", "ask_ex"],
+... )
+>>> y = pd.Series([-1, 1, 1, -1, -1, 1])
+>>> clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="const")
+>>> clf.fit(X, y)
+ClassicalClassifier(layers=[('quote', 'ex')], strategy='const')
+>>> pred = clf.predict_proba(X)
+```
+A detailled documentation is available [here](https://KarelZe.github.io/tclf/).
 
 ## References
 
