@@ -32,8 +32,6 @@ allowed_func_str = (
     "nan",
 )
 
-allowed_subsets = ("all", "ex", "best")
-
 
 class ClassicalClassifier(ClassifierMixin, BaseEstimator):
     """ClassicalClassifier implements several trade classification rules.
@@ -88,7 +86,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             >>> pred = clf.predict_proba(X)
 
         Args:
-            layers (List[ tuple[ str, str, ] ]): Layers of classical rule.
+            layers (List[ tuple[str, str] ]): Layers of classical rule.
             features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
             random_state (float | None, optional): random seed. Defaults to 42.
             strategy (Literal[&quot;random&quot;, &quot;const&quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &quot;random&quot;.
@@ -450,11 +448,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
                 f"Expected {len(self.columns_)} columns, got {X.shape[1]}."
             )
 
-        for func_str, subset in self.layers:
-            if subset not in allowed_subsets:
-                raise ValueError(
-                    f"Unknown subset: {subset}, expected one of {allowed_subsets}."
-                )
+        for func_str, _ in self.layers:
             if func_str not in allowed_func_str:
                 raise ValueError(
                     f"Unknown function string: {func_str},"

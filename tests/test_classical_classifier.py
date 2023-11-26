@@ -91,19 +91,6 @@ class TestClassicalClassifier(ClassifierMixin):
         with pytest.raises(ValueError, match=r"Unknown function string"):
             classifier.fit(self.x_train, self.y_train)
 
-    def test_invalid_subset(self) -> None:
-        """Test, if only valid subset strings can be passed.
-
-        An exception should be raised for invalid subsets.
-        Test for 'bar', which is no valid subset.
-        """
-        classifier = ClassicalClassifier(
-            layers=[("tick", "bar")],
-            random_state=42,
-        )
-        with pytest.raises(ValueError, match=r"Unknown subset"):
-            classifier.fit(self.x_train, self.y_train)
-
     def test_invalid_col_length(self) -> None:
         """Test, if only valid column length can be passed.
 
