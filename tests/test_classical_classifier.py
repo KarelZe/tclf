@@ -1,7 +1,4 @@
-"""Tests for the classical classifier.
-
-Use of artificial data to test the classifier.
-"""
+"""Tests for the classical classifier."""
 
 import numpy as np
 import pandas as pd
@@ -25,7 +22,7 @@ class TestClassicalClassifier(ClassifierMixin):
         Prepares inputs and expected outputs for testing.
         """
         self.x_train = pd.DataFrame(
-            [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["ask_best", "bid_best"]
+            [[1, 1], [1, 1], [1, 1], [1, 1]], columns=["ask_best", "bid_best"]
         )
         self.y_train = pd.Series([1, 1, -1, -1])
         self.x_test = pd.DataFrame(

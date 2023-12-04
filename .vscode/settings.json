@@ -1,3 +1,6 @@
 {
-    "esbonio.sphinx.confDir": ""
+    "sonarlint.connectedMode.project": {
+        "connectionId": "vscode",
+        "projectKey": "KarelZe_tclf"
+    }
 }
