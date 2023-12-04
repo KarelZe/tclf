@@ -3,11 +3,11 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "otc"
+name = "tclf"
 authors = [
   { name="Markus Bilz", email="github@markusbilz.com" },
 ]
-description = "Code to perform option trade classification using machine learning."
+description = "Code to perform trade classification using trade classification algorithms."
 readme = "README.md"
 license = {file = "LICENSE.txt"}
 requires-python = ">=3.8"
@@ -24,7 +24,6 @@ dependencies = [
   "pandas",
   "scikit-learn"
 ]
-
 
 dynamic = ["version"]
 
