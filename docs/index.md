@@ -1,14 +1,98 @@
-# Trade classification for python
+# Trade classification for python 🐍
 
-`tclf` is [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
+`tclf` is a [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
+
+The key features are:
+
+* **Easy**: Easy to use and learn.
+* **Sklearn-compatible**: Compatible to the sklearn API. Use sklearn metrics and visualizations.
+* **Feature complete**: Wide range of supported algorithms. Use the algorithms individually or stack them like LEGO blocks.
+
+## Installation
+```console
+$ pip install .
+---> 100%
+Successfully installed tclf-0.0.0
+```
+
+## Minimal Example
+
+Let's start off simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.
+
+Create a `main.py` with:
+```python
+import numpy as np
+import pandas as pd
+
+from tclf.classical_classifier import ClassicalClassifier
+
+X = pd.DataFrame(
+    [
+        [1.5, 1, 3],
+        [2.5, 1, 3],
+        [1.5, 3, 1],
+        [2.5, 3, 1],
+        [1, np.nan, 1],
+        [3, np.nan, np.nan],
+    ],
+    columns=["trade_price", "bid_ex", "ask_ex"],
+)
+y = pd.Series([1, 1, 1, 1, 1, 1])
+
+clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="random")
+clf.fit(X, y)
+probs = clf.predict_proba(X)
+print(probs)
+```
+Run your script with
+```console
+python main.py
+```
+In this example, input data is available as a pd.DataFrame/Series with columns conforming to our [naming conventions](naming_conventions.md).
+
+The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades. The true label `y` is not used in classification and only for API consistency by convention.
+
+## Advanced Example
+Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.
+
+```python hl_lines="6  16 17 20"
+import numpy as np
+from sklearn.metrics import accuracy_score
+
+from tclf.classical_classifier import ClassicalClassifier
+
+X = np.array(
+    [
+        [1.5, 1, 3, 2, 2.5],
+        [2.5, 1, 3, 1, 3],
+        [1.5, 3, 1, 1, 3],
+        [2.5, 3, 1, 1, 3],
+        [1, np.nan, 1, 1, 3],
+        [3, np.nan, np.nan, 1, 3],
+    ]
+)
+y_true = np.array([-1, 1, 1, -1, -1, 1])
+features = ["trade_price", "bid_ex", "ask_ex", "bid_best", "ask_best"]
+
+clf = ClassicalClassifier(
+    layers=[("quote", "ex"), ("quote", "best")], strategy="const", features=features
+)
+clf.fit(X, y_true)
+
+y_pred = clf.predict(X)
+print(accuracy_score(y_true, y_pred))
+```
+In this example, input data is available as np.arrays with both exchange (`"ex"`) and nbbo data (`"best"`). We set the layers parameter to `layers=[("quote", "ex"), ("quote", "best")]` to classify trades first on subset `"ex"` and remaining trades on subset `"best"`. Additionally, we have to set `ClassicalClassifier(..., features=features)` to pass column information to the classifier.
+
+Like before, column/feature names must follow our [naming conventions](naming_conventions.md).
 
 ## Supported Algorithms
 
-- Tick test
+- (Rev.) Tick test
 - Quote rule
-- LR algorithm
-- EMO rule
-- CLNV rule
+- (Rev.) LR algorithm
+- (Rev.) EMO rule
+- (Rev.) CLNV rule
 - Depth rule
 - Tradesize rule
 

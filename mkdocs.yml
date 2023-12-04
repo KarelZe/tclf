@@ -8,7 +8,7 @@ theme:
     primary: black
     accent: teal
   icon:
-    repo: fontawesome/brands/github-alt
+    repo: fontawesome/brands/github
 
 repo_name: karelze/tclf
 repo_url: https://github.com/karelze/tclf
@@ -46,7 +46,7 @@ plugins:
 
 extra:
   social:
-    - icon: fontawesome/brands/github-alt
+    - icon: fontawesome/brands/github
       link: https://github.com/karelze/tclf
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/markus-bilz/
