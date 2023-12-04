@@ -40,18 +40,16 @@ X = pd.DataFrame(
     ],
     columns=["trade_price", "bid_ex", "ask_ex"],
 )
-y = pd.Series([1, 1, 1, 1, 1, 1])
 
 clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="random")
-clf.fit(X, y)
+clf.fit(X)
 probs = clf.predict_proba(X)
-print(probs)
 ```
 Run your script with
 ```console
 python main.py
 ```
-In this example, input data is available as a pd.DataFrame/Series with columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
+In this example, input data is available as a pd.DataFrame with columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
 
 The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades. The true label `y` is not used in classification and only for API consistency by convention.
 

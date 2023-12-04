@@ -24,7 +24,6 @@ class TestClassicalClassifier(ClassifierMixin):
         self.x_train = pd.DataFrame(
             [[1, 1], [1, 1], [1, 1], [1, 1]], columns=["ask_best", "bid_best"]
         )
-        self.y_train = pd.Series([1, 1, -1, -1])
         self.x_test = pd.DataFrame(
             [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["ask_best", "bid_best"]
         )
@@ -32,7 +31,7 @@ class TestClassicalClassifier(ClassifierMixin):
         self.clf = ClassicalClassifier(
             layers=[("nan", "ex")],
             random_state=7,
-        ).fit(self.x_train, self.y_train)
+        ).fit(self.x_train)
 
     def test_random_state(self) -> None:
         """Test, if random state is correctly set.
@@ -42,13 +41,13 @@ class TestClassicalClassifier(ClassifierMixin):
         first_classifier = ClassicalClassifier(
             layers=[("nan", "ex")],
             random_state=50,
-        ).fit(self.x_train, self.y_train)
+        ).fit(self.x_train)
         first_y_pred = first_classifier.predict(self.x_test)
 
         second_classifier = ClassicalClassifier(
             layers=[("nan", "ex")],
             random_state=50,
-        ).fit(self.x_train, self.y_train)
+        ).fit(self.x_train)
         second_y_pred = second_classifier.predict(self.x_test)
 
         assert (first_y_pred == second_y_pred).all()
@@ -61,7 +60,7 @@ class TestClassicalClassifier(ClassifierMixin):
         fitted_classifier = ClassicalClassifier(
             layers=[("nan", "ex")],
             random_state=42,
-        ).fit(self.x_train, self.y_train)
+        ).fit(self.x_train)
         assert check_is_fitted(fitted_classifier) is None
 
     def test_strategy_const(self) -> None:
@@ -72,7 +71,7 @@ class TestClassicalClassifier(ClassifierMixin):
         """
         fitted_classifier = ClassicalClassifier(
             layers=[("nan", "ex")], strategy="const"
-        ).fit(self.x_train, self.y_train)
+        ).fit(self.x_train)
         assert (fitted_classifier.predict_proba(self.x_test) == 0.5).all()
 
     def test_invalid_func(self) -> None:
@@ -86,7 +85,7 @@ class TestClassicalClassifier(ClassifierMixin):
             random_state=42,
         )
         with pytest.raises(ValueError, match=r"Unknown function string"):
-            classifier.fit(self.x_train, self.y_train)
+            classifier.fit(self.x_train)
 
     def test_invalid_col_length(self) -> None:
         """Test, if only valid column length can be passed.
@@ -100,7 +99,7 @@ class TestClassicalClassifier(ClassifierMixin):
             layers=[("tick", "all")], random_state=42, features=["one"]
         )
         with pytest.raises(ValueError, match=r"Expected"):
-            classifier.fit(self.x_train.values, self.y_train.values)
+            classifier.fit(self.x_train.values)
 
     def test_override(self) -> None:
         """Test, if classifier does not override valid results from layer one.
