@@ -464,7 +464,8 @@ and nan</p>
 
             <details class="quote">
               <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+<span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
@@ -951,7 +952,10 @@ and nan</p>
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassicalClassifier implements several trade classification rules.</span>
 
 <span class="sd">    Including:</span>
@@ -997,9 +1001,8 @@ and nan</p>
 <span class="sd">            ... ],</span>
 <span class="sd">            ... columns=[&quot;trade_price&quot;, &quot;bid_ex&quot;, &quot;ask_ex&quot;],</span>
 <span class="sd">            ... )</span>
-<span class="sd">            &gt;&gt;&gt; y = pd.Series([-1, 1, 1, -1, -1, 1])</span>
 <span class="sd">            &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;ex&quot;)], strategy=&quot;const&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; clf.fit(X, y)</span>
+<span class="sd">            &gt;&gt;&gt; clf.fit(X)</span>
 <span class="sd">            ClassicalClassifier(layers=[(&#39;quote&#39;, &#39;ex&#39;)], strategy=&#39;const&#39;)</span>
 <span class="sd">            &gt;&gt;&gt; pred = clf.predict_proba(X)</span>
 
@@ -1080,7 +1083,7 @@ and nan</p>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_lr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the tick test (all) to classify midspread trades.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the tick test to classify midspread trades.</span>
 
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
@@ -1092,10 +1095,10 @@ and nan</p>
 <span class="sd">            Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">q_r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">q_r</span><span class="p">),</span> <span class="n">q_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">q_r</span><span class="p">),</span> <span class="n">q_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="n">subset</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_rev_lr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the reverse tick test (all) to classify midspread trades.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the reverse tick test to classify midspread trades.</span>
 
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
@@ -1107,7 +1110,7 @@ and nan</p>
 <span class="sd">            rule. Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">q_r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">q_r</span><span class="p">),</span> <span class="n">q_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">q_r</span><span class="p">),</span> <span class="n">q_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="n">subset</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_mid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the midpoint of the bid and ask spread.</span>
@@ -1165,7 +1168,7 @@ and nan</p>
         <span class="k">return</span> <span class="n">in_upper</span> <span class="o">^</span> <span class="n">in_lower</span>
 
     <span class="k">def</span> <span class="nf">_emo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the tick test (all) to classify all other trades.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the tick test to classify all other trades.</span>
 
 <span class="sd">        Adapted from Ellis et al. (2000).</span>
 
@@ -1177,11 +1180,11 @@ and nan</p>
 <span class="sd">            np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_ask_xor_bid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_ask_xor_bid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_rev_emo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the reverse tick test (all) to classify all other trades.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the reverse tick test to classify all other trades.</span>
 
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
@@ -1193,7 +1196,7 @@ and nan</p>
 <span class="sd">            Can be np.NaN.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_ask_xor_bid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_ask_xor_bid</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_clnv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
@@ -1202,7 +1205,7 @@ and nan</p>
 <span class="sd">        Spread is divided into ten deciles and trades are classified as follows:</span>
 <span class="sd">        - use quote rule for at ask until 30 % below ask (upper 3 deciles)</span>
 <span class="sd">        - use quote rule for at bid until 30 % above bid (lower 3 deciles)</span>
-<span class="sd">        - use tick rule (all) for all other trades (±2 deciles from midpoint; outside</span>
+<span class="sd">        - use tick rule for all other trades (±2 deciles from midpoint; outside</span>
 <span class="sd">        bid or ask).</span>
 
 <span class="sd">        Adapted from Chakrabarty et al. (2007).</span>
@@ -1217,7 +1220,7 @@ and nan</p>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_upper_xor_lower_quantile</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tick</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_rev_clnv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
@@ -1226,7 +1229,7 @@ and nan</p>
 <span class="sd">        Spread is divided into ten deciles and trades are classified as follows:</span>
 <span class="sd">        - use quote rule for at ask until 30 % below ask (upper 3 deciles)</span>
 <span class="sd">        - use quote rule for at bid until 30 % above bid (lower 3 deciles)</span>
-<span class="sd">        - use reverse tick rule (all) for all other trades (±2 deciles from midpoint;</span>
+<span class="sd">        - use reverse tick rule for all other trades (±2 deciles from midpoint;</span>
 <span class="sd">        outside bid or ask).</span>
 
 <span class="sd">        Similar to extension of emo algorithm proposed Grauer et al. (2022).</span>
@@ -1241,7 +1244,7 @@ and nan</p>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_is_at_upper_xor_lower_quantile</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_quote</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rev_tick</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_trade_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
@@ -1305,14 +1308,14 @@ and nan</p>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">sample_weight</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClassicalClassifier</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the classifier.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X (MatrixLike): features</span>
-<span class="sd">            y (ArrayLike): ground truth (ignored)</span>
+<span class="sd">            y (ArrayLike | None, optional):  ignored, present here for API consistency by convention.</span>
 <span class="sd">            sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.</span>
 
 <span class="sd">        Raises:</span>
@@ -1347,14 +1350,13 @@ and nan</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">columns_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-        <span class="n">check_classification_targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
-        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span>
-            <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">multi_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
+            <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="c1"># FIXME: make flexible if open-sourced</span>
-        <span class="c1"># self.classes_ = np.unique(y)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
         <span class="c1"># if no features are provided or inferred, use default</span>
@@ -1385,6 +1387,12 @@ and nan</p>
 <span class="sd">            npt.NDArray: Predicted traget values for X.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
+            <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">rs</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
 
@@ -1432,7 +1440,7 @@ and nan</p>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
 
         <span class="c1"># get index of predicted class and one-hot encode it</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">n_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="c1"># overwrite defaults with one-hot encoded classes.</span>
@@ -1484,9 +1492,8 @@ and nan</p>
 <span class="gp">... </span><span class="p">],</span>
 <span class="gp">... </span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">,</span> <span class="s2">&quot;bid_ex&quot;</span><span class="p">,</span> <span class="s2">&quot;ask_ex&quot;</span><span class="p">],</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="go">ClassicalClassifier(layers=[(&#39;quote&#39;, &#39;ex&#39;)], strategy=&#39;const&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
@@ -1565,7 +1572,8 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+<span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -1605,9 +1613,7 @@ and nan</p>
 <span class="normal">92</span>
 <span class="normal">93</span>
 <span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
         <span class="nb">tuple</span><span class="p">[</span>
@@ -1634,9 +1640,8 @@ and nan</p>
 <span class="sd">        ... ],</span>
 <span class="sd">        ... columns=[&quot;trade_price&quot;, &quot;bid_ex&quot;, &quot;ask_ex&quot;],</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; y = pd.Series([-1, 1, 1, -1, -1, 1])</span>
 <span class="sd">        &gt;&gt;&gt; clf = ClassicalClassifier(layers=[(&quot;quote&quot;, &quot;ex&quot;)], strategy=&quot;const&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; clf.fit(X, y)</span>
+<span class="sd">        &gt;&gt;&gt; clf.fit(X)</span>
 <span class="sd">        ClassicalClassifier(layers=[(&#39;quote&#39;, &#39;ex&#39;)], strategy=&#39;const&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; pred = clf.predict_proba(X)</span>
 
@@ -1663,7 +1668,7 @@ and nan</p>
 
 
 <h2 id="tclf.classical_classifier.ClassicalClassifier.fit" class="doc doc-heading">
-          <code class=" language-python"><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+          <code class=" language-python"><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#tclf.classical_classifier.ClassicalClassifier.fit" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -1702,15 +1707,15 @@ and nan</p>
         <tr>
           <td><code>y</code></td>
           <td>
-                <code><span title="tclf.types.ArrayLike">ArrayLike</span></code>
+                <code><span title="tclf.types.ArrayLike">ArrayLike</span> | None</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>ground truth (ignored)</p>
+              <p>ignored, present here for API consistency by convention.</p>
             </div>
           </td>
           <td>
-              <em>required</em>
+                <code>None</code>
           </td>
         </tr>
         <tr>
@@ -1800,7 +1805,9 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">387</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
@@ -1868,20 +1875,17 @@ and nan</p>
 <span class="normal">452</span>
 <span class="normal">453</span>
 <span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sample_weight</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClassicalClassifier</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fit the classifier.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        X (MatrixLike): features</span>
-<span class="sd">        y (ArrayLike): ground truth (ignored)</span>
+<span class="sd">        y (ArrayLike | None, optional):  ignored, present here for API consistency by convention.</span>
 <span class="sd">        sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.</span>
 
 <span class="sd">    Raises:</span>
@@ -1916,14 +1920,13 @@ and nan</p>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-    <span class="n">check_classification_targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span>
-        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">multi_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
+        <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="c1"># FIXME: make flexible if open-sourced</span>
-    <span class="c1"># self.classes_ = np.unique(y)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
     <span class="c1"># if no features are provided or inferred, use default</span>
@@ -2021,7 +2024,10 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">460</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
 <span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
@@ -2054,7 +2060,10 @@ and nan</p>
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
-<span class="normal">493</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">    Args:</span>
@@ -2064,6 +2073,12 @@ and nan</p>
 <span class="sd">        npt.NDArray: Predicted traget values for X.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">],</span>
+        <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">rs</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
 
@@ -2168,10 +2183,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">498</span>
 <span class="normal">499</span>
 <span class="normal">500</span>
 <span class="normal">501</span>
@@ -2196,7 +2208,10 @@ and nan</p>
 <span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
-<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">    Probabilities are either 0 or 1 depending on the class.</span>
@@ -2218,7 +2233,7 @@ and nan</p>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
 
     <span class="c1"># get index of predicted class and one-hot encode it</span>
-    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">n_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
     <span class="c1"># overwrite defaults with one-hot encoded classes.</span>

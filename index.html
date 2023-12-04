@@ -277,6 +277,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    Citation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#references" class="md-nav__link">
     References
   </a>
@@ -376,6 +383,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    Citation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#references" class="md-nav__link">
     References
   </a>
@@ -431,17 +445,15 @@
     <span class="p">],</span>
     <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">,</span> <span class="s2">&quot;bid_ex&quot;</span><span class="p">,</span> <span class="s2">&quot;ask_ex&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span><span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">)</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">probs</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
 </code></pre></div>
 Run your script with
 <div class="highlight"><pre><span></span><code><span class="go">python main.py</span>
 </code></pre></div>
-In this example, input data is available as a pd.DataFrame/Series with columns conforming to our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
+In this example, input data is available as a pd.DataFrame with columns conforming to our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
 <p>The parameter <code>layers=[("quote", "ex")]</code> sets the quote rule at the exchange level and <code>strategy="random"</code> specifies the fallback strategy for unclassified trades. The true label <code>y</code> is not used in classification and only for API consistency by convention.</p>
 <h2 id="advanced-example">Advanced Example<a class="headerlink" href="#advanced-example" title="Permanent link">&para;</a></h2>
 <p>Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.</p>
@@ -483,6 +495,17 @@ In this example, input data is available as np.arrays with both exchange (<code>
 <li>Depth rule</li>
 <li>Tradesize rule</li>
 </ul>
+<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>@software<span class="nb">{</span>Bilz<span class="nb">_</span>tclf<span class="nb">_</span>2023,
+    author = <span class="nb">{</span>Bilz, Markus<span class="nb">}</span>,
+    license = <span class="nb">{</span>BSD 3<span class="nb">}</span>,
+    month = dec,
+    title = <span class="nb">{{</span>tclf<span class="nb">}}</span>,
+    url = <span class="nb">{</span>https://github.com/KarelZe/tclf<span class="nb">}</span>,
+    version = <span class="nb">{</span>0.0.1<span class="nb">}</span>,
+    year = <span class="nb">{</span>2023<span class="nb">}</span>
+<span class="nb">}</span>
+</code></pre></div>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <div class="csl-bib-body" style="line-height: 2; margin-left: 2em; text-indent:-2em;">
   <div class="csl-entry">Chakrabarty, B., Li, B., Nguyen, V., &amp; Van Ness, R. A. (2007). Trade classification algorithms for electronic communications network trades. <i>Journal of Banking &amp; Finance</i>, <i>31</i>(12), 3806–3821. <a href="https://doi.org/10.1016/j.jbankfin.2007.03.003">https://doi.org/10.1016/j.jbankfin.2007.03.003</a></div>
