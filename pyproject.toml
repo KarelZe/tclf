@@ -15,8 +15,15 @@ classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.8",
-  "Framework :: Jupyter",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Operating System :: OS Independent",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
 dependencies = [
@@ -28,8 +35,8 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-"Homepage" = "https://github.com/KarelZe/thesis"
-"Bug Tracker" = "https://github.com/KarelZe/thesis/issues"
+"Homepage" = "https://github.com/KarelZe/tclf"
+"Bug Tracker" = "https://github.com/KarelZe/tclf/issues"
 
 [tool.mypy]
 # https://github.com/python/mypy/issues/2410
