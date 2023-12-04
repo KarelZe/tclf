@@ -97,6 +97,20 @@ Like before, column/feature names must follow our [naming conventions](https://k
 - Depth rule
 - Tradesize rule
 
+## Citation
+
+```latex
+@software{Bilz_tclf_2023,
+    author = {Bilz, Markus},
+    license = {BSD 3},
+    month = dec,
+    title = {{tclf}},
+    url = {https://github.com/KarelZe/tclf},
+    version = {0.0.1},
+    year = {2023}
+}
+```
+
 ## References
 
 <div class="csl-bib-body" style="line-height: 2; margin-left: 2em; text-indent:-2em;">
