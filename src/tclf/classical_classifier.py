@@ -12,8 +12,7 @@ import numpy.typing as npt
 import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils import check_random_state
-from sklearn.utils.multiclass import check_classification_targets
-from sklearn.utils.validation import _check_sample_weight, check_is_fitted, check_X_y
+from sklearn.utils.validation import _check_sample_weight, check_is_fitted
 
 from tclf.types import ArrayLike, MatrixLike
 
@@ -79,9 +78,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             ... ],
             ... columns=["trade_price", "bid_ex", "ask_ex"],
             ... )
-            >>> y = pd.Series([-1, 1, 1, -1, -1, 1])
             >>> clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="const")
-            >>> clf.fit(X, y)
+            >>> clf.fit(X)
             ClassicalClassifier(layers=[('quote', 'ex')], strategy='const')
             >>> pred = clf.predict_proba(X)
 
@@ -387,14 +385,14 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
     def fit(
         self,
         X: MatrixLike,
-        y: ArrayLike,
+        y: ArrayLike | None = None,
         sample_weight: npt.NDArray | None = None,
     ) -> ClassicalClassifier:
         """Fit the classifier.
 
         Args:
             X (MatrixLike): features
-            y (ArrayLike): ground truth (ignored)
+            y (ArrayLike | None, optional):  ignored, present here for API consistency by convention.
             sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.
 
         Raises:
@@ -429,14 +427,13 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         if isinstance(X, pd.DataFrame):
             self.columns_ = X.columns.tolist()
 
-        check_classification_targets(y)
-
-        X, y = check_X_y(
-            X, y, multi_output=False, accept_sparse=False, force_all_finite=False
+        X = self._validate_data(
+            X,
+            dtype=[np.float64, np.float32],
+            accept_sparse=False,
+            force_all_finite=False,
         )
 
-        # FIXME: make flexible if open-sourced
-        # self.classes_ = np.unique(y)
         self.classes_ = np.array([-1, 1])
 
         # if no features are provided or inferred, use default
@@ -467,6 +464,12 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             npt.NDArray: Predicted traget values for X.
         """
         check_is_fitted(self)
+        X = self._validate_data(
+            X,
+            dtype=[np.float64, np.float32],
+            accept_sparse=False,
+            force_all_finite=False,
+        )
 
         rs = check_random_state(self.random_state)
 
@@ -514,7 +517,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         mask = np.flatnonzero(preds)
 
         # get index of predicted class and one-hot encode it
-        indices = np.where(preds[mask, None] == self.classes_[None, :])[1]
+        indices = np.nonzero(preds[mask, None] == self.classes_[None, :])[1]
         n_classes = np.max(self.classes_) + 1
 
         # overwrite defaults with one-hot encoded classes.
