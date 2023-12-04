@@ -160,7 +160,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         )
 
     def _lr(self, subset: str) -> npt.NDArray:
-        """Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the tick test (all) to classify midspread trades.
+        """Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the tick test to classify midspread trades.
 
         Adapted from Lee and Ready (1991).
 
@@ -172,10 +172,10 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             Can be np.NaN.
         """
         q_r = self._quote(subset)
-        return np.where(~np.isnan(q_r), q_r, self._tick("all"))
+        return np.where(~np.isnan(q_r), q_r, self._tick(subset))
 
     def _rev_lr(self, subset: str) -> npt.NDArray:
-        """Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the reverse tick test (all) to classify midspread trades.
+        """Classify a trade as a buy (sell) if its price is above (below) the midpoint (quote rule), and use the reverse tick test to classify midspread trades.
 
         Adapted from Lee and Ready (1991).
 
@@ -187,7 +187,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             rule. Can be np.NaN.
         """
         q_r = self._quote(subset)
-        return np.where(~np.isnan(q_r), q_r, self._rev_tick("all"))
+        return np.where(~np.isnan(q_r), q_r, self._rev_tick(subset))
 
     def _mid(self, subset: str) -> npt.NDArray:
         """Calculate the midpoint of the bid and ask spread.
@@ -245,7 +245,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         return in_upper ^ in_lower
 
     def _emo(self, subset: str) -> npt.NDArray:
-        """Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the tick test (all) to classify all other trades.
+        """Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the tick test to classify all other trades.
 
         Adapted from Ellis et al. (2000).
 
@@ -257,11 +257,11 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             np.NaN.
         """
         return np.where(
-            self._is_at_ask_xor_bid(subset), self._quote(subset), self._tick("all")
+            self._is_at_ask_xor_bid(subset), self._quote(subset), self._tick(subset)
         )
 
     def _rev_emo(self, subset: str) -> npt.NDArray:
-        """Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the reverse tick test (all) to classify all other trades.
+        """Classify a trade as a buy (sell) if the trade takes place at the ask (bid) quote, and use the reverse tick test to classify all other trades.
 
         Adapted from Grauer et al. (2022).
 
@@ -273,7 +273,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             Can be np.NaN.
         """
         return np.where(
-            self._is_at_ask_xor_bid(subset), self._quote(subset), self._rev_tick("all")
+            self._is_at_ask_xor_bid(subset), self._quote(subset), self._rev_tick(subset)
         )
 
     def _clnv(self, subset: str) -> npt.NDArray:
@@ -282,7 +282,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Spread is divided into ten deciles and trades are classified as follows:
         - use quote rule for at ask until 30 % below ask (upper 3 deciles)
         - use quote rule for at bid until 30 % above bid (lower 3 deciles)
-        - use tick rule (all) for all other trades (±2 deciles from midpoint; outside
+        - use tick rule for all other trades (±2 deciles from midpoint; outside
         bid or ask).
 
         Adapted from Chakrabarty et al. (2007).
@@ -297,7 +297,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         return np.where(
             self._is_at_upper_xor_lower_quantile(subset),
             self._quote(subset),
-            self._tick("all"),
+            self._tick(subset),
         )
 
     def _rev_clnv(self, subset: str) -> npt.NDArray:
@@ -306,7 +306,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Spread is divided into ten deciles and trades are classified as follows:
         - use quote rule for at ask until 30 % below ask (upper 3 deciles)
         - use quote rule for at bid until 30 % above bid (lower 3 deciles)
-        - use reverse tick rule (all) for all other trades (±2 deciles from midpoint;
+        - use reverse tick rule for all other trades (±2 deciles from midpoint;
         outside bid or ask).
 
         Similar to extension of emo algorithm proposed Grauer et al. (2022).
@@ -321,7 +321,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         return np.where(
             self._is_at_upper_xor_lower_quantile(subset),
             self._quote(subset),
-            self._rev_tick("all"),
+            self._rev_tick(subset),
         )
 
     def _trade_size(self, subset: str) -> npt.NDArray:

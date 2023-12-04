@@ -78,7 +78,7 @@ features = ["trade_price", "bid_ex", "ask_ex", "bid_best", "ask_best"]
 clf = ClassicalClassifier(
     layers=[("quote", "ex"), ("quote", "best")], strategy="const", features=features
 )
-clf.fit(X, y_true)
+clf.fit(X)
 
 y_pred = clf.predict(X)
 print(accuracy_score(y_true, y_pred))
