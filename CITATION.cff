@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: tclf
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Markus
+    family-names: Bilz
+    email: web@markusbilz.com
+    orcid: 'https://orcid.org/0009-0009-6833-4393'
+repository-code: 'https://github.com/KarelZe/tclf'
+url: 'https://karelze.github.io/tclf/'
+abstract: >-
+  `tclf` is a scikit-learn-compatible implementation of
+  trade classification algorithms to classify financial
+  markets transactions into buyer- and seller-initiated
+  trades.
+keywords:
+  - clnv
+  - lee-ready
+  - rule-based classifier
+  - scikit-learn
+  - trade-classification
+license: BSD 3
+version: 0.0.1
+date-released: '2023-12-04'
