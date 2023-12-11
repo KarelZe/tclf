@@ -13,9 +13,9 @@ The key features are:
 
 ## Installation
 ```console
-$ pip install .
+$ python -m pip install .
 ---> 100%
-Successfully installed tclf-0.0.0
+Successfully installed tclf-0.0.1
 ```
 
 ## Minimal Example
