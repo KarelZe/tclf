@@ -340,11 +340,11 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         )
 
         ts_eq_bid = (
-            np.isclose(self.X_["TRADE_SIZE"], self.X_[f"bid_size_{subset}"], atol=1e-4)
+            np.isclose(self.X_["trade_size"], self.X_[f"bid_size_{subset}"], atol=1e-4)
             & ~bid_eq_ask
         )
         ts_eq_ask = (
-            np.isclose(self.X_["TRADE_SIZE"], self.X_[f"ask_size_{subset}"], atol=1e-4)
+            np.isclose(self.X_["trade_size"], self.X_[f"ask_size_{subset}"], atol=1e-4)
             & ~bid_eq_ask
         )
 
