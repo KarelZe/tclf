@@ -54,7 +54,7 @@ dev=[
 
 doc = [
     "mkdocs >=1.1.2,<2.0.0",
-    "mkdocs-material >=8.1.4,<9.0.0",
+    "mkdocs-material >=8.1.4,<10.0.0",
     "mkdocstrings-python",
     "mdx-include >=1.4.1,<2.0.0",
     "pillow >=9.3.0,<10.0.0",
