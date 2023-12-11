@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tclf"
+version = "0.0.1"
 authors = [
   { name="Markus Bilz", email="github@markusbilz.com" },
 ]

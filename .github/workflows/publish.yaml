@@ -15,12 +15,12 @@ jobs:
         python-version: "3.x"
     - name: Install pypa/build
       run: >-
-        python3 -m
+        python -m
         pip install
         build
         --user
     - name: Build a binary wheel and a source tarball
-      run: python3 -m build
+      run: python -m build
     - name: Store the distribution packages
       uses: actions/upload-artifact@v3
       with:
@@ -100,7 +100,7 @@ jobs:
 
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/<package-name>
+      url: https://test.pypi.org/p/tclf
 
     permissions:
       id-token: write
