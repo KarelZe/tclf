@@ -33,8 +33,6 @@ dependencies = [
   "scikit-learn"
 ]
 
-dynamic = ["version"]
-
 [project.urls]
 "Homepage" = "https://github.com/KarelZe/tclf"
 "Bug Tracker" = "https://github.com/KarelZe/tclf/issues"
