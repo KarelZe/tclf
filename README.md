@@ -1,7 +1,7 @@
 # Trade classification for python 🐍
 
 ![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)
-![codecov](https://codecov.io/gh/KarelZe/tclf/graph/badge.svg?token=CBM1RXGI86)
+![codecov](https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86)
 
 `tclf` is a [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
