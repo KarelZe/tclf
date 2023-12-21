@@ -317,6 +317,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQs
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1263,11 +1278,11 @@ and nan</p>
         <span class="p">)</span>
 
         <span class="n">ts_eq_bid</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_SIZE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_size&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;bid_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
             <span class="o">&amp;</span> <span class="o">~</span><span class="n">bid_eq_ask</span>
         <span class="p">)</span>
         <span class="n">ts_eq_ask</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;TRADE_SIZE&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="s2">&quot;trade_size&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;ask_size_</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
             <span class="o">&amp;</span> <span class="o">~</span><span class="n">bid_eq_ask</span>
         <span class="p">)</span>
 
