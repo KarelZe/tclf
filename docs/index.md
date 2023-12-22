@@ -1,7 +1,8 @@
 # Trade classification for python 🐍
 
-![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)
-![codecov](https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86)
+[![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)](https://github.com/KarelZe/tclf/actions)
+[![codecov](https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86)](https://codecov.io/gh/KarelZe/tclf/tree/main/graph)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=KarelZe_tclf&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=KarelZe_tclf)
 
 `tclf` is a [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
@@ -102,7 +103,7 @@ Like before, column/feature names must follow our [naming conventions](https://k
     author = {Bilz, Markus},
     license = {BSD 3},
     month = dec,
-    title = {{tclf}},
+    title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
     version = {0.0.1},
     year = {2023}
