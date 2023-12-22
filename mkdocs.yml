@@ -37,6 +37,7 @@ markdown_extensions:
       alternate_style: true
   - mdx_include:
       base_path: docs
+  - footnotes
 
 plugins:
   - search
