@@ -428,7 +428,7 @@
 
 <h1 id="trade-classification-for-python">Trade classification for python 🐍<a class="headerlink" href="#trade-classification-for-python" title="Permanent link">&para;</a></h1>
 <p><img alt="GitHubActions" src="https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg" />
-<img alt="Codecov" src="https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg" /></p>
+<img alt="codecov" src="https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86" /></p>
 <p><code>tclf</code> is a <a href="https://scikit-learn.org/stable/"><code>scikit-learn</code></a>-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.</p>
 <p>The key features are:</p>
 <ul>
@@ -466,7 +466,7 @@
 <span class="n">probs</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
 Run your script with
-<div class="highlight"><pre><span></span><code><span class="go">python main.py</span>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>python<span class="w"> </span>main.py
 </code></pre></div>
 In this example, input data is available as a pd.DataFrame with columns conforming to our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
 <p>The parameter <code>layers=[("quote", "ex")]</code> sets the quote rule at the exchange level and <code>strategy="random"</code> specifies the fallback strategy for unclassified trades. The true label <code>y</code> is not used in classification and only for API consistency by convention.</p>
@@ -493,10 +493,8 @@ In this example, input data is available as a pd.DataFrame with columns conformi
 <span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span>
 <span class="hll">    <span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;best&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span>
 </span><span class="p">)</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
-
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
 </code></pre></div>
 In this example, input data is available as np.arrays with both exchange (<code>"ex"</code>) and nbbo data (<code>"best"</code>). We set the layers parameter to <code>layers=[("quote", "ex"), ("quote", "best")]</code> to classify trades first on subset <code>"ex"</code> and remaining trades on subset <code>"best"</code>. Additionally, we have to set <code>ClassicalClassifier(..., features=features)</code> to pass column information to the classifier.</p>
 <p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
@@ -511,7 +509,7 @@ In this example, input data is available as np.arrays with both exchange (<code>
 <li>Tradesize rule</li>
 </ul>
 <h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>@software<span class="nb">{</span>Bilz<span class="nb">_</span>tclf<span class="nb">_</span>2023,
+<div class="highlight"><pre><span></span><code>@software<span class="nb">{</span>bilz<span class="nb">_</span>tclf<span class="nb">_</span>2023,
     author = <span class="nb">{</span>Bilz, Markus<span class="nb">}</span>,
     license = <span class="nb">{</span>BSD 3<span class="nb">}</span>,
     month = dec,
