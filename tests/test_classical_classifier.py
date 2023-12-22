@@ -259,6 +259,33 @@ class TestClassicalClassifier:
         )
         assert (y_pred == y_test).all()
 
+    def _apply_rule(
+        self,
+        x_train: pd.DataFrame,
+        x_test: pd.DataFrame,
+        y_test: pd.DataFrame,
+        layers: list[tuple[str, str]],
+        random_state: int = 7,
+    ) -> None:
+        """Apply rule-based classification.
+
+        Args:
+            x_train (pd.DataFrame): training features
+            x_test (pd.DataFrame): test features
+            y_test (pd.DataFrame): true labels
+            layers (list[tuple[str, str]]): layers
+            random_state (int, optional): random state. Defaults to 7.
+        """
+        y_pred = (
+            ClassicalClassifier(
+                layers=layers,
+                random_state=random_state,
+            )
+            .fit(x_train[x_test.columns])
+            .predict(x_test)
+        )
+        assert (y_pred == y_test).all()
+
     @pytest.mark.parametrize("subset", ["all", "ex"])
     def test_tick_rule(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if tick rule is correctly applied.
@@ -269,24 +296,14 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = ["trade_price", f"price_{subset}_lag"]
-
         x_test = pd.DataFrame(
             [[1, 2], [2, 1], [1, 1], [1, np.nan]],
-            columns=columns,
+            columns=["trade_price", f"price_{subset}_lag"],
         )
 
         # first two by rule (see p. 28 Grauer et al.), remaining two by random chance.
         y_test = pd.Series([-1, 1, 1, -1])
-        y_pred = (
-            ClassicalClassifier(
-                layers=[("tick", subset)],
-                random_state=7,
-            )
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("tick", subset)], 7)
 
     @pytest.mark.parametrize("subset", ["all", "ex"])
     def test_rev_tick_rule(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -298,21 +315,13 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = ["trade_price", f"price_{subset}_lead"]
-
         x_test = pd.DataFrame(
             [[1, 2], [2, 1], [1, 1], [1, np.nan]],
-            columns=columns,
+            columns=["trade_price", f"price_{subset}_lead"],
         )
-
         # first two by rule (see p. 28 Grauer et al.), remaining two by random chance.
         y_test = pd.Series([-1, 1, 1, -1])
-        y_pred = (
-            ClassicalClassifier(layers=[("rev_tick", subset)], random_state=7)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("rev_tick", subset)], 7)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_quote_rule(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -324,8 +333,6 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = ["trade_price", f"bid_{subset}", f"ask_{subset}"]
-
         # first two by rule (see p. 28 Grauer et al.), remaining four by random chance.
         x_test = pd.DataFrame(
             [
@@ -336,15 +343,10 @@ class TestClassicalClassifier:
                 [1, np.nan, 1],
                 [3, np.nan, np.nan],
             ],
-            columns=columns,
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
-        y_pred = (
-            ClassicalClassifier(layers=[("quote", subset)], random_state=45)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("quote", subset)], 45)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_lr(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -356,24 +358,18 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = [
-            "trade_price",
-            f"bid_{subset}",
-            f"ask_{subset}",
-            f"price_{subset}_lag",
-        ]
         # first two by quote rule, remaining two by tick rule.
         x_test = pd.DataFrame(
             [[1, 1, 3, 0], [3, 1, 3, 0], [1, 1, 1, 0], [3, 2, 4, 4]],
-            columns=columns,
+            columns=[
+                "trade_price",
+                f"bid_{subset}",
+                f"ask_{subset}",
+                f"price_{subset}_lag",
+            ],
         )
         y_test = pd.Series([-1, 1, 1, -1])
-        y_pred = (
-            ClassicalClassifier(layers=[("lr", subset)], random_state=7)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("lr", subset)], 7)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_rev_lr(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -385,12 +381,6 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = [
-            "trade_price",
-            f"bid_{subset}",
-            f"ask_{subset}",
-            f"price_{subset}_lead",
-        ]
         # first two by quote rule, two by tick rule, and two by random chance.
         x_test = pd.DataFrame(
             [
@@ -401,15 +391,15 @@ class TestClassicalClassifier:
                 [1, 1, np.nan, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=columns,
+            columns=[
+                "trade_price",
+                f"bid_{subset}",
+                f"ask_{subset}",
+                f"price_{subset}_lead",
+            ],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
-        y_pred = (
-            ClassicalClassifier(layers=[("rev_lr", subset)], random_state=42)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("rev_lr", subset)], 42)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_emo(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -421,12 +411,6 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e.g., best
         """
-        columns = [
-            "trade_price",
-            f"bid_{subset}",
-            f"ask_{subset}",
-            f"price_{subset}_lag",
-        ]
         # first two by quote rule, two by tick rule, two by random chance.
         x_test = pd.DataFrame(
             [
@@ -437,15 +421,15 @@ class TestClassicalClassifier:
                 [1, 1, np.inf, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=columns,
+            columns=[
+                "trade_price",
+                f"bid_{subset}",
+                f"ask_{subset}",
+                f"price_{subset}_lag",
+            ],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
-        y_pred = (
-            ClassicalClassifier(layers=[("emo", subset)], random_state=42)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("emo", subset)], 42)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_rev_emo(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -457,12 +441,6 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = [
-            "trade_price",
-            f"bid_{subset}",
-            f"ask_{subset}",
-            f"price_{subset}_lead",
-        ]
         # first two by quote rule, two by tick rule, two by random chance.
         x_test = pd.DataFrame(
             [
@@ -473,15 +451,15 @@ class TestClassicalClassifier:
                 [1, 1, np.inf, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=columns,
+            columns=[
+                "trade_price",
+                f"bid_{subset}",
+                f"ask_{subset}",
+                f"price_{subset}_lead",
+            ],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
-        y_pred = (
-            ClassicalClassifier(layers=[("rev_emo", subset)], random_state=42)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("rev_emo", subset)], 42)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_clnv(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -493,12 +471,6 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = [
-            "trade_price",
-            f"ask_{subset}",
-            f"bid_{subset}",
-            f"price_{subset}_lag",
-        ]
         # first two by quote rule, two by tick rule, two by random chance.
         x_test = pd.DataFrame(
             [
@@ -509,15 +481,15 @@ class TestClassicalClassifier:
                 [1.7, 3, 1, 0],  # tick rule
                 [1.3, 3, 1, 1],  # quote rule
             ],
-            columns=columns,
+            columns=[
+                "trade_price",
+                f"ask_{subset}",
+                f"bid_{subset}",
+                f"price_{subset}_lag",
+            ],
         )
         y_test = pd.Series([1, -1, 1, -1, 1, -1])
-        y_pred = (
-            ClassicalClassifier(layers=[("clnv", subset)], random_state=42)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("clnv", subset)], 42)
 
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_rev_clnv(self, x_train: pd.DataFrame, subset: str) -> None:
@@ -529,12 +501,6 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training set
             subset (str): subset e. g., 'ex'
         """
-        columns = [
-            "trade_price",
-            f"ask_{subset}",
-            f"bid_{subset}",
-            f"price_{subset}_lead",
-        ]
         x_test = pd.DataFrame(
             [
                 [5, 3, 1, 0],  # rev tick rule
@@ -552,19 +518,13 @@ class TestClassicalClassifier:
             ],
         )
         y_test = pd.Series([1, -1, 1, -1, 1, -1])
-        y_pred = (
-            ClassicalClassifier(layers=[("rev_clnv", subset)], random_state=5)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("rev_clnv", subset)], 5)
 
     def test_trade_size(self, x_train: pd.DataFrame) -> None:
         """Test, if the trade size algorithm is correctly applied.
 
         Tests cases where relevant data is present or missing.
         """
-        columns = ["trade_size", "ask_size_ex", "bid_size_ex"]
         # first two by trade size, random, at bid size, random, random.
         x_test = pd.DataFrame(
             [
@@ -575,28 +535,16 @@ class TestClassicalClassifier:
                 [1, np.inf, 2],
                 [1, np.inf, 2],
             ],
-            columns=columns,
+            columns=["trade_size", "ask_size_ex", "bid_size_ex"],
         )
         y_test = pd.Series([-1, 1, -1, 1, -1, 1])
-        y_pred = (
-            ClassicalClassifier(layers=[("trade_size", "ex")], random_state=42)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("trade_size", "ex")], 42)
 
     def test_depth(self, x_train: pd.DataFrame) -> None:
         """Test, if the depth rule is correctly applied.
 
         Tests cases where relevant data is present or missing.
         """
-        columns = [
-            "ask_size_ex",
-            "bid_size_ex",
-            "ask_ex",
-            "bid_ex",
-            "trade_price",
-        ]
         # first three by depth, all other random as mid is different from trade price.
         x_test = pd.DataFrame(
             [
@@ -606,12 +554,13 @@ class TestClassicalClassifier:
                 [2, 1, 2, 4, 2],
                 [2, 1, 2, 4, 2],
             ],
-            columns=columns,
+            columns=[
+                "ask_size_ex",
+                "bid_size_ex",
+                "ask_ex",
+                "bid_ex",
+                "trade_price",
+            ],
         )
         y_test = pd.Series([1, -1, 1, 1, -1])
-        y_pred = (
-            ClassicalClassifier(layers=[("depth", "ex")], random_state=5)
-            .fit(x_train[columns])
-            .predict(x_test)
-        )
-        assert (y_pred == y_test).all()
+        self._apply_rule(x_train, x_test, y_test, [("depth", "ex")], 5)
