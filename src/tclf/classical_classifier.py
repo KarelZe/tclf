@@ -58,7 +58,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
                 str,
                 str,
             ]
-        ],
+        ]
+        | None = None,
         *,
         features: list[str] | None = None,
         random_state: float | None = 42,
@@ -84,7 +85,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             >>> pred = clf.predict_proba(X)
 
         Args:
-            layers (List[ tuple[str, str] ]): Layers of classical rule.
+            layers (List[ tuple[str, str] ]): Layers of classical rule. Defaults to [].
             features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
             random_state (float | None, optional): random seed. Defaults to 42.
             strategy (Literal[&quot;random&quot;, &quot;const&quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &quot;random&quot;.
@@ -94,18 +95,26 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         self.features = features
         self.strategy = strategy
 
-    def _more_tags(self) -> dict[str, bool]:
+    def _more_tags(self) -> dict[str, bool | dict[str, str]]:
         """Set tags for sklearn.
 
         See: https://scikit-learn.org/stable/developers/develop.html#estimator-tags
         """
-        # FIXME: Try enabling _skip_test again. Skip tests, as prediction is not
-        # invariant and parameters immutable.
         return {
             "allow_nan": True,
             "binary_only": True,
-            "_skip_test": True,
+            "requires_y": False,
             "poor_score": True,
+            "_xfail_checks": {
+                "check_classifiers_classes": "Disabled due to partly random classification.",
+                "check_classifiers_train": "No check, as unsupervised classifier.",
+                "check_classifiers_one_label": "Disabled due to partly random classification.",
+                "check_methods_subset_invariance": "No check, as unsupervised classifier.",
+                "check_methods_sample_order_invariance": "No check, as unsupervised classifier.",
+                "check_supervised_y_no_nan": "No check, as unsupervised classifier.",
+                "check_supervised_y_2d": "No check, as unsupervised classifier.",
+                "check_classifiers_regression_target": "No check, as unsupervised classifier.",
+            },
         }
 
     def _tick(self, subset: str) -> npt.NDArray:
@@ -429,6 +438,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         X = self._validate_data(
             X,
+            y="no_validation",
             dtype=[np.float64, np.float32],
             accept_sparse=False,
             force_all_finite=False,
@@ -445,7 +455,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
                 f"Expected {len(self.columns_)} columns, got {X.shape[1]}."
             )
 
-        for func_str, _ in self.layers:
+        self._layers = self.layers if self.layers is not None else []
+        for func_str, _ in self._layers:
             if func_str not in allowed_func_str:
                 raise ValueError(
                     f"Unknown function string: {func_str},"
@@ -476,7 +487,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         self.X_ = pd.DataFrame(data=X, columns=self.columns_)
         pred = np.full(shape=(X.shape[0],), fill_value=np.nan)
 
-        for func_str, subset in self.layers:
+        for func_str, subset in self._layers:
             func = self.func_mapping_[func_str]
             pred = np.where(
                 np.isnan(pred),

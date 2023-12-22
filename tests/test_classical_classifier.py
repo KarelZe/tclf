@@ -1,10 +1,13 @@
 """Tests for the classical classifier."""
 
+from typing import Callable
+
 import numpy as np
 import pandas as pd
 import pytest
 from numpy.testing import assert_allclose
-from sklearn.utils.estimator_checks import check_estimator
+from sklearn.base import BaseEstimator
+from sklearn.utils.estimator_checks import parametrize_with_checks
 from sklearn.utils.validation import check_is_fitted
 
 from tclf.classical_classifier import ClassicalClassifier
@@ -74,14 +77,14 @@ class TestClassicalClassifier:
         Returns:
             ClassicalClassifier: fitted clf
         """
-        return ClassicalClassifier(
-            layers=[("nan", "ex")],
-            random_state=7,
-        ).fit(x_train[["ask_best", "bid_best"]])
+        return ClassicalClassifier().fit(x_train[["ask_best", "bid_best"]])
 
-    def test_sklearn_compatibility(self, clf: ClassicalClassifier) -> None:
+    @parametrize_with_checks([ClassicalClassifier()])
+    def test_sklearn_compatibility(
+        self, estimator: BaseEstimator, check: Callable
+    ) -> None:
         """Test, if classifier is compatible with sklearn."""
-        check_estimator(clf)
+        check(estimator)
 
     def test_shapes(
         self, clf: ClassicalClassifier, x_test: pd.DataFrame, y_test: pd.Series
