@@ -1,7 +1,7 @@
 # Trade classification for python 🐍
 
 ![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)
-![Codecov](https://codecov.io/gh/karlze/tclf/branch/master/graph/badge.svg)
+![codecov](https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86)
 
 `tclf` is a [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
@@ -47,7 +47,7 @@ probs = clf.predict_proba(X)
 ```
 Run your script with
 ```console
-python main.py
+$ python main.py
 ```
 In this example, input data is available as a pd.DataFrame with columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
 
@@ -78,10 +78,8 @@ features = ["trade_price", "bid_ex", "ask_ex", "bid_best", "ask_best"]
 clf = ClassicalClassifier(
     layers=[("quote", "ex"), ("quote", "best")], strategy="const", features=features
 )
-clf.fit(X, y_true)
-
-y_pred = clf.predict(X)
-print(accuracy_score(y_true, y_pred))
+clf.fit(X)
+acc = accuracy_score(y_true, clf.predict(X))
 ```
 In this example, input data is available as np.arrays with both exchange (`"ex"`) and nbbo data (`"best"`). We set the layers parameter to `layers=[("quote", "ex"), ("quote", "best")]` to classify trades first on subset `"ex"` and remaining trades on subset `"best"`. Additionally, we have to set `ClassicalClassifier(..., features=features)` to pass column information to the classifier.
 
@@ -100,7 +98,7 @@ Like before, column/feature names must follow our [naming conventions](https://k
 ## Citation
 
 ```latex
-@software{Bilz_tclf_2023,
+@software{bilz_tclf_2023,
     author = {Bilz, Markus},
     license = {BSD 3},
     month = dec,
