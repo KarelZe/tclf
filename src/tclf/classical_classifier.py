@@ -85,7 +85,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             >>> pred = clf.predict_proba(X)
 
         Args:
-            layers (List[ tuple[str, str] ]): Layers of classical rule. Defaults to [].
+            layers (List[tuple[str, str]]): Layers of classical rule. Defaults to None, which results in classification by 'strategy' parameter.
             features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
             random_state (float | None, optional): random seed. Defaults to 42.
             strategy (Literal[&quot;random&quot;, &quot;const&quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &quot;random&quot;.
