@@ -370,6 +370,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Returns:
             npt.NDArray: result of depth rule. Can be np.NaN.
         """
+        # TODO: Problematic: subset might be used for estimating mid spread, but
+        # ask_size_best etc. does not exist!
         at_mid = np.isclose(self._mid(subset), self.X_["trade_price"], atol=1e-4)
 
         return np.where(
