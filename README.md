@@ -52,7 +52,7 @@ $ python main.py
 ```
 In this example, input data is available as a pd.DataFrame with columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
 
-The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades. The true label `y` is not used in classification and only for API consistency by convention.
+The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades.
 
 ## Advanced Example
 Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.
@@ -85,6 +85,10 @@ acc = accuracy_score(y_true, clf.predict(X))
 In this example, input data is available as np.arrays with both exchange (`"ex"`) and nbbo data (`"best"`). We set the layers parameter to `layers=[("quote", "ex"), ("quote", "best")]` to classify trades first on subset `"ex"` and remaining trades on subset `"best"`. Additionally, we have to set `ClassicalClassifier(..., features=features)` to pass column information to the classifier.
 
 Like before, column/feature names must follow our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
+
+## Comprehensive Example
+
+I
 
 ## Supported Algorithms
 

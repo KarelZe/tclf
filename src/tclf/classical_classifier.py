@@ -121,7 +121,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Classify a trade as a buy (sell) if its trade price is above (below) the closest different price of a previous trade.
 
         Args:
-            subset (str): subset i. e., 'all' or 'ex'.
+            subset (str): subset i.e., 'all' or 'ex'.
 
         Returns:
             npt.NDArray: result of tick rule. Can be np.NaN.
@@ -138,7 +138,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Classify a trade as a sell (buy) if its trade price is below (above) the closest different price of a subsequent trade.
 
         Args:
-            subset (str): subset i. e.,'all' or 'ex'.
+            subset (str): subset i.e.,'all' or 'ex'.
 
         Returns:
             npt.NDArray: result of reverse tick rule. Can be np.NaN.
@@ -155,7 +155,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Classify a trade as a buy (sell) if its trade price is above (below) the midpoint of the bid and ask spread. Trades executed at the midspread are not classified.
 
         Args:
-            subset (str): subset i. e., 'ex' or 'best'.
+            subset (str): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of quote rule. Can be np.NaN.
@@ -174,7 +174,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Lee and Ready (1991).
 
         Args:
-            subset (str): subset i. e., 'ex' or 'best'.
+            subset (str): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.ndarray: result of the lee and ready algorithm with tick rule.
@@ -189,7 +189,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Lee and Ready (1991).
 
         Args:
-            subset (str): subset i. e.,'ex' or 'best'.
+            subset (str): subset i.e.,'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of the lee and ready algorithm with reverse tick
@@ -204,7 +204,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Midpoint is calculated as the average of the bid and ask spread if the spread is positive. Otherwise, np.NaN is returned.
 
         Args:
-            subset (str): subset i. e.,
+            subset (str): subset i.e.,
             'ex' or 'best'
         Returns:
             npt.NDArray: midpoints. Can be np.NaN.
@@ -219,7 +219,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Check if the trade price is at the ask xor bid.
 
         Args:
-            subset (str): subset i. e.,
+            subset (str): subset i.e.,
             'ex' or 'best'.
 
         Returns:
@@ -235,7 +235,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Check if the trade price is at the ask xor bid.
 
         Args:
-            subset (str): subset i. e., 'ex'.
+            subset (str): subset i.e., 'ex'.
             quantiles (float, optional): percentage of quantiles. Defaults to 0.3.
 
         Returns:
@@ -259,7 +259,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Ellis et al. (2000).
 
         Args:
-            subset (Literal[&quot;ex&quot;, &quot;best&quot;]): subset i. e., 'ex' or 'best'.
+            subset (Literal[&quot;ex&quot;, &quot;best&quot;]): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of the emo algorithm with tick rule. Can be
@@ -275,7 +275,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Grauer et al. (2022).
 
         Args:
-            subset (str): subset i. e., 'ex' or 'best'.
+            subset (str): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of the emo algorithm with reverse tick rule.
@@ -297,7 +297,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Chakrabarty et al. (2007).
 
         Args:
-            subset (str): subset i. e.,'ex' or 'best'.
+            subset (str): subset i.e.,'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of the emo algorithm with tick rule. Can be
@@ -321,7 +321,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Similar to extension of emo algorithm proposed Grauer et al. (2022).
 
         Args:
-            subset (str): subset i. e., 'ex' or 'best'.
+            subset (str): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of the emo algorithm with tick rule. Can be
@@ -339,7 +339,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Grauer et al. (2022).
 
         Args:
-            subset (str): subset i. e., 'ex' or 'best'.
+            subset (str): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of the trade size rule. Can be np.NaN.
@@ -365,7 +365,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Adapted from Grauer et al. (2022).
 
         Args:
-            subset (str): subset i. e., 'ex' or 'best'.
+            subset (str): subset i.e., 'ex' or 'best'.
 
         Returns:
             npt.NDArray: result of depth rule. Can be np.NaN.
