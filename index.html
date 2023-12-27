@@ -256,6 +256,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#supported-algorithms" class="md-nav__link">
+    Supported Algorithms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#minimal-example" class="md-nav__link">
     Minimal Example
   </a>
@@ -263,15 +270,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-example" class="md-nav__link">
-    Advanced Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-algorithms" class="md-nav__link">
-    Supported Algorithms
+  <a href="#andvanced-example" class="md-nav__link">
+    Andvanced Example
   </a>
   
 </li>
@@ -320,10 +320,43 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="naming_conventions/" class="md-nav__link">
-        Naming conventions
+      <a href="option_trade_classification/" class="md-nav__link">
+        Option trade classification
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -335,10 +368,57 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          More
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="More" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          More
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="faq/" class="md-nav__link">
-        FAQs
+      <a href="naming_conventions/" class="md-nav__link">
+        Naming conventions
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="nan_handling/" class="md-nav__link">
+        Handling of NaNs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -377,6 +457,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#supported-algorithms" class="md-nav__link">
+    Supported Algorithms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#minimal-example" class="md-nav__link">
     Minimal Example
   </a>
@@ -384,15 +471,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#advanced-example" class="md-nav__link">
-    Advanced Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-algorithms" class="md-nav__link">
-    Supported Algorithms
+  <a href="#andvanced-example" class="md-nav__link">
+    Andvanced Example
   </a>
   
 </li>
@@ -442,10 +522,20 @@
 <span class="go">---&gt; 100%</span>
 <span class="go">Successfully installed tclf-0.0.0</span>
 </code></pre></div>
+<h2 id="supported-algorithms">Supported Algorithms<a class="headerlink" href="#supported-algorithms" title="Permanent link">&para;</a></h2>
+<ul>
+<li>(Rev.) CLNV rule<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></li>
+<li>(Rev.) EMO rule<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></li>
+<li>(Rev.) LR algorithm<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup></li>
+<li>(Rev.) Tick test<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></li>
+<li>Depth rule<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup></li>
+<li>Quote rule<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup></li>
+<li>Tradesize rule<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></li>
+</ul>
 <h2 id="minimal-example">Minimal Example<a class="headerlink" href="#minimal-example" title="Permanent link">&para;</a></h2>
 <p>Let's start simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.</p>
 <p>Create a <code>main.py</code> with:
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><span class="filename">main.py</span><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">tclf.classical_classifier</span> <span class="kn">import</span> <span class="n">ClassicalClassifier</span>
@@ -471,9 +561,9 @@ Run your script with
 </code></pre></div>
 In this example, input data is available as a pd.DataFrame with columns conforming to our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
 <p>The parameter <code>layers=[("quote", "ex")]</code> sets the quote rule at the exchange level and <code>strategy="random"</code> specifies the fallback strategy for unclassified trades. The true label <code>y</code> is not used in classification and only for API consistency by convention.</p>
-<h2 id="advanced-example">Advanced Example<a class="headerlink" href="#advanced-example" title="Permanent link">&para;</a></h2>
+<h2 id="andvanced-example">Andvanced Example<a class="headerlink" href="#andvanced-example" title="Permanent link">&para;</a></h2>
 <p>Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.</p>
-<p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<p><div class="highlight"><span class="filename">main.py</span><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 
 <span class="kn">from</span> <span class="nn">tclf.classical_classifier</span> <span class="kn">import</span> <span class="n">ClassicalClassifier</span>
@@ -498,17 +588,7 @@ In this example, input data is available as a pd.DataFrame with columns conformi
 <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
 </code></pre></div>
 In this example, input data is available as np.arrays with both exchange (<code>"ex"</code>) and nbbo data (<code>"best"</code>). We set the layers parameter to <code>layers=[("quote", "ex"), ("quote", "best")]</code> to classify trades first on subset <code>"ex"</code> and remaining trades on subset <code>"best"</code>. Additionally, we have to set <code>ClassicalClassifier(..., features=features)</code> to pass column information to the classifier.</p>
-<p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
-<h2 id="supported-algorithms">Supported Algorithms<a class="headerlink" href="#supported-algorithms" title="Permanent link">&para;</a></h2>
-<ul>
-<li>(Rev.) CLNV rule<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></li>
-<li>(Rev.) EMO rule<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></li>
-<li>(Rev.) LR algorithm<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup></li>
-<li>(Rev.) Tick test<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></li>
-<li>Depth rule<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup></li>
-<li>Quote rule<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup></li>
-<li>Tradesize rule<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></li>
-</ul>
+<p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>. For more pracitcal examples, see our <a href="https://karelze.github.io/tclf/option_trade_classification">examples section</a>.</p>
 <h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>@software<span class="nb">{</span>bilz<span class="nb">_</span>tclf<span class="nb">_</span>2023,
     author = <span class="nb">{</span>Bilz, Markus<span class="nb">}</span>,

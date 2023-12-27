@@ -309,10 +309,43 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../naming_conventions/" class="md-nav__link">
-        Naming conventions
+      <a href="../option_trade_classification/" class="md-nav__link">
+        Option trade classification
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -324,10 +357,57 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          More
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="More" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          More
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../faq/" class="md-nav__link">
-        FAQs
+      <a href="../naming_conventions/" class="md-nav__link">
+        Naming conventions
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nan_handling/" class="md-nav__link">
+        Handling of NaNs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -479,8 +559,7 @@ and nan</p>
 
             <details class="quote">
               <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
-<span class="normal"> 36</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
@@ -981,7 +1060,8 @@ and nan</p>
 <span class="normal">534</span>
 <span class="normal">535</span>
 <span class="normal">536</span>
-<span class="normal">537</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="normal">537</span>
+<span class="normal">538</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ClassicalClassifier</span><span class="p">(</span><span class="n">ClassifierMixin</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassicalClassifier implements several trade classification rules.</span>
 
 <span class="sd">    Including:</span>
@@ -1004,7 +1084,7 @@ and nan</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
             <span class="nb">tuple</span><span class="p">[</span>
-                <span class="nb">str</span><span class="p">,</span>
+                <span class="n">ALLOWED_FUNC_LITERALS</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">,</span>
             <span class="p">]</span>
         <span class="p">]</span>
@@ -1034,7 +1114,7 @@ and nan</p>
 <span class="sd">            &gt;&gt;&gt; pred = clf.predict_proba(X)</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            layers (List[tuple[str, str]]): Layers of classical rule. Defaults to None, which results in classification by &#39;strategy&#39; parameter.</span>
+<span class="sd">            layers (List[tuple[ALLOWED_FUNC_LITERALS, str]]): Layers of classical rule and subset name. Supported rules: &quot;tick&quot;, &quot;rev_tick&quot;, &quot;quote&quot;, &quot;lr&quot;, &quot;rev_lr&quot;, &quot;emo&quot;, &quot;rev_emo&quot;, &quot;trade_size&quot;, &quot;depth&quot;, and &quot;nan&quot;. Defaults to None, which results in classification by &#39;strategy&#39; parameter.</span>
 <span class="sd">            features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
 <span class="sd">            random_state (float | None, optional): random seed. Defaults to 42.</span>
 <span class="sd">            strategy (Literal[&amp;quot;random&amp;quot;, &amp;quot;const&amp;quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &amp;quot;random&amp;quot;.</span>
@@ -1070,7 +1150,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its trade price is above (below) the closest different price of a previous trade.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;all&#39; or &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;all&#39; or &#39;ex&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of tick rule. Can be np.NaN.</span>
@@ -1087,7 +1167,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a sell (buy) if its trade price is below (above) the closest different price of a subsequent trade.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e.,&#39;all&#39; or &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i. e.,&#39;all&#39; or &#39;ex&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of reverse tick rule. Can be np.NaN.</span>
@@ -1104,7 +1184,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its trade price is above (below) the midpoint of the bid and ask spread. Trades executed at the midspread are not classified.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of quote rule. Can be np.NaN.</span>
@@ -1123,7 +1203,7 @@ and nan</p>
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.ndarray: result of the lee and ready algorithm with tick rule.</span>
@@ -1138,7 +1218,7 @@ and nan</p>
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e.,&#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e.,&#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the lee and ready algorithm with reverse tick</span>
@@ -1153,7 +1233,7 @@ and nan</p>
 <span class="sd">        Midpoint is calculated as the average of the bid and ask spread if the spread is positive. Otherwise, np.NaN is returned.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e.,</span>
+<span class="sd">            subset (str): subset i. e.,</span>
 <span class="sd">            &#39;ex&#39; or &#39;best&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: midpoints. Can be np.NaN.</span>
@@ -1168,7 +1248,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trade price is at the ask xor bid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e.,</span>
+<span class="sd">            subset (str): subset i. e.,</span>
 <span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
@@ -1184,7 +1264,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trade price is at the ask xor bid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39;.</span>
 <span class="sd">            quantiles (float, optional): percentage of quantiles. Defaults to 0.3.</span>
 
 <span class="sd">        Returns:</span>
@@ -1208,7 +1288,7 @@ and nan</p>
 <span class="sd">        Adapted from Ellis et al. (2000).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1224,7 +1304,7 @@ and nan</p>
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with reverse tick rule.</span>
@@ -1246,7 +1326,7 @@ and nan</p>
 <span class="sd">        Adapted from Chakrabarty et al. (2007).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e.,&#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e.,&#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1270,7 +1350,7 @@ and nan</p>
 <span class="sd">        Similar to extension of emo algorithm proposed Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1288,7 +1368,7 @@ and nan</p>
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the trade size rule. Can be np.NaN.</span>
@@ -1314,7 +1394,7 @@ and nan</p>
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of depth rule. Can be np.NaN.</span>
@@ -1378,7 +1458,7 @@ and nan</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">_nan</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">allowed_func_str</span><span class="p">,</span> <span class="n">funcs</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ALLOWED_FUNC_STR</span><span class="p">,</span> <span class="n">funcs</span><span class="p">))</span>
 
         <span class="c1"># create working copy to be altered and try to get columns from df</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span>
@@ -1406,10 +1486,10 @@ and nan</p>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">func_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_func_str</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">func_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_FUNC_STR</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Unknown function string: </span><span class="si">{</span><span class="n">func_str</span><span class="si">}</span><span class="s2">,&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;expected one of </span><span class="si">{</span><span class="n">allowed_func_str</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;expected one of </span><span class="si">{</span><span class="n">ALLOWED_FUNC_STR</span><span class="si">}</span><span class="s2">.&quot;</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span>
@@ -1551,11 +1631,11 @@ and nan</p>
         <tr>
           <td><code>layers</code></td>
           <td>
-                <code>List[tuple[str, str]]</code>
+                <code>List[tuple[<span title="tclf.classical_classifier.ALLOWED_FUNC_LITERALS">ALLOWED_FUNC_LITERALS</span>, str]]</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Layers of classical rule. Defaults to None, which results in classification by 'strategy' parameter.</p>
+              <p>Layers of classical rule and subset name. Supported rules: "tick", "rev_tick", "quote", "lr", "rev_lr", "emo", "rev_emo", "trade_size", "depth", and "nan". Defaults to None, which results in classification by 'strategy' parameter.</p>
             </div>
           </td>
           <td>
@@ -1609,8 +1689,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
-<span class="normal">55</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -1651,11 +1730,12 @@ and nan</p>
 <span class="normal">93</span>
 <span class="normal">94</span>
 <span class="normal">95</span>
-<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">96</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
         <span class="nb">tuple</span><span class="p">[</span>
-            <span class="nb">str</span><span class="p">,</span>
+            <span class="n">ALLOWED_FUNC_LITERALS</span><span class="p">,</span>
             <span class="nb">str</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">]</span>
@@ -1685,7 +1765,7 @@ and nan</p>
 <span class="sd">        &gt;&gt;&gt; pred = clf.predict_proba(X)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        layers (List[tuple[str, str]]): Layers of classical rule. Defaults to None, which results in classification by &#39;strategy&#39; parameter.</span>
+<span class="sd">        layers (List[tuple[ALLOWED_FUNC_LITERALS, str]]): Layers of classical rule and subset name. Supported rules: &quot;tick&quot;, &quot;rev_tick&quot;, &quot;quote&quot;, &quot;lr&quot;, &quot;rev_lr&quot;, &quot;emo&quot;, &quot;rev_emo&quot;, &quot;trade_size&quot;, &quot;depth&quot;, and &quot;nan&quot;. Defaults to None, which results in classification by &#39;strategy&#39; parameter.</span>
 <span class="sd">        features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.</span>
 <span class="sd">        random_state (float | None, optional): random seed. Defaults to 42.</span>
 <span class="sd">        strategy (Literal[&amp;quot;random&amp;quot;, &amp;quot;const&amp;quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &amp;quot;random&amp;quot;.</span>
@@ -1844,8 +1924,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">394</span>
-<span class="normal">395</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
 <span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
@@ -1916,7 +1995,8 @@ and nan</p>
 <span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
-<span class="normal">466</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<span class="normal">466</span>
+<span class="normal">467</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">,</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1954,7 +2034,7 @@ and nan</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nan</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">allowed_func_str</span><span class="p">,</span> <span class="n">funcs</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">func_mapping_</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ALLOWED_FUNC_STR</span><span class="p">,</span> <span class="n">funcs</span><span class="p">))</span>
 
     <span class="c1"># create working copy to be altered and try to get columns from df</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">columns_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span>
@@ -1982,10 +2062,10 @@ and nan</p>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">func_str</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">func_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_func_str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">func_str</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_FUNC_STR</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Unknown function string: </span><span class="si">{</span><span class="n">func_str</span><span class="si">}</span><span class="s2">,&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;expected one of </span><span class="si">{</span><span class="n">allowed_func_str</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;expected one of </span><span class="si">{</span><span class="n">ALLOWED_FUNC_STR</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span>
 
     <span class="k">return</span> <span class="bp">self</span>
@@ -2067,8 +2147,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">468</span>
-<span class="normal">469</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">469</span>
 <span class="normal">470</span>
 <span class="normal">471</span>
 <span class="normal">472</span>
@@ -2106,7 +2185,8 @@ and nan</p>
 <span class="normal">504</span>
 <span class="normal">505</span>
 <span class="normal">506</span>
-<span class="normal">507</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">507</span>
+<span class="normal">508</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform classification on test vectors `X`.</span>
 
 <span class="sd">    Args:</span>
@@ -2226,8 +2306,7 @@ and nan</p>
 
           <details class="quote">
             <summary>Source code in <code>src/tclf/classical_classifier.py</code></summary>
-            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">509</span>
-<span class="normal">510</span>
+            <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
@@ -2254,7 +2333,8 @@ and nan</p>
 <span class="normal">534</span>
 <span class="normal">535</span>
 <span class="normal">536</span>
-<span class="normal">537</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
+<span class="normal">537</span>
+<span class="normal">538</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">MatrixLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict class probabilities for X.</span>
 
 <span class="sd">    Probabilities are either 0 or 1 depending on the class.</span>
@@ -2332,13 +2412,13 @@ and nan</p>
       
       
         
-        <a href="../naming_conventions/" class="md-footer__link md-footer__link--next" aria-label="Next: Naming conventions" rel="next">
+        <a href="../option_trade_classification/" class="md-footer__link md-footer__link--next" aria-label="Next: Option trade classification" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Naming conventions
+              Option trade classification
             </div>
           </div>
           <div class="md-footer__button md-icon">

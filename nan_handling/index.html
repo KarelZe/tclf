@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://typer.tiangolo.com/faq/">
+        <link rel="canonical" href="https://typer.tiangolo.com/nan_handling/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-8.5.10">
     
     
       
-        <title>FAQs - tclf</title>
+        <title>Handling of NaNs - tclf</title>
       
     
     
@@ -71,11 +71,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#frequently-asked-questions" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -105,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              FAQs
+              Handling of NaNs
             
           </span>
         </div>
@@ -244,10 +239,43 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../naming_conventions/" class="md-nav__link">
-        Naming conventions
+      <a href="../option_trade_classification/" class="md-nav__link">
+        Option trade classification
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -261,45 +289,65 @@
     
   
   
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          More
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="More" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          More
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../naming_conventions/" class="md-nav__link">
+        Naming conventions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          FAQs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
-        FAQs
+        Handling of NaNs
       </a>
       
-        
+    </li>
+  
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-asked-questions" class="md-nav__link">
-    Frequently Asked Questions
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -322,21 +370,6 @@
   
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-asked-questions" class="md-nav__link">
-    Frequently Asked Questions
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -350,10 +383,8 @@
                   
 
 
-  <h1>FAQs</h1>
+  <h1>Handling of NaNs</h1>
 
-<h2 id="frequently-asked-questions">Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h2>
-<p><strong>How are <code>NaN</code> values handled in by <code>tclf</code>?</strong></p>
 <p>We take care to treat <code>NaN</code> values correctly. If features relevant for classification like the trade price or quoted bid/ask prices are missing, no classification is performed and classification of the trade is deferred to the subsequent rule or fallback strategy.</p>
 <p>Alternatively, you can provide imputed data. See <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.impute"><code>sklearn.impute</code></a> for details.</p>
 
