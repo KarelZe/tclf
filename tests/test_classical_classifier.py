@@ -10,7 +10,7 @@ from sklearn.base import BaseEstimator
 from sklearn.utils.estimator_checks import parametrize_with_checks
 from sklearn.utils.validation import check_is_fitted
 
-from tclf.classical_classifier import ClassicalClassifier
+from tclf.classical_classifier import ALLOWED_FUNC_LITERALS, ClassicalClassifier
 
 
 class TestClassicalClassifier:
@@ -169,7 +169,7 @@ class TestClassicalClassifier:
         Test for 'foo', which is no valid rule.
         """
         classifier = ClassicalClassifier(
-            layers=[("foo", "all")],
+            layers=[("foo", "all")],  # type: ignore [list-item]
             random_state=42,
         )
         with pytest.raises(ValueError, match=r"Unknown function string"):
@@ -267,7 +267,7 @@ class TestClassicalClassifier:
         x_train: pd.DataFrame,
         x_test: pd.DataFrame,
         y_test: pd.DataFrame,
-        layers: list[tuple[str, str]],
+        layers: list[tuple[ALLOWED_FUNC_LITERALS, str]],
         random_state: int = 7,
     ) -> None:
         """Apply rule-based classification.
@@ -276,7 +276,7 @@ class TestClassicalClassifier:
             x_train (pd.DataFrame): training features
             x_test (pd.DataFrame): test features
             y_test (pd.DataFrame): true labels
-            layers (list[tuple[str, str]]): layers
+            layers (list[tuple[ALLOWED_FUNC_LITERALS, str]]): layers
             random_state (int, optional): random state. Defaults to 7.
         """
         y_pred = (
