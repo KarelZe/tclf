@@ -4,7 +4,7 @@ This tutorial aims to reproduce plots from a working paper by Grauer et. al [^1]
 > [...] our new trade size rule together with quote rules successively applied to NBBO and quotes on the trading venue. Quotes at the midpoint on both the NBBO and the exchange should be classified first with the depth rule and any remaining trades with the reverse tick test.
 
 
-There's a lot going on.🥵 To match the author's description, we first set up `layers`. We use the subset "ex" to refer to exchange-specific data, "best" to the NBBO and "all" for inter-exchange level data. Identical to the paper we perform random classification on unclassified trades, hence `strategy="random"`.
+There's a lot going on.🥵 To match the author's description, we first set up `layers`. We require  We use the subset "ex" to refer to exchange-specific data, "best" to the NBBO and "all" for inter-exchange level data. Identical to the paper we perform random classification on unclassified trades, hence `strategy="random"`.
 ```python
 from tclf.classical_classifier import ClassicalClassifier
 

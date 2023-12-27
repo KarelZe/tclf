@@ -5,7 +5,7 @@ Both simple rules like quote rule or tick test or hybrids are included.
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, get_args
 
 import numpy as np
 import numpy.typing as npt
@@ -16,7 +16,7 @@ from sklearn.utils.validation import _check_sample_weight, check_is_fitted
 
 from tclf.types import ArrayLike, MatrixLike
 
-allowed_func_str = (
+ALLOWED_FUNC_LITERALS = Literal[
     "tick",
     "rev_tick",
     "quote",
@@ -29,7 +29,8 @@ allowed_func_str = (
     "trade_size",
     "depth",
     "nan",
-)
+]
+ALLOWED_FUNC_STR: tuple[ALLOWED_FUNC_LITERALS, ...] = get_args(ALLOWED_FUNC_LITERALS)
 
 
 class ClassicalClassifier(ClassifierMixin, BaseEstimator):
@@ -55,7 +56,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         self,
         layers: list[
             tuple[
-                str,
+                ALLOWED_FUNC_LITERALS,
                 str,
             ]
         ]
@@ -85,7 +86,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             >>> pred = clf.predict_proba(X)
 
         Args:
-            layers (List[tuple[str, str]]): Layers of classical rule. Defaults to None, which results in classification by 'strategy' parameter.
+            layers (List[tuple[ALLOWED_FUNC_LITERALS, str]]): Layers of classical rule and subset name. Supported rules: "tick", "rev_tick", "quote", "lr", "rev_lr", "emo", "rev_emo", "trade_size", "depth", and "nan". Defaults to None, which results in classification by 'strategy' parameter.
             features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
             random_state (float | None, optional): random seed. Defaults to 42.
             strategy (Literal[&quot;random&quot;, &quot;const&quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &quot;random&quot;.
@@ -370,8 +371,6 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Returns:
             npt.NDArray: result of depth rule. Can be np.NaN.
         """
-        # TODO: Problematic: subset might be used for estimating mid spread, but
-        # ask_size_best etc. does not exist!
         at_mid = np.isclose(self._mid(subset), self.X_["trade_price"], atol=1e-4)
 
         return np.where(
@@ -431,7 +430,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             self._nan,
         )
 
-        self.func_mapping_ = dict(zip(allowed_func_str, funcs))
+        self.func_mapping_ = dict(zip(ALLOWED_FUNC_STR, funcs))
 
         # create working copy to be altered and try to get columns from df
         self.columns_ = self.features
@@ -459,10 +458,10 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         self._layers = self.layers if self.layers is not None else []
         for func_str, _ in self._layers:
-            if func_str not in allowed_func_str:
+            if func_str not in ALLOWED_FUNC_STR:
                 raise ValueError(
                     f"Unknown function string: {func_str},"
-                    f"expected one of {allowed_func_str}."
+                    f"expected one of {ALLOWED_FUNC_STR}."
                 )
 
         return self
