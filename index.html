@@ -270,8 +270,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#andvanced-example" class="md-nav__link">
-    Andvanced Example
+  <a href="#advanced-example" class="md-nav__link">
+    Advanced Example
   </a>
   
 </li>
@@ -471,8 +471,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#andvanced-example" class="md-nav__link">
-    Andvanced Example
+  <a href="#advanced-example" class="md-nav__link">
+    Advanced Example
   </a>
   
 </li>
@@ -561,7 +561,7 @@ Run your script with
 </code></pre></div>
 In this example, input data is available as a pd.DataFrame with columns conforming to our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
 <p>The parameter <code>layers=[("quote", "ex")]</code> sets the quote rule at the exchange level and <code>strategy="random"</code> specifies the fallback strategy for unclassified trades. The true label <code>y</code> is not used in classification and only for API consistency by convention.</p>
-<h2 id="andvanced-example">Andvanced Example<a class="headerlink" href="#andvanced-example" title="Permanent link">&para;</a></h2>
+<h2 id="advanced-example">Advanced Example<a class="headerlink" href="#advanced-example" title="Permanent link">&para;</a></h2>
 <p>Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.</p>
 <p><div class="highlight"><span class="filename">main.py</span><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
@@ -588,7 +588,7 @@ In this example, input data is available as a pd.DataFrame with columns conformi
 <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
 </code></pre></div>
 In this example, input data is available as np.arrays with both exchange (<code>"ex"</code>) and nbbo data (<code>"best"</code>). We set the layers parameter to <code>layers=[("quote", "ex"), ("quote", "best")]</code> to classify trades first on subset <code>"ex"</code> and remaining trades on subset <code>"best"</code>. Additionally, we have to set <code>ClassicalClassifier(..., features=features)</code> to pass column information to the classifier.</p>
-<p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>. For more pracitcal examples, see our <a href="https://karelze.github.io/tclf/option_trade_classification">examples section</a>.</p>
+<p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>. For more practical examples, see our <a href="https://karelze.github.io/tclf/option_trade_classification">examples section</a>.</p>
 <h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>@software<span class="nb">{</span>bilz<span class="nb">_</span>tclf<span class="nb">_</span>2023,
     author = <span class="nb">{</span>Bilz, Markus<span class="nb">}</span>,
