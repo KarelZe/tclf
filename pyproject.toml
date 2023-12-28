@@ -56,12 +56,12 @@ dev=[
 ]
 
 doc = [
+    "cairosvg >=2.5.2,<3.0.0",
+    "mdx-include >=1.4.1,<2.0.0",
     "mkdocs >=1.1.2,<2.0.0",
     "mkdocs-material >=8.1.4,<10.0.0",
     "mkdocstrings-python",
-    "mdx-include >=1.4.1,<2.0.0",
     "pillow >=9.3.0,<11.0.0",
-    "cairosvg >=2.5.2,<3.0.0",
 ]
 
 test = ["pytest",

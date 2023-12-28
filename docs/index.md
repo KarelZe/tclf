@@ -19,12 +19,22 @@ $ pip install .
 Successfully installed tclf-0.0.0
 ```
 
+## Supported Algorithms
+
+- (Rev.) CLNV rule[^1]
+- (Rev.) EMO rule[^2]
+- (Rev.) LR algorithm[^6]
+- (Rev.) Tick test[^5]
+- Depth rule[^3]
+- Quote rule[^4]
+- Tradesize rule[^3]
+
 ## Minimal Example
 
 Let's start simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.
 
 Create a `main.py` with:
-```python
+```python title="main.py"
 import numpy as np
 import pandas as pd
 
@@ -57,7 +67,7 @@ The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange lev
 ## Advanced Example
 Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.
 
-```python hl_lines="6  16 17 20"
+```python title="main.py" hl_lines="6  16 17 20"
 import numpy as np
 from sklearn.metrics import accuracy_score
 
@@ -84,21 +94,7 @@ acc = accuracy_score(y_true, clf.predict(X))
 ```
 In this example, input data is available as np.arrays with both exchange (`"ex"`) and nbbo data (`"best"`). We set the layers parameter to `layers=[("quote", "ex"), ("quote", "best")]` to classify trades first on subset `"ex"` and remaining trades on subset `"best"`. Additionally, we have to set `ClassicalClassifier(..., features=features)` to pass column information to the classifier.
 
-Like before, column/feature names must follow our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
-
-## Comprehensive Example
-
-I
-
-## Supported Algorithms
-
-- (Rev.) CLNV rule[^1]
-- (Rev.) EMO rule[^2]
-- (Rev.) LR algorithm[^6]
-- (Rev.) Tick test[^5]
-- Depth rule[^3]
-- Quote rule[^4]
-- Tradesize rule[^3]
+Like before, column/feature names must follow our [naming conventions](https://karelze.github.io/tclf/naming_conventions/). For more practical examples, see our [examples section](https://karelze.github.io/tclf/option_trade_classification).
 
 ## Citation
 
