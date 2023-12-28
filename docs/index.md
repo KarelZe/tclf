@@ -16,7 +16,7 @@ The key features are:
 ```console
 $ pip install .
 ---> 100%
-Successfully installed tclf-0.0.0
+Successfully installed tclf-0.0.1
 ```
 
 ## Supported Algorithms
@@ -62,7 +62,7 @@ $ python main.py
 ```
 In this example, input data is available as a pd.DataFrame with columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
 
-The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades. The true label `y` is not used in classification and only for API consistency by convention.
+The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades.
 
 ## Advanced Example
 Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.

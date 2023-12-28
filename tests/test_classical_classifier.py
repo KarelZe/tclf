@@ -175,6 +175,21 @@ class TestClassicalClassifier:
         with pytest.raises(ValueError, match=r"Unknown function string"):
             classifier.fit(x_train)
 
+    def test_missing_columns(self, x_train: pd.DataFrame) -> None:
+        """Test, if an error is raised, if required columns are missing.
+
+        An exception should be raised if required features are missing,
+        including the columns required for classification.
+        """
+        classifier = ClassicalClassifier(
+            layers=[("tick", "all"), ("quote", "ex")], random_state=42
+        )
+        with pytest.raises(
+            ValueError,
+            match=r"Expected to find columns: ['ask_ex', 'bid_ex', 'price_all_lag']*",
+        ):
+            classifier.fit(x_train[["trade_price", "trade_size"]])
+
     def test_invalid_col_length(self, x_train: pd.DataFrame) -> None:
         """Test, if only valid column length can be passed.
 
