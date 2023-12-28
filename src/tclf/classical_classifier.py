@@ -12,7 +12,10 @@ import numpy.typing as npt
 import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils import check_random_state
-from sklearn.utils.validation import _check_sample_weight, check_is_fitted
+from sklearn.utils.validation import (
+    _check_sample_weight,
+    check_is_fitted,
+)
 
 from tclf.types import ArrayLike, MatrixLike
 
@@ -392,6 +395,60 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """
         return np.full(shape=(self.X_.shape[0],), fill_value=np.nan)
 
+    def _validate_columns(self, found_cols: list[str]) -> None:
+        """Validate if all required columns are present.
+
+        Args:
+            found_cols (list[str]): columns present in dataframe.
+        """
+
+        def lookup_columns(func_str: str, sub: str) -> list[str]:
+            LR_LIKE = [
+                "trade_price",
+                f"price_{sub}_lag",
+                f"ask_{sub}",
+                f"bid_{sub}",
+            ]
+            REV_LR_LIKE = [
+                "trade_price",
+                f"price_{sub}_lead",
+                f"ask_{sub}",
+                f"bid_{sub}",
+            ]
+
+            LUT_REQUIRED_COLUMNS: dict[str, list[str]] = {
+                "nan": [],
+                "clnv": LR_LIKE,
+                "depth": [
+                    "trade_price",
+                    f"ask_{sub}",
+                    f"bid_{sub}",
+                    f"ask_size_{sub}",
+                    f"bid_size_{sub}",
+                ],
+                "emo": LR_LIKE,
+                "lr": LR_LIKE,
+                "quote": ["trade_price", f"ask_{sub}", f"bid_{sub}"],
+                "rev_clnv": REV_LR_LIKE,
+                "rev_emo": REV_LR_LIKE,
+                "rev_lr": REV_LR_LIKE,
+                "rev_tick": ["trade_price", f"price_{sub}_lead"],
+                "tick": ["trade_price", f"price_{sub}_lag"],
+                "trade_size": ["trade_size", f"ask_size_{sub}", f"bid_size_{sub}"],
+            }
+            return LUT_REQUIRED_COLUMNS[func_str]
+
+        required_cols_set = set()
+        for func_str, sub in self._layers:
+            func_col = lookup_columns(func_str, sub)
+            required_cols_set.update(func_col)
+
+        missing_cols = sorted(required_cols_set - set(found_cols))
+        if missing_cols:
+            raise ValueError(
+                f"Expected to find columns: {missing_cols}. Check naming/presenence of columns. See: https://karelze.github.io/tclf/naming_conventions/"
+            )
+
     def fit(
         self,
         X: MatrixLike,
@@ -463,6 +520,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
                     f"Unknown function string: {func_str},"
                     f"expected one of {ALLOWED_FUNC_STR}."
                 )
+
+        columns = self.columns_
+        self._validate_columns(columns)
 
         return self
 
