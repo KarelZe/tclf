@@ -4,6 +4,12 @@
 [![codecov](https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86)](https://codecov.io/gh/KarelZe/tclf/tree/main/graph)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=KarelZe_tclf&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=KarelZe_tclf)
 
+
+**Documentation ✒️:** [https://karelze.github.io/tclf/](https://karelze.github.io/tclf/)
+
+**Source Code 🐍:** [https://github.com/KarelZe/tclf](https://github.com/KarelZe/tclf)
+
+
 `tclf` is a [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
 The key features are:
@@ -14,9 +20,9 @@ The key features are:
 
 ## Installation
 ```console
-$ pip install .
+$ python -m pip install tclf
 ---> 100%
-Successfully installed tclf-0.0.1
+Successfully installed tclf-0.0.2
 ```
 
 ## Supported Algorithms
