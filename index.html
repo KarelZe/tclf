@@ -560,7 +560,7 @@ Run your script with
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span>python<span class="w"> </span>main.py
 </code></pre></div>
 In this example, input data is available as a pd.DataFrame with columns conforming to our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>.</p>
-<p>The parameter <code>layers=[("quote", "ex")]</code> sets the quote rule at the exchange level and <code>strategy="random"</code> specifies the fallback strategy for unclassified trades. The true label <code>y</code> is not used in classification and only for API consistency by convention.</p>
+<p>The parameter <code>layers=[("quote", "ex")]</code> sets the quote rule at the exchange level and <code>strategy="random"</code> specifies the fallback strategy for unclassified trades.</p>
 <h2 id="advanced-example">Advanced Example<a class="headerlink" href="#advanced-example" title="Permanent link">&para;</a></h2>
 <p>Often it is desirable to classify both on exchange level data and nbbo data. Also, data might only be available as a numpy array. So let's extend the previous example by classifying using the quote rule at exchange level, then at nbbo and all other trades randomly.</p>
 <p><div class="highlight"><span class="filename">main.py</span><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>

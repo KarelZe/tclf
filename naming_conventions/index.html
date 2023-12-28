@@ -385,7 +385,78 @@
 
   <h1>Naming conventions</h1>
 
-
+<p>For <code>tclf</code> to work, we impose constraints on the column names. The following input is required by each rule. Data requirements are additive, if multiple rules are applied.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Layer Name</th>
+<th>Columns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No classification</td>
+<td><code>("nan","sub")</code></td>
+<td>None</td>
+</tr>
+<tr>
+<td>Tick test</td>
+<td><code>("tick","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lag</code></td>
+</tr>
+<tr>
+<td>Reverse tick Test</td>
+<td><code>("rev_tick","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lead</code></td>
+</tr>
+<tr>
+<td>Quote Rule</td>
+<td><code>("quote","sub")</code></td>
+<td><code>trade_price</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>Lee-Ready Algorithm</td>
+<td><code>("lr","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lag</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>EMO Algorithm</td>
+<td><code>("emo","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lag</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>CLNV Rule</td>
+<td><code>("clnv","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lag</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>Reverse Lee-Ready Algorithm</td>
+<td><code>("rev_lr","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lead</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>Reverse EMO Algorithm</td>
+<td><code>("rev_emo","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lead</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>Reverse CLNV Rule</td>
+<td><code>("rev_clnv","sub")</code></td>
+<td><code>trade_price</code>, <code>price_{sub}_lead</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code></td>
+</tr>
+<tr>
+<td>Depth rule</td>
+<td><code>("depth","sub")</code></td>
+<td><code>trade_price</code>, <code>ask_{sub}</code>, <code>bid_{sub}</code>, <code>trade_size</code>, <code>ask_size_{sub}</code>, <code>bid_size_{sub}</code></td>
+</tr>
+<tr>
+<td>Trade size rule</td>
+<td><code>("trade_size","sub")</code></td>
+<td><code>trade_size</code>, <code>ask_size_{sub}</code>, <code>bid_size_{sub}</code></td>
+</tr>
+</tbody>
+</table>
 
 
 

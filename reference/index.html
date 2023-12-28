@@ -1150,7 +1150,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its trade price is above (below) the closest different price of a previous trade.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;all&#39; or &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;all&#39; or &#39;ex&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of tick rule. Can be np.NaN.</span>
@@ -1167,7 +1167,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a sell (buy) if its trade price is below (above) the closest different price of a subsequent trade.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e.,&#39;all&#39; or &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i.e.,&#39;all&#39; or &#39;ex&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of reverse tick rule. Can be np.NaN.</span>
@@ -1184,7 +1184,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify a trade as a buy (sell) if its trade price is above (below) the midpoint of the bid and ask spread. Trades executed at the midspread are not classified.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of quote rule. Can be np.NaN.</span>
@@ -1203,7 +1203,7 @@ and nan</p>
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.ndarray: result of the lee and ready algorithm with tick rule.</span>
@@ -1218,7 +1218,7 @@ and nan</p>
 <span class="sd">        Adapted from Lee and Ready (1991).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e.,&#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e.,&#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the lee and ready algorithm with reverse tick</span>
@@ -1233,7 +1233,7 @@ and nan</p>
 <span class="sd">        Midpoint is calculated as the average of the bid and ask spread if the spread is positive. Otherwise, np.NaN is returned.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e.,</span>
+<span class="sd">            subset (str): subset i.e.,</span>
 <span class="sd">            &#39;ex&#39; or &#39;best&#39;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: midpoints. Can be np.NaN.</span>
@@ -1248,7 +1248,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trade price is at the ask xor bid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e.,</span>
+<span class="sd">            subset (str): subset i.e.,</span>
 <span class="sd">            &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
@@ -1264,7 +1264,7 @@ and nan</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trade price is at the ask xor bid.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39;.</span>
 <span class="sd">            quantiles (float, optional): percentage of quantiles. Defaults to 0.3.</span>
 
 <span class="sd">        Returns:</span>
@@ -1288,7 +1288,7 @@ and nan</p>
 <span class="sd">        Adapted from Ellis et al. (2000).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (Literal[&amp;quot;ex&amp;quot;, &amp;quot;best&amp;quot;]): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1304,7 +1304,7 @@ and nan</p>
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with reverse tick rule.</span>
@@ -1326,7 +1326,7 @@ and nan</p>
 <span class="sd">        Adapted from Chakrabarty et al. (2007).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e.,&#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e.,&#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1350,7 +1350,7 @@ and nan</p>
 <span class="sd">        Similar to extension of emo algorithm proposed Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the emo algorithm with tick rule. Can be</span>
@@ -1368,7 +1368,7 @@ and nan</p>
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of the trade size rule. Can be np.NaN.</span>
@@ -1394,7 +1394,7 @@ and nan</p>
 <span class="sd">        Adapted from Grauer et al. (2022).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subset (str): subset i. e., &#39;ex&#39; or &#39;best&#39;.</span>
+<span class="sd">            subset (str): subset i.e., &#39;ex&#39; or &#39;best&#39;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            npt.NDArray: result of depth rule. Can be np.NaN.</span>
