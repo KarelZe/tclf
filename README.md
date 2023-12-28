@@ -16,7 +16,7 @@ The key features are:
 ```console
 $ pip install .
 ---> 100%
-Successfully installed tclf-0.0.0
+Successfully installed tclf-0.0.1
 ```
 
 ## Supported Algorithms

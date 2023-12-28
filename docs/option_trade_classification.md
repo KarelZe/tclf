@@ -38,6 +38,11 @@ X = pd.read_parquet(gcs_loc, engine="pyarrow", filesystem=fs)
 ```
 Unfortunately, the dataset does not yet follow the [naming conventions](https://karelze.github.io/tclf/naming_conventions/) and is missing columns required by `tclf`. We take care of this next.😅
 
+```python
+clf.fit(X)
+>>> ValueError: Expected to find columns: ['ask_best', 'ask_size_best', 'bid_best', 'bid_size_best', 'trade_price', 'trade_size']. Check naming/presenence of columns. See: https://karelze.github.io/tclf/naming_conventions/
+```
+
 The calculation of the [depth rule](https://github.com/KarelZe/tclf/blob/main/src/tclf/classical_classifier.py#L362C1-L363C1) requires the columns `ask_{subset}`, `bid_{subset}`, and `trade_price`, as well as `ask_size_{subset}`, `bid_size_{subset}` and `trade_size`. The columns `BEST_ASK`, `BEST_BID`, `TRADE_PRICE`, and `TRADE_SIZE` are renamed to match our naming conventions of `ask_{subset}`, `bid_{subset}`, `trade_price`, and `trade_size`.
 
 As there is no `{ask/bid}_size_best` at the NBBO level (`subset="best"`), I copy the columns from the trading venue. This allows us to mimic the author's decision to filter for mid-spread at the NBBO level, but classify by the trade size relative to the ask/bid size at the exchange.
