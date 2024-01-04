@@ -21,7 +21,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          git diff --exit-code || echo "Changes detected"
+          git diff --exit-code"
       - name: Create pull request
         if: steps.check_changes.outputs.return-code != '0'
         # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
