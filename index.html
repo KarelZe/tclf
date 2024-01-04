@@ -584,7 +584,7 @@ In this example, input data is available as a pd.DataFrame with columns conformi
 </span><span class="hll"><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;trade_price&quot;</span><span class="p">,</span> <span class="s2">&quot;bid_ex&quot;</span><span class="p">,</span> <span class="s2">&quot;ask_ex&quot;</span><span class="p">,</span> <span class="s2">&quot;bid_best&quot;</span><span class="p">,</span> <span class="s2">&quot;ask_best&quot;</span><span class="p">]</span>
 </span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">ClassicalClassifier</span><span class="p">(</span>
-<span class="hll">    <span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;best&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;const&quot;</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span>
+<span class="hll">    <span class="n">layers</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;quote&quot;</span><span class="p">,</span> <span class="s2">&quot;best&quot;</span><span class="p">)],</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span>
 </span><span class="p">)</span>
 <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
@@ -598,7 +598,7 @@ In this example, input data is available as np.arrays with both exchange (<code>
     month = dec,
     title = <span class="nb">{{</span>tclf<span class="nb">}</span> -- trade classification with python<span class="nb">}</span>,
     url = <span class="nb">{</span>https://github.com/KarelZe/tclf<span class="nb">}</span>,
-    version = <span class="nb">{</span>0.0.1<span class="nb">}</span>,
+    version = <span class="nb">{</span>0.0.2<span class="nb">}</span>,
     year = <span class="nb">{</span>2023<span class="nb">}</span>
 <span class="nb">}</span>
 </code></pre></div>
