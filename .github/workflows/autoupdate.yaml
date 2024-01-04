@@ -20,6 +20,8 @@ jobs:
         run: pre-commit autoupdate
       - name: Git add and commit
         run: |
+          git config user.name Autoupdater pre-commit
+          git config user.email autoupdater@markusbilz.com
           git add .
           git commit -m "Auto-update pre-commit hooks" -m "Update versions of tools in pre-commit configs to latest version"
           git push
