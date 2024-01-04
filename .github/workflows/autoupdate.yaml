@@ -26,6 +26,6 @@ jobs:
           git commit -m "Auto-update pre-commit hooks" -m "Update versions of tools in pre-commit configs to latest version"
           git push
       - name: Create pull request
-        run: gh pr create --base main --fill --assignee "@me"
+        run: gh pr create --base main --fill-first --assignee "@me"
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
