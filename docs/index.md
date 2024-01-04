@@ -93,7 +93,7 @@ y_true = np.array([-1, 1, 1, -1, -1, 1])
 features = ["trade_price", "bid_ex", "ask_ex", "bid_best", "ask_best"]
 
 clf = ClassicalClassifier(
-    layers=[("quote", "ex"), ("quote", "best")], strategy="const", features=features
+    layers=[("quote", "ex"), ("quote", "best")], strategy="random", features=features
 )
 clf.fit(X)
 acc = accuracy_score(y_true, clf.predict(X))
@@ -111,7 +111,7 @@ Like before, column/feature names must follow our [naming conventions](https://k
     month = dec,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.0.1},
+    version = {0.0.2},
     year = {2023}
 }
 ```
