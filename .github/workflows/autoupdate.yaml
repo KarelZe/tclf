@@ -18,11 +18,17 @@ jobs:
         run: python -m pip install pre-commit
       - name: Run pre-commit autoupdate
         run: pre-commit autoupdate
-      - name: Create pull request
+      - name: check for changes
         run: |
-          if ! git diff --exit-code; then
-            # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
-            gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
+          if git diff --exit-code; then
+            echo "::set-env name=changes_exist::false"
+          else
+            echo "::set-env name=changes_exist::true"
           fi
+      - name: Create pull request
+        if: ${{ env.changes_exist == 'true' }}
+        # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
+        run: |
+            gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
