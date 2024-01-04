@@ -20,9 +20,7 @@ The key features are:
 
 ## Installation
 ```console
-$ python -m pip install tclf
----> 100%
-Successfully installed tclf-0.0.2
+python -m pip install tclf
 ```
 
 ## Supported Algorithms
