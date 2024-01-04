@@ -34,6 +34,6 @@ jobs:
             git config --global user.name "Autoupdate Bot"
             git add -u
             git commit -m "Update .pre-commit-config.yaml"
-            gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
+            gh pr create --base main --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
