@@ -23,8 +23,11 @@ jobs:
         run: |
           git diff --exit-code
       - name: Create pull request
-        if: steps.check_changes.outputs.return-code != '0'
-        # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
-        run: gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
+        run: |
+          if git diff --exit-code; then
+            # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
+            gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
+          fi
+
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
