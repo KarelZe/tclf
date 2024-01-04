@@ -18,14 +18,15 @@ jobs:
         run: python -m pip install pre-commit
       - name: Run pre-commit autoupdate
         run: pre-commit autoupdate
-      - name: Git add and commit
-        run: |
-          git config user.name Autoupdater pre-commit
-          git config user.email autoupdater@markusbilz.com
-          git add .
-          git commit -m "Auto-update pre-commit hooks" -m "Update versions of tools in pre-commit configs to latest version"
-          git push
+      # - name: Git add and commit
+      #   run: |
+      #     git config user.name Autoupdater pre-commit
+      #     git config user.email autoupdater@markusbilz.com
+      #     git add .
+      #     git commit -m "Auto-update pre-commit hooks" -m "Update versions of tools in pre-commit configs to latest version"
+      #     git push
       - name: Create pull request
-        run: gh pr create --base main --fill-first --assignee "@me"
+        #run: gh pr create --base main --fill-first --assignee "@me"
+        run: gh pr create --base main --assignee "@me" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
