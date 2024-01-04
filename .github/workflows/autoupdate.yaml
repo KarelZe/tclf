@@ -19,14 +19,15 @@ jobs:
       - name: Run pre-commit autoupdate
         run: pre-commit autoupdate
       - name: check for changes
+        id: check-changes
         run: |
           if git diff --exit-code; then
-            echo "::set-env name=changes_exist::false"
+          echo "changes_exist=false" >> "$GITHUB_OUTPUT"
           else
-            echo "::set-env name=changes_exist::true"
+          echo "changes_exist=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Create pull request
-        if: ${{ env.changes_exist == 'true' }}
+        if: ${{steps.check-changes.outputs.changes_exist}}
         # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
         run: |
             gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
