@@ -23,7 +23,7 @@ jobs:
         run: |
           git diff --exit-code || echo "Changes detected"
       - name: Create pull request
-        if: steps.check_changes.outputs.return-code == '0'
+        if: steps.check_changes.outputs.return-code != '0'
         # https://github.com/cli/cli/issues/6485#issuecomment-1287937905
         run: gh pr create --base main --head karelze:${{ github.run_id }}-${{ github.run_attempt }} --assignee "karelze" --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit configs to latest version"
         env:
