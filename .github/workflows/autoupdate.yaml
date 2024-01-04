@@ -34,6 +34,7 @@ jobs:
             git add -u
             git commit -m "Auto-update pre-commit hooks" -m "Update versions of tools in pre-commit configs to latest version"
             git push --set-upstream origin ${{ github.run_id }}-${{ github.run_attempt }}
-            gh pr create --base main --head $(git branch --show-current) --assignee "karelze" --fill
+            gh pr create --base main --title "Auto-update pre-commit hooks" --body "Update versions of tools in pre-commit
+            configs to latest version" --assignee "karelze"
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
