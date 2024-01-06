@@ -106,11 +106,11 @@ Like before, column/feature names must follow our [naming conventions](https://k
 @software{bilz_tclf_2023,
     author = {Bilz, Markus},
     license = {BSD 3},
-    month = dec,
+    month = jan,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.0.2},
-    year = {2023}
+    version = {0.0.3},
+    year = {2024}
 }
 ```
 
