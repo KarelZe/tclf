@@ -28,8 +28,8 @@ jobs:
       - name: Create pull request
         if: ${{steps.check-changes.outputs.changes_exist}}
         run: |
-            git config --global user.email "bot@markusbilz.com"
-            git config --global user.name "Autoupdate Bot"
+            git config --global user.email "github@markusbilz.com"
+            git config --global user.name "Markus Bilz"
             git add -u
             git commit -m "Auto-update pre-commit hooks" -m "Update versions of tools in pre-commit configs to latest version"
             git push --set-upstream origin ${{ github.run_id }}-${{ github.run_attempt }}
