@@ -109,7 +109,7 @@ Like before, column/feature names must follow our [naming conventions](https://k
     month = jan,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.0.4},
+    version = {0.0.5},
     year = {2024}
 }
 ```
