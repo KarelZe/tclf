@@ -120,13 +120,14 @@ If you are using the package in publications, please cite as:
 
 We are using [`pixi`](https://github.com/prefix-dev/pixi) as a dependency management and workflow tool.
 
-````bash
+```bash
 pixi install
 pixi run postinstall
 pixi run test
 ```
 
 ## Footnotes
+
   [^1]: <div class="csl-entry">Chakrabarty, B., Li, B., Nguyen, V., &amp; Van Ness, R. A. (2007). Trade classification algorithms for electronic communications network trades. <i>Journal of Banking &amp; Finance</i>, <i>31</i>(12), 3806–3821. <a href="https://doi.org/10.1016/j.jbankfin.2007.03.003">https://doi.org/10.1016/j.jbankfin.2007.03.003</a></div>
   <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_id=info%3Adoi%2F10.1016%2Fj.jbankfin.2007.03.003&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Trade%20classification%20algorithms%20for%20electronic%20communications%20network%20trades&amp;rft.jtitle=Journal%20of%20Banking%20%26%20Finance&amp;rft.volume=31&amp;rft.issue=12&amp;rft.aufirst=Bidisha&amp;rft.aulast=Chakrabarty&amp;rft.au=Bidisha%20Chakrabarty&amp;rft.au=Bingguang%20Li&amp;rft.au=Vanthuan%20Nguyen&amp;rft.au=Robert%20A.%20Van%20Ness&amp;rft.date=2007&amp;rft.pages=3806%E2%80%933821&amp;rft.spage=3806&amp;rft.epage=3821"></span>
   [^2]: <div class="csl-entry">Ellis, K., Michaely, R., &amp; O’Hara, M. (2000). The accuracy of trade classification rules: Evidence from nasdaq. <i>The Journal of Financial and Quantitative Analysis</i>, <i>35</i>(4), 529–551. <a href="https://doi.org/10.2307/2676254">https://doi.org/10.2307/2676254</a></div>
