@@ -1,0 +1,33 @@
+# TODO: move to pyproject.toml when pixi supports it
+# https://github.com/prefix-dev/pixi/issues/79
+[project]
+name = "tclf"
+description = "Classify trades using trade classification algorithms 🐍"
+authors = ["Marks Bilz <github@markusbilz.com>"]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64"]
+
+[tasks]
+postinstall = "pip install --upgrade --no-build-isolation --no-deps --disable-pip-version-check -e ."
+doc = "mkdocs serve"
+test = "pytest -v tests/ --cov=src --cov-report=xml"
+lint = "pre-commit run --all"
+
+[dependencies]
+python = ">=3.8"
+numpy = "*"
+pandas = "*"
+pip = "*"
+scikit-learn = "*"
+# doc
+# mdx-include = ">=1.4.1"
+mkdocs = "*"
+mkdocs-material = "*"
+mkdocstrings-python = "*"
+# build
+setuptools = "*"
+# test
+pytest = "*"
+pytest-cov = "*"
+# linting
+pre-commit = "*"
