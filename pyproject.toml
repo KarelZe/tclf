@@ -7,7 +7,7 @@ name = "tclf"
 authors = [
   { name="Markus Bilz", email="github@markusbilz.com" },
 ]
-description = "Code to perform trade classification using trade classification algorithms."
+description = "Classify trades using trade classification algorithms 🐍"
 readme = "README.md"
 license = {file = "LICENSE.txt"}
 requires-python = ">=3.8"
@@ -47,28 +47,6 @@ disallow_untyped_defs = true
 disallow_untyped_calls = true
 disallow_incomplete_defs = true
 
-[project.optional-dependencies]
-dev=[
-    "build",
-    "mypy",
-    "pre-commit",
-    "ruff",
-]
-
-doc = [
-    "cairosvg >=2.5.2,<3.0.0",
-    "mdx-include >=1.4.1,<2.0.0",
-    "mkdocs >=1.1.2,<2.0.0",
-    "mkdocs-material >=8.1.4,<10.0.0",
-    "mkdocstrings-python",
-    "pillow >=9.3.0,<11.0.0",
-]
-
-test = ["pytest",
-    "pytest-cov",
-  ]
-
-
 [tool.pytest.ini_options]
 minversion = 7.0
 addopts = "-ra -p no:warnings -v --cov --cov-report term-missing --doctest-modules"
@@ -94,7 +72,6 @@ exclude_also = [
     "if self.verbose:"
     ]
 show_missing = true
-
 
 [tool.ruff]
 # See rules: https://beta.ruff.rs/docs/rules/
