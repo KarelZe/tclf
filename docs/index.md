@@ -102,6 +102,8 @@ Like before, column/feature names must follow our [naming conventions](https://k
 
 ## Citation
 
+If you are using the package in publications, please cite as:
+
 ```latex
 @software{bilz_tclf_2023,
     author = {Bilz, Markus},
@@ -112,6 +114,16 @@ Like before, column/feature names must follow our [naming conventions](https://k
     version = {0.0.5},
     year = {2024}
 }
+```
+
+## Development
+
+We are using [`pixi`](https://github.com/prefix-dev/pixi) as a dependency management and workflow tool.
+
+````bash
+pixi install
+pixi run postinstall
+pixi run test
 ```
 
 ## Footnotes
