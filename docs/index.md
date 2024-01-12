@@ -1,14 +1,14 @@
-# Trade classification with python 🐍
+# Trade Classification With Python
 
 [![GitHubActions](https://github.com/karelze/tclf//actions/workflows/tests.yaml/badge.svg)](https://github.com/KarelZe/tclf/actions)
 [![codecov](https://codecov.io/gh/KarelZe/tclf/branch/main/graph/badge.svg?token=CBM1RXGI86)](https://codecov.io/gh/KarelZe/tclf/tree/main/graph)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=KarelZe_tclf&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=KarelZe_tclf)
 
+![Logo](https://karelze.github.io/tclf/img/header.png)
 
 **Documentation ✒️:** [https://karelze.github.io/tclf/](https://karelze.github.io/tclf/)
 
 **Source Code 🐍:** [https://github.com/KarelZe/tclf](https://github.com/KarelZe/tclf)
-
 
 `tclf` is a [`scikit-learn`](https://scikit-learn.org/stable/)-compatible implementation of trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
 
