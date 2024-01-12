@@ -2,7 +2,7 @@
 comments: true
 ---
 ## Setup Rules
-This tutorial aims to reproduce plots from a working paper by Grauer et. al [^1], which achieves state-of-the-art performance in option trade classification. The authors recommend to classify option trades by:
+This tutorial aims to reproduce plots from a working paper by Grauer et al. [-@grauerOptionTradeClassification2022], which achieves state-of-the-art performance in option trade classification. The authors recommend to classify option trades by:
 > [...] our new trade size rule together with quote rules successively applied to NBBO and quotes on the trading venue. Quotes at the midpoint on both the NBBO and the exchange should be classified first with the depth rule and any remaining trades with the reverse tick test.
 
 
@@ -127,5 +127,5 @@ plt.show()
 
 Pretty close to the author's work. Just spanning a shorter period of time.🙂
 
-[^1]: <div class="csl-entry">Grauer, C., Schuster, P., &amp; Uhrig-Homburg, M. (2023). <i>Option trade classification</i>. <a href="https://doi.org/10.2139/ssrn.4098475">https://doi.org/10.2139/ssrn.4098475</a></div>
-  <span class="Z3988" title="url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=info%3Asid%2Fzotero.org%3A2&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Adc&amp;rft.type=document&amp;rft.title=Option%20trade%20classification&amp;rft.aufirst=Caroline&amp;rft.aulast=Grauer&amp;rft.au=Caroline%20Grauer&amp;rft.au=Philipp%20Schuster&amp;rft.au=Marliese%20Uhrig-Homburg&amp;rft.date=2023"></span>
+## Footnotes
+\bibliography
