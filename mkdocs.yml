@@ -3,6 +3,7 @@ site_description: tclf, a scikit-learn-compatible implementation of popular trad
 site_url: https://karelze.github.io/tclf/
 
 theme:
+  custom_dir: docs/overrides
   logo: img/logo.png
   favicon: img/favicon.ico
   name: material
@@ -26,7 +27,7 @@ edit_uri: edit/main/docs/
 
 nav:
   - Home: index.md
-  # - Rules: rules.md
+  - Rules: rules.md
   - API reference: reference.md
   - Examples:
     - Option trade classification: option_trade_classification.md
@@ -63,6 +64,10 @@ plugins:
       handlers:
         python:
           paths: [src]
+  - bibtex:
+      bib_file: "docs/bibliography.bib"
+      csl_file: "docs/apa-6th-edition.csl"
+      cite_inline: true
 
 extra:
   social:
