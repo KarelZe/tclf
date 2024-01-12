@@ -1,21 +1,32 @@
 site_name: tclf
 site_description: tclf, a scikit-learn-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades.
-site_url: https://typer.tiangolo.com/
+site_url: https://karelze.github.io/tclf/
 
 theme:
+  logo: img/logo.png
+  favicon: img/favicon.ico
   name: material
   palette:
     primary: black
-    accent: teal
+    accent: indigo
   icon:
     repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+  features:
+    - content.action.edit
+    - navigation.tabs
+    - navigation.instant.progress
+    - search.suggest
+    - search.highlight
 
 repo_name: karelze/tclf
 repo_url: https://github.com/karelze/tclf
-edit_uri: ""
+edit_uri: edit/main/docs/
 
 nav:
   - Home: index.md
+  # - Rules: rules.md
   - API reference: reference.md
   - Examples:
     - Option trade classification: option_trade_classification.md
@@ -41,6 +52,9 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - footnotes
+  - pymdownx.arithmatex:
+      generic: true
+
 
 plugins:
   - search
@@ -58,4 +72,10 @@ extra:
       link: https://www.linkedin.com/in/markus-bilz/
 
 extra_javascript:
+  - javascripts/katex.js
   - https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
