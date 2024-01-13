@@ -398,17 +398,15 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """
         return np.full(shape=(self.X_.shape[0],), fill_value=np.nan)
 
-    def _validate_columns(self, missing_columns: list | None = None) -> None:
+    def _validate_columns(self, missing_columns: list) -> None:
         """Validate if all required columns are present.
 
         Args:
-            missing_columns (list | None): list of missing columns.
+            missing_columns (list): list of missing columns.
 
         Raises:
             ValueError: columns missing in dataframe.
         """
-        if missing_columns is None:
-            missing_columns = []
         columns = self.columns_ + missing_columns if self.columns_ else missing_columns
         self.X_ = pd.DataFrame(np.zeros(shape=(1, len(columns))), columns=columns)
         try:
@@ -499,7 +497,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
                     f"expected one of {ALLOWED_FUNC_STR}."
                 )
 
-        self._validate_columns()
+        self._validate_columns([])
         return self
 
     def predict(self, X: MatrixLike) -> npt.NDArray:
