@@ -97,6 +97,9 @@ extra:
       link: https://github.com/karelze/tclf
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/markus-bilz/
+  analytics:
+    provider: google
+    property: G-H3H7C48XJR
 
 extra_javascript:
   - javascripts/katex.js
