@@ -8,7 +8,8 @@ channels = ["conda-forge"]
 platforms = ["win-64", "linux-64"]
 
 [tasks]
-postinstall = "pip install --upgrade --no-build-isolation --no-deps --disable-pip-version-check -e ."
+# install packages not on conda-forge
+postinstall = "pip install --upgrade --no-build-isolation --no-deps --disable-pip-version-check -e .; pip install pytest-codspeed mkdocs-bibtex"
 doc = "mkdocs serve"
 test = "pytest -v tests/ --cov=src --cov-report=xml"
 lint = "pre-commit run --all"
