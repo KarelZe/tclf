@@ -406,8 +406,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#citation" class="md-nav__link">
-    Citation
+  <a href="#other-examples" class="md-nav__link">
+    Other Examples
   </a>
   
 </li>
@@ -415,6 +415,13 @@
         <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     Development
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    Citation
   </a>
   
 </li>
@@ -629,8 +636,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#citation" class="md-nav__link">
-    Citation
+  <a href="#other-examples" class="md-nav__link">
+    Other Examples
   </a>
   
 </li>
@@ -638,6 +645,13 @@
         <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     Development
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    Citation
   </a>
   
 </li>
@@ -696,6 +710,7 @@
 <li>Quote rule<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup></li>
 <li>Tradesize rule<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></li>
 </ul>
+<p>For a primer on trade classification rules visit the <a href="https://karelze.github.io/tclf/rules/">rules section 🆕</a> in our docs.  </p>
 <h2 id="minimal-example">Minimal Example<a class="headerlink" href="#minimal-example" title="Permanent link">&para;</a></h2>
 <p>Let's start simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.</p>
 <p>Create a <code>main.py</code> with:
@@ -752,7 +767,15 @@ In this example, input data is available as a pd.DataFrame with columns conformi
 <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
 </code></pre></div>
 In this example, input data is available as np.arrays with both exchange (<code>"ex"</code>) and nbbo data (<code>"best"</code>). We set the layers parameter to <code>layers=[("quote", "ex"), ("quote", "best")]</code> to classify trades first on subset <code>"ex"</code> and remaining trades on subset <code>"best"</code>. Additionally, we have to set <code>ClassicalClassifier(..., features=features)</code> to pass column information to the classifier.</p>
-<p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>. For more practical examples, see our <a href="https://karelze.github.io/tclf/option_trade_classification">examples section</a>.</p>
+<p>Like before, column/feature names must follow our <a href="https://karelze.github.io/tclf/naming_conventions/">naming conventions</a>. </p>
+<h2 id="other-examples">Other Examples<a class="headerlink" href="#other-examples" title="Permanent link">&para;</a></h2>
+<p>For more practical examples, see our <a href="https://karelze.github.io/tclf/option_trade_classification">examples section</a>.</p>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<p>We are using <a href="https://github.com/prefix-dev/pixi"><code>pixi</code></a> as a dependency management and workflow tool.</p>
+<div class="highlight"><pre><span></span><code>pixi<span class="w"> </span>install
+pixi<span class="w"> </span>run<span class="w"> </span>postinstall
+pixi<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
 <h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
 <p>If you are using the package in publications, please cite as:</p>
 <div class="highlight"><pre><span></span><code>@software<span class="nb">{</span>bilz<span class="nb">_</span>tclf<span class="nb">_</span>2023,
@@ -764,12 +787,6 @@ In this example, input data is available as np.arrays with both exchange (<code>
     version = <span class="nb">{</span>0.0.5<span class="nb">}</span>,
     year = <span class="nb">{</span>2024<span class="nb">}</span>
 <span class="nb">}</span>
-</code></pre></div>
-<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
-<p>We are using <a href="https://github.com/prefix-dev/pixi"><code>pixi</code></a> as a dependency management and workflow tool.</p>
-<div class="highlight"><pre><span></span><code>pixi<span class="w"> </span>install
-pixi<span class="w"> </span>run<span class="w"> </span>postinstall
-pixi<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
 </code></pre></div>
 <h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
 <div class="footnote">
