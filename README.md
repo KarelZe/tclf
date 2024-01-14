@@ -33,6 +33,8 @@ python -m pip install tclf
 - Quote rule[^4]
 - Tradesize rule[^3]
 
+For a primer on trade classification rules visit the [rules section 🆕](https://karelze.github.io/tclf/rules/) in our docs.
+
 ## Minimal Example
 
 Let's start simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.
@@ -98,7 +100,21 @@ acc = accuracy_score(y_true, clf.predict(X))
 ```
 In this example, input data is available as np.arrays with both exchange (`"ex"`) and nbbo data (`"best"`). We set the layers parameter to `layers=[("quote", "ex"), ("quote", "best")]` to classify trades first on subset `"ex"` and remaining trades on subset `"best"`. Additionally, we have to set `ClassicalClassifier(..., features=features)` to pass column information to the classifier.
 
-Like before, column/feature names must follow our [naming conventions](https://karelze.github.io/tclf/naming_conventions/). For more practical examples, see our [examples section](https://karelze.github.io/tclf/option_trade_classification).
+Like before, column/feature names must follow our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
+
+## Other Examples
+
+For more practical examples, see our [examples section](https://karelze.github.io/tclf/option_trade_classification).
+
+## Development
+
+We are using [`pixi`](https://github.com/prefix-dev/pixi) as a dependency management and workflow tool.
+
+```bash
+pixi install
+pixi run postinstall
+pixi run test
+```
 
 ## Citation
 
@@ -114,16 +130,6 @@ If you are using the package in publications, please cite as:
     version = {0.0.5},
     year = {2024}
 }
-```
-
-## Development
-
-We are using [`pixi`](https://github.com/prefix-dev/pixi) as a dependency management and workflow tool.
-
-```bash
-pixi install
-pixi run postinstall
-pixi run test
 ```
 
 ## Footnotes
