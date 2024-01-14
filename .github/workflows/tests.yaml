@@ -1,5 +1,9 @@
 name: Tests
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - '**/*'
+      - '!docs/**'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
