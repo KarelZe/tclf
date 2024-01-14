@@ -33,3 +33,8 @@ jobs:
         env_vars: OS,PYTHON
         fail_ci_if_error: true
         verbose: true
+    - name: Run benchmarks
+      uses: CodSpeedHQ/action@v2
+      with:
+        token: ${{ secrets.CODSPEED_TOKEN }}
+        run: pixi run test --codspeed
