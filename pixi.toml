@@ -32,3 +32,5 @@ pytest = "*"
 pytest-cov = "*"
 # linting
 pre-commit = "*"
+# versioning
+bump-my-version = "*"

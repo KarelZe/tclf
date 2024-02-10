@@ -42,4 +42,12 @@ repos:
       args:
       - --fix
     - id: ruff-format
+  - repo: local
+    hooks:
+      - id: bump-my-version
+        name: bumpy
+        entry: bump-version.sh
+        language: script
+        pass_filenames: false
+        exclude: (.pre-commit-config.yaml)
 exclude: "^(references|reports)"
