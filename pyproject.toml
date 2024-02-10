@@ -74,6 +74,13 @@ exclude_also = [
 show_missing = true
 
 [tool.ruff]
+
+
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+
+
+[tool.ruff.lint]
+
 # See rules: https://beta.ruff.rs/docs/rules/
 select = [
     "C",    # flake8-comprehensions
@@ -96,8 +103,6 @@ select = [
     "W",    # pycodestyle warnings
 ]
 
-include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
-
 ignore = [
     "E501",  # line too long, handled by black
     "N803",  # argument name should be lowercase
@@ -107,18 +112,17 @@ ignore = [
     "W191",  # tab identation
 ]
 
-[tool.ruff.lint]
 preview = true
 
 [tool.ruff.format]
 preview = true
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["tclf"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["D104", "F401"]  # disable missing docstrings in __init__, unused imports
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
