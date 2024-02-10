@@ -34,7 +34,7 @@ dependencies = [
 dynamic = ["version"]
 
 [tool.setuptools.dynamic]
-version = {attr = "tclf.__version__"}
+version = {file = "version"}
 
 [project.urls]
 "Homepage" = "https://github.com/KarelZe/tclf"

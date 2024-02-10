@@ -124,11 +124,11 @@ If you are using the package in publications, please cite as:
 @software{bilz_tclf_2023,
     author = {Bilz, Markus},
     license = {BSD 3},
-    month = jan,
+    month = nov,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.0.8},
-    year = {2024}
+    version = {0.0.1},
+    year = {2023}
 }
 ```
 
