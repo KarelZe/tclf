@@ -9,7 +9,7 @@ platforms = ["win-64", "linux-64"]
 
 [tasks]
 # install packages not on conda-forge
-postinstall = "pip install --upgrade --no-build-isolation --no-deps --disable-pip-version-check -e .; pip install pytest-codspeed mkdocs-bibtex"
+postinstall = "pip install --upgrade --no-build-isolation --no-deps --disable-pip-version-check -e .; pip install pytest-codspeed mkdocs-bibtex commitizen"
 doc = "mkdocs serve"
 test = "pytest -v tests/ --cov=src --cov-report=xml"
 lint = "pre-commit run --all"
@@ -32,5 +32,3 @@ pytest = "*"
 pytest-cov = "*"
 # linting
 pre-commit = "*"
-# versioning
-bump-my-version = "*"
