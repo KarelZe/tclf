@@ -19,8 +19,15 @@ The key features are:
 * **Feature complete**: Wide range of supported algorithms. Use the algorithms individually or stack them like LEGO blocks.
 
 ## Installation
+
+**pip**
 ```console
-python -m pip install tclf
+pip install tclf
+```
+
+**[uv⚡](https://github.com/astral-sh/uv)**
+```console
+uv pip install tclf
 ```
 
 ## Supported Algorithms

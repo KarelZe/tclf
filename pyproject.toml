@@ -78,10 +78,8 @@ name = "cz_conventional_commits"
 version = "0.3.0"
 tag_format = "$version"
 version_files = [
-    "CITATION.cff:version = {",
     "docs/index.md:version",
     "pyproject.toml:version",
-    "README.md:version = {",
     "version",
 ]
 bump_message = "bump: version $current_version → $new_version"
