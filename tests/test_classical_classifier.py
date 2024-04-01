@@ -4,6 +4,7 @@ from typing import Callable
 
 import numpy as np
 import pandas as pd
+import polars as pl
 import pytest
 from numpy.testing import assert_allclose
 from sklearn.base import BaseEstimator
@@ -225,6 +226,21 @@ class TestClassicalClassifier:
             .predict(x_test)
         )
         assert (y_pred == y_test).all()
+
+    def test_polars(self) -> None:
+        """Test polars support."""
+        x = pl.DataFrame({"trade_price": [1, 2, 0], "price_ex_lag": [2, 1, 3]})
+        y = pl.Series([-1, 1])
+
+        y_pred = (
+            ClassicalClassifier(
+                layers=[("tick", "ex")],
+                random_state=7,
+            )
+            .fit(x)
+            .predict(x)
+        )
+        assert (y_pred == y).all()
 
     def test_np_array(self, x_train: pd.DataFrame) -> None:
         """Test, if classifier works, if only np.ndarrays are provided.
