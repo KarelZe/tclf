@@ -36,14 +36,14 @@ repos:
         # Similar to: https://stackoverflow.com/a/73603491/5755604
         additional_dependencies: ['types-PyYAML']
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.5
+    rev: v0.3.7
     hooks:
     - id: ruff
       args:
       - --fix
     - id: ruff-format
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.21.3
+    rev: v3.22.0
     hooks:
     - id: commitizen
       stages: [commit-msg]
