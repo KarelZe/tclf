@@ -20,7 +20,7 @@ class TestClassicalClassifier:
         unittest (_type_): unittest module
     """
 
-    @pytest.fixture()
+    @pytest.fixture
     def x_train(self) -> pd.DataFrame:
         """Training set fixture.
 
@@ -47,7 +47,7 @@ class TestClassicalClassifier:
             ],
         )
 
-    @pytest.fixture()
+    @pytest.fixture
     def x_test(self) -> pd.DataFrame:
         """Test set fixture.
 
@@ -58,7 +58,7 @@ class TestClassicalClassifier:
             [[1, 2], [3, 4], [1, 2], [3, 4]], columns=["ask_best", "bid_best"]
         )
 
-    @pytest.fixture()
+    @pytest.fixture
     def y_test(self) -> pd.Series:
         """Test target fixture.
 
@@ -67,7 +67,7 @@ class TestClassicalClassifier:
         """
         return pd.Series([1, -1, 1, -1])
 
-    @pytest.fixture()
+    @pytest.fixture
     def clf(self, x_train: pd.DataFrame) -> ClassicalClassifier:
         """Classifier fixture with random classification.
 
@@ -304,7 +304,7 @@ class TestClassicalClassifier:
         )
         assert (y_pred == y_test).all()
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["all", "ex"])
     def test_tick_rule(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if tick rule is correctly applied.
@@ -324,7 +324,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1])
         self._apply_rule(x_train, x_test, y_test, [("tick", subset)], 7)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["all", "ex"])
     def test_rev_tick_rule(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if rev. tick rule is correctly applied.
@@ -343,7 +343,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1])
         self._apply_rule(x_train, x_test, y_test, [("rev_tick", subset)], 7)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_quote_rule(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if quote rule is correctly applied.
@@ -369,7 +369,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("quote", subset)], 45)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_lr(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if the lr algorithm is correctly applied.
@@ -393,7 +393,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1])
         self._apply_rule(x_train, x_test, y_test, [("lr", subset)], 7)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_rev_lr(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if the rev. lr algorithm is correctly applied.
@@ -424,7 +424,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("rev_lr", subset)], 42)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_emo(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if the emo algorithm is correctly applied.
@@ -455,7 +455,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("emo", subset)], 42)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_rev_emo(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if the rev. emo algorithm is correctly applied.
@@ -486,7 +486,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("rev_emo", subset)], 42)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_clnv(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if the clnv algorithm is correctly applied.
@@ -517,7 +517,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([1, -1, 1, -1, 1, -1])
         self._apply_rule(x_train, x_test, y_test, [("clnv", subset)], 42)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     @pytest.mark.parametrize("subset", ["best", "ex"])
     def test_rev_clnv(self, x_train: pd.DataFrame, subset: str) -> None:
         """Test, if the rev. clnv algorithm is correctly applied.
@@ -547,7 +547,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([1, -1, 1, -1, 1, -1])
         self._apply_rule(x_train, x_test, y_test, [("rev_clnv", subset)], 5)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     def test_trade_size(self, x_train: pd.DataFrame) -> None:
         """Test, if the trade size algorithm is correctly applied.
 
@@ -568,7 +568,7 @@ class TestClassicalClassifier:
         y_test = pd.Series([-1, 1, -1, 1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("trade_size", "ex")], 42)
 
-    @pytest.mark.benchmark()
+    @pytest.mark.benchmark
     def test_depth(self, x_train: pd.DataFrame) -> None:
         """Test, if the depth rule is correctly applied.
 
