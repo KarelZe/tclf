@@ -35,7 +35,7 @@ jobs:
         verbose: true
     - name: Run benchmarks
       if: matrix.os == 'ubuntu-latest'
-      uses: CodSpeedHQ/action@v2
+      uses: CodSpeedHQ/action@v3
       with:
         token: ${{ secrets.CODSPEED_TOKEN }}
         run: pixi run test --codspeed
