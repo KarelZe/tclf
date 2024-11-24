@@ -29,7 +29,8 @@ classifiers = [
 dependencies = [
   "numpy",
   "pandas",
-  "scikit-learn"
+  "ruff>=0.8.0",
+  "scikit-learn",
 ]
 dynamic = ["version"]
 
@@ -99,6 +100,7 @@ include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 select = [
     "C",    # flake8-comprehensions
     "D",    # pydocstyle
+    "DOC",  # pydoclint
     "E",    # pycodestyle errors
     "F",    # pyflakes
     "FURB", # refurb

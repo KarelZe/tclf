@@ -27,7 +27,7 @@ pip install tclf
 
 **[uv⚡](https://github.com/astral-sh/uv)**
 ```console
-uv pip install tclf
+uv add tclf
 ```
 
 ## Supported Algorithms
