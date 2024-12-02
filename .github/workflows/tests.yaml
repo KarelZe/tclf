@@ -6,14 +6,18 @@ on:
       - '!docs/**'
 jobs:
   build:
+    name: test with ${{ matrix.env }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        env:
+          - ["3.8", "3.13"]
         os: [ubuntu-latest, windows-latest]
-        python-version: [3.x]
     steps:
     - name: Git clone
       uses: actions/checkout@v4
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@v3
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
