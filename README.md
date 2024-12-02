@@ -27,7 +27,7 @@ pip install tclf
 
 **[uv⚡](https://github.com/astral-sh/uv)**
 ```console
-uv pip install tclf
+uv add tclf
 ```
 
 ## Supported Algorithms
@@ -115,12 +115,13 @@ For more practical examples, see our [examples section](https://karelze.github.i
 
 ## Development
 
-We are using [`pixi`](https://github.com/prefix-dev/pixi) as a dependency management and workflow tool.
+We are using [`tox`](https://tox.wiki/en/latest/user_guide.html) with [`uv`](https://docs.astral.sh/uv/) for development.
 
 ```bash
-pixi install
-pixi run postinstall
-pixi run test
+tox -e lint
+tox -e format
+tox -e test
+tox -e build
 ```
 
 ## Citation
