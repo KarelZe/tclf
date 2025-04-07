@@ -11,14 +11,15 @@ from typing import Literal, get_args
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
+from scipy import sparse
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import (
     _check_sample_weight,
+    _get_feature_names,
+    check_array,
     check_is_fitted,
 )
-
-from tclf.types import ArrayLike, MatrixLike
 
 ALLOWED_FUNC_LITERALS = Literal[
     "tick",
@@ -396,7 +397,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Returns:
             npt.NDArray: result of the trade size rule. Can be np.NaN.
         """
-        return np.full(shape=(self.X_.shape[0],), fill_value=np.nan)
+        n_samples = next(iter(self.X_.values())).shape[0]
+        return np.full(shape=(n_samples,), fill_value=np.nan)
 
     def _validate_columns(self, missing_columns: list) -> None:
         """Validate if all required columns are present.
@@ -407,8 +409,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Raises:
             ValueError: columns missing in dataframe.
         """
-        columns = self.columns_ + missing_columns if self.columns_ else missing_columns
-        self.X_ = pd.DataFrame(np.zeros(shape=(1, len(columns))), columns=columns)
+        columns = self.feature_names_in_.tolist()
+        columns.extend(missing_columns)
+        self.X_ = {c: np.zeros(shape=(1, 1)) for c in columns}
         try:
             self._predict()
         except KeyError as e:
@@ -427,15 +430,15 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
     def fit(
         self,
-        X: MatrixLike,
-        y: ArrayLike | None = None,
+        X,
+        y=None,
         sample_weight: npt.NDArray | None = None,
     ) -> ClassicalClassifier:
         """Fit the classifier.
 
         Args:
-            X (MatrixLike): features
-            y (ArrayLike | None, optional):  ignored, present here for API consistency by convention.
+            X: features
+            y: ignored, present here for API consistency by convention.
             sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.
 
         Raises:
@@ -465,29 +468,11 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         self.func_mapping_ = dict(zip(ALLOWED_FUNC_STR, funcs))
 
-        # create working copy to be altered and try to get columns from df
-        self.columns_ = self.features
-        if isinstance(X, pd.DataFrame):
-            self.columns_ = X.columns.tolist()
-
-        X = self._validate_data(
-            X,
-            y="no_validation",
-            dtype=[np.float64, np.float32],
-            accept_sparse=False,
-            force_all_finite=False,
-        )
-
+        # set feature names, if given
+        self._check_feature_names(X, reset=True)
+        X = _check_X(X)
+        self._check_n_features(X, reset=True)
         self.classes_ = np.array([-1, 1])
-
-        # if no features are provided or inferred, use default
-        if self.columns_ is None:
-            self.columns_ = [str(i) for i in range(X.shape[1])]
-
-        if len(self.columns_) > 0 and X.shape[1] != len(self.columns_):
-            raise ValueError(
-                f"Expected {len(self.columns_)} columns, got {X.shape[1]}."
-            )
 
         self._layers = self.layers if self.layers is not None else []
         for func_str, _ in self._layers:
@@ -500,26 +485,26 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         self._validate_columns([])
         return self
 
-    def predict(self, X: MatrixLike) -> npt.NDArray:
+    def predict(self, X) -> npt.NDArray:
         """Perform classification on test vectors `X`.
 
         Args:
-            X (MatrixLike): feature matrix.
+            X: feature matrix.
 
         Returns:
             npt.NDArray: Predicted traget values for X.
         """
         check_is_fitted(self)
-        X = self._validate_data(
-            X,
-            dtype=[np.float64, np.float32],
-            accept_sparse=False,
-            force_all_finite=False,
-        )
-
         rs = check_random_state(self.random_state)
 
-        self.X_ = pd.DataFrame(data=X, columns=self.columns_)
+        # adapted from:
+        # https://github.com/scikit-learn/scikit-learn/blob/f07e0138b/sklearn/compose/_column_transformer.py#L900
+        column_names = _get_feature_names(X)
+        self._check_n_features(X, reset=True)
+        X = _check_X(X)
+
+        self.X_ = {c: X[c] for c in column_names}
+
         pred = self._predict()
 
         # fill NaNs randomly with -1 and 1 or with constant zero
@@ -539,7 +524,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Returns:
             npt.NDArray: prediction
         """
-        pred = np.full(shape=(self.X_.shape[0],), fill_value=np.nan)
+        n_samples = next(iter(self.X_.values())).shape[0]
+        pred = np.full(shape=(n_samples,), fill_value=np.nan)
+
         for func_str, subset in self._layers:
             func = self.func_mapping_[func_str]
             pred = np.where(
@@ -549,7 +536,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             )
         return pred
 
-    def predict_proba(self, X: MatrixLike) -> npt.NDArray:
+    def predict_proba(self, X) -> npt.NDArray:
         """Predict class probabilities for X.
 
         Probabilities are either 0 or 1 depending on the class.
@@ -557,7 +544,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         For strategy 'constant' probabilities are (0.5,0.5) for unclassified classes.
 
         Args:
-            X (MatrixLike): feature matrix
+            X: feature matrix
 
         Returns:
             npt.NDArray: probabilities
@@ -578,3 +565,10 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         # For strategy 'constant' probabilities are (0.5,0.5).
         prob[mask] = np.identity(n_classes)[indices]
         return prob
+
+
+def _check_X(X):
+    """Use check_array only when necessary, e.g. on lists and other non-array-likes."""
+    if hasattr(X, "__array__") or hasattr(X, "__dataframe__") or sparse.issparse(X):
+        return X
+    return check_array(X, force_all_finite="allow-nan", dtype=object)
