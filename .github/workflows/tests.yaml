@@ -24,7 +24,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-          uv pip install tox --system
+          uv venv
+          uv pip install tox
     - name: run tests with tox
       run: tox -e test
     - name: Upload Coverage to Codecov
