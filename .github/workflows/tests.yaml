@@ -20,7 +20,7 @@ jobs:
     - name: Git clone
       uses: actions/checkout@v4
     - name: Install uv and python
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@v6
       with:
         enable-cache: true
         python-version: ${{ matrix.python-version }}
