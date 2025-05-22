@@ -38,4 +38,5 @@ jobs:
       uses: CodSpeedHQ/action@v3
       with:
         token: ${{ secrets.CODSPEED_TOKEN }}
-        run: uvx pytest --codspeed
+        # see: https://docs.codspeed.io/integrations/ci/github-actions
+        run: uv run pytest tests/ --codspeed
