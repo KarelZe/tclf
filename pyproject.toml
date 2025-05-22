@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "numpy >1.24.4",
+  "numpy >1.24.4,<2.0.0",
   "pandas",
   "scikit-learn",
 ]
@@ -208,9 +208,6 @@ commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
 [tool.tox.env.test]
 description = "tests"
 
-extras = [
-    "dev"
-]
 commands = [["pytest", "-v", "tests", "--cov=src", "--cov-report=xml"]]
 
 [tool.tox.env.build]
