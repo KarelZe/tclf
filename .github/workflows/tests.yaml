@@ -38,4 +38,4 @@ jobs:
       uses: CodSpeedHQ/action@v3
       with:
         token: ${{ secrets.CODSPEED_TOKEN }}
-        run: pixi run test --codspeed
+        run: uvx pytest -v tests/ --cov=src --cov-report=xml --codspeed
