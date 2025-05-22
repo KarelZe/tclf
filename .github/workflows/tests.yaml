@@ -22,11 +22,9 @@ jobs:
       with:
         enable-cache: true
         python-version: ${{ matrix.python-version }}
-#    - name: Install dependencies
-#      run: |
-#            uvx --with tox-uv tox -e test
-    - name: run tests with tox
-      run:  uvx tox -e test
+    - name: Install dependencies
+      run: |
+            uvx --with tox-uv tox -e test
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
