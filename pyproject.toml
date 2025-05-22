@@ -207,7 +207,6 @@ commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
 
 [tool.tox.env.test]
 description = "tests"
-runner = uv-venv-lock-runner
 
 extras = [
     "dev"
