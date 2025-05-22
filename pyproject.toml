@@ -10,15 +10,16 @@ authors = [
 description = "Classify trades using trade classification algorithms 🐍"
 readme = "README.md"
 license = {file = "LICENSE.txt"}
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Operating System :: OS Independent",
   "Intended Audience :: Information Technology",
   "Intended Audience :: Science/Research",
@@ -27,11 +28,35 @@ classifiers = [
 ]
 
 dependencies = [
-  "numpy",
+  "numpy >1.24.4,<2.0.0",
   "pandas",
-  "scikit-learn"
+  "scikit-learn",
 ]
+
 dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+  # doc
+  "mkdocs",
+  "mkdocs-material",
+  "mkdocstrings-python",
+  # build
+  "build",
+  # test
+  "pytest",
+  "pytest-cov",
+  # linting",
+  "pre-commit",
+  "mypy",
+  "ruff",
+  "tox-uv>=1.13.1",
+  "tox>=4.23.2",
+  "pytest-codspeed",
+  "mkdocs-bibtex",
+  "commitizen",
+  "pypandoc-binary"
+]
 
 [tool.setuptools.dynamic]
 version = {file = "version"}
@@ -89,16 +114,13 @@ annotated_tag = true
 
 [tool.ruff]
 
-
-include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
-
-
 [tool.ruff.lint]
 
 # See rules: https://beta.ruff.rs/docs/rules/
 select = [
     "C",    # flake8-comprehensions
     "D",    # pydocstyle
+    "DOC",  # pydoclint
     "E",    # pycodestyle errors
     "F",    # pyflakes
     "FURB", # refurb
@@ -140,3 +162,57 @@ section-order = ["future", "standard-library", "third-party", "first-party", "lo
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.tox]
+env_list = ["format", "lint", "pre-commit"]
+min_version = "4.23"
+
+[tool.tox.env_run_base]
+runner = "uv-venv-lock-runner"
+allowlist_externals = ["/bin/sh"]
+skip_install = true
+with_dev = true
+
+[tool.tox.env.clean]
+description = "cleanup tasks (remove build artifacts and cache)"
+commands = [
+    ["coverage", "erase"],
+    ["sh", "-c", "rm -rf .mypy_cache .pytest_cache .ruff_cache dist mlruns reports"]
+]
+
+[tool.tox.env.doc]
+description = "writing documentation using mkdocs"
+commands = [
+    ["mkdocs", "serve"]
+]
+
+
+[tool.tox.env.format]
+description = "code formatting using ruff"
+commands = [
+    ["ruff", "format", { replace = "posargs", default = ["src", "tests"], extend = true }]
+]
+
+[tool.tox.env.lint]
+description = "linting and syntax checks"
+commands = [
+    ["ruff", "check", { replace = "posargs", default = ["src", "tests"], extend = true} ],
+    ["ruff", "format", "--check", { replace = "posargs", default = ["src", "tests"], extend = true} ],
+    ["mypy", { replace = "posargs", default = ["src"], extend = true} ]
+]
+
+[tool.tox.env.pre-commit]
+description = "pre-commit hooks"
+commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
+
+[tool.tox.env.test]
+description = "tests"
+
+extras = [
+    "dev"
+]
+commands = [["pytest", "-v", "tests", "--cov=src", "--cov-report=xml"]]
+
+[tool.tox.env.build]
+description = "build the project"
+commands = [["uv", "build"]]

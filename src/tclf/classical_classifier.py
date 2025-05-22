@@ -106,6 +106,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Set tags for sklearn.
 
         See: https://scikit-learn.org/stable/developers/develop.html#estimator-tags
+
+        Returns:
+            dict[str, bool | dict[str, str]]: dict with tags
         """
         return {
             "allow_nan": True,
@@ -213,6 +216,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         Args:
             subset (str): subset i.e.,
             'ex' or 'best'
+
         Returns:
             npt.NDArray: midpoints. Can be np.NaN.
         """
