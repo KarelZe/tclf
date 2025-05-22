@@ -206,11 +206,12 @@ description = "pre-commit hooks"
 commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
 
 [tool.tox.env.test]
-deps = [
-    "pytest",
-    "pytest-cov"
-]
 description = "tests"
+runner = uv-venv-lock-runner
+
+extras = [
+    "dev"
+]
 commands = [["pytest", "-v", "tests", "--cov=src", "--cov-report=xml"]]
 
 [tool.tox.env.build]
