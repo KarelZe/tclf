@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "numpy >1.24.4,<2.0.0",
+  "numpy >1.24.4,<3.0.0",
   "pandas",
   "scikit-learn",
 ]
