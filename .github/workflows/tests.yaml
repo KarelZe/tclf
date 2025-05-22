@@ -33,10 +33,10 @@ jobs:
         env_vars: OS,PYTHON
         fail_ci_if_error: true
         verbose: true
-    - name: Run benchmarks
-      if: matrix.os == 'ubuntu-latest'
-      uses: CodSpeedHQ/action@v3
-      with:
-        token: ${{ secrets.CODSPEED_TOKEN }}
-        # see: https://docs.codspeed.io/integrations/ci/github-actions
-        run: uv run pytest tests/ --codspeed
+#    - name: Run benchmarks
+#      if: matrix.os == 'ubuntu-latest'
+#      uses: CodSpeedHQ/action@v3
+#      with:
+#        token: ${{ secrets.CODSPEED_TOKEN }}
+#        # see: https://docs.codspeed.io/integrations/ci/github-actions
+#        run: uv run pytest tests/ --codspeed
