@@ -18,7 +18,7 @@ repos:
       - id: trailing-whitespace
       - id: check-added-large-files
       - id: check-builtin-literals
-      - id: check-byte-order-marker
+      - id: fix-byte-order-marker
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
