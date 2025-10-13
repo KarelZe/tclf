@@ -36,7 +36,7 @@ repos:
         # Similar to: https://stackoverflow.com/a/73603491/5755604
         additional_dependencies: ['types-PyYAML']
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.2
+    rev: v0.14.0
     hooks:
     - id: ruff
       args:
