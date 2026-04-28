@@ -442,13 +442,13 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             y (ArrayLike | None, optional):  ignored, present here for API consistency by convention.
             sample_weight (npt.NDArray | None, optional):  Sample weights. Defaults to None.
 
+        Returns:
+            ClassicalClassifier: Instance of itself.
+
         Raises:
             ValueError: Unknown subset e. g., 'ise'
             ValueError: Unknown function string e. g., 'lee-ready'
             ValueError: Multi output is not supported.
-
-        Returns:
-            ClassicalClassifier: Instance of itself.
         """
         _check_sample_weight(sample_weight, X)
 
