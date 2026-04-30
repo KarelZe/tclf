@@ -38,8 +38,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 dev = [
   # doc
-  "mkdocs",
-  "mkdocs-material",
+  "zensical",
   "mkdocstrings-python",
   # build
   "build",
@@ -53,7 +52,6 @@ dev = [
   "tox-uv>=1.13.1",
   "tox>=4.23.2",
   "pytest-codspeed",
-  "mkdocs-bibtex",
   "commitizen",
   "pypandoc-binary"
 ]
@@ -181,9 +179,9 @@ commands = [
 ]
 
 [tool.tox.env.doc]
-description = "writing documentation using mkdocs"
+description = "writing documentation using zensical"
 commands = [
-    ["mkdocs", "serve"]
+    ["zensical", "serve"]
 ]
 
 

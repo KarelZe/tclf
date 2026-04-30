@@ -4,7 +4,7 @@ comments: true
 
 # A Primer on Trade Classification Rules
 
-The goal of trade classification algorithms is to identify the *initiator of a trade*. While definitions for the trade initiator differ in literature [cp. @leeInferringInvestorBehavior2000, pp. 94--97; @odders-whiteOccurrenceConsequencesInaccurate2000, p. 262] the trade initiator is binary and either the buyer or the seller.
+The goal of trade classification algorithms is to identify the *initiator of a trade*. While definitions for the trade initiator differ in literature (cp. Lee & Radhakrishna, 2000, pp. 94–97; Odders-White, 2000, p. 262) the trade initiator is binary and either the buyer or the seller.
 
 As the trade initiator is frequently absent in datasets, it must be inferred using trade classification algorithms or other approaches. This article introduces basic rules for trade classification.
 
@@ -19,7 +19,7 @@ This section presents basic classification rules, that may be used for trade cla
 
 ### Quote Rule
 
-The quote rule classifies a trade by comparing the trade price against the corresponding quotes at the time of the trade. If the trade price is above the midpoint of the bid-ask spread, $M_{i,t}$, the trade is classified as a buy and if it is below the midpoint, as a sell [@harrisDayEndTransactionPrice1989, p. 41].
+The quote rule classifies a trade by comparing the trade price against the corresponding quotes at the time of the trade. If the trade price is above the midpoint of the bid-ask spread, $M_{i,t}$, the trade is classified as a buy and if it is below the midpoint, as a sell (Harris, 1989, p. 41).
 
 Thus, the classification rule on $\mathcal{A} = \left\{(i, t) \in \mathbb{N}^2: P_{i,t} \neq M_{i,t}\right\}$ is given by:
 
@@ -43,7 +43,7 @@ clf.fit(X)
 
 ### Tick Test
 
-A common alternative to the quote rule is the tick test. Based on the rationale that buys increase trade prices and sells lower them, the tick test classifies trades by the change in trade price. It was first applied in [@holthausenEffectLargeBlock1987, p. 244; @hasbrouckTradesQuotesInventories1988, p.240].
+A common alternative to the quote rule is the tick test. Based on the rationale that buys increase trade prices and sells lower them, the tick test classifies trades by the change in trade price. It was first applied in (Holthausen et al., 1987, p. 244; Hasbrouck, 1988, p. 240).
 
 The tick test is defined as:
 
@@ -58,7 +58,7 @@ $$
     \end{cases}
 $$
 
-Considering the cases the trade price is higher than the previous price (uptick) the trade is classified as a buy. Reversely, if it is below the previous price (downtick), the trade is classified as a sell. If the price change is zero (zero tick), the signing uses the last price different from the current price [@leeInferringTradeDirection1991,p. 735]. To end recursion at $t=1$, we sign the trades randomly as buyer- or seller-initiated to simplify notation 🤓.
+Considering the cases the trade price is higher than the previous price (uptick) the trade is classified as a buy. Reversely, if it is below the previous price (downtick), the trade is classified as a sell. If the price change is zero (zero tick), the signing uses the last price different from the current price (Lee & Ready, 1991, p. 735). To end recursion at $t=1$, we sign the trades randomly as buyer- or seller-initiated to simplify notation 🤓.
 
 The tick rule can sign all trades as long as a last differing trade price exists, but the overall precision can be impacted by infrequent trading.
 
@@ -71,7 +71,7 @@ clf.fit(X)
 
 ### Reverse Tick Test
 
-The reverse tick test is a variant of the tick test proposed in [@hasbrouckTradesQuotesInventories1988, p.241]. It is similar to the tick rule but classifies based on the next, distinguishable trade price.
+The reverse tick test is a variant of the tick test proposed in (Hasbrouck, 1988, p. 241). It is similar to the tick rule but classifies based on the next, distinguishable trade price.
 
 $$
     \operatorname{rtick} \colon \mathbb{N}^2 \to \mathcal{Y},\quad
@@ -84,7 +84,7 @@ $$
     \end{cases}
 $$
 
-As denoted in the equation, the trade is classified as seller-initiated, if the next trade is on an uptick or a zero uptick, and classified as buyer-initiated for trades at a downtick or a zero downtick [@leeInferringTradeDirection1991, pp. 735--736].
+As denoted in the equation, the trade is classified as seller-initiated, if the next trade is on an uptick or a zero uptick, and classified as buyer-initiated for trades at a downtick or a zero downtick (Lee & Ready, 1991, pp. 735–736).
 
 **Code**
 ```python
@@ -96,7 +96,7 @@ clf.fit(X)
 
 ### Depth Rule
 
-The depth rule gauges the trade initiator from the quoted size at the best bid and ask. Based on the observation that an exceeding bid or ask size relates to higher liquidity at one trade side, trades are classified as a buy (sell) for a larger ask (bid) size [@grauerOptionTradeClassification2022, pp. 14--15].
+The depth rule gauges the trade initiator from the quoted size at the best bid and ask. Based on the observation that an exceeding bid or ask size relates to higher liquidity at one trade side, trades are classified as a buy (sell) for a larger ask (bid) size (Grauer et al., 2023, pp. 14–15).
 We set the domain as $\mathcal{A} = \left\{(i, t) \in \mathbb{N}^2: P_{i,t} = M_{i,t} \land \tilde{A}_{i,t} \neq \tilde{B}_{i,t} \right\}$. The depth rule is now calculated as:
 
 $$
@@ -119,7 +119,7 @@ clf.fit(X)
 
 ### Trade Size Rule
 
-The trade size rule classifies based on a match between the size of the trade $\tilde{P}_{i, t}$ and the quoted bid and ask sizes. The rationale is, that the market maker tries to fill the limit order of a customer, which results in the trade being executed at the contemporaneous bid or ask, with a trade size equaling the quoted size [@grauerOptionTradeClassification2022]. The trade size rule is defined on $\mathcal{A} = \left\{(i, t) \in \mathbb{N}^2: \tilde{P}_{i,t} = \tilde{A}_{i,t} \neq \tilde{B}_{i,t} \lor \tilde{P}_{i,t} \neq\tilde{A}_{i,t} = \tilde{B}_{i,t} \right\}$ as:
+The trade size rule classifies based on a match between the size of the trade $\tilde{P}_{i, t}$ and the quoted bid and ask sizes. The rationale is, that the market maker tries to fill the limit order of a customer, which results in the trade being executed at the contemporaneous bid or ask, with a trade size equaling the quoted size (Grauer et al., 2023). The trade size rule is defined on $\mathcal{A} = \left\{(i, t) \in \mathbb{N}^2: \tilde{P}_{i,t} = \tilde{A}_{i,t} \neq \tilde{B}_{i,t} \lor \tilde{P}_{i,t} \neq\tilde{A}_{i,t} = \tilde{B}_{i,t} \right\}$ as:
 
 $$
     \operatorname{tsize} \colon \mathcal{A} \to \mathcal{Y},\quad
@@ -145,11 +145,11 @@ The basic trade classification rules from [basic rules](#basic-rules) can be com
 
 Popular variants include the [LR algorithm](#lee-and-ready-algorithm), the [EMO rule](#ellis-michaely-ohara-rule), and the [CLNV method](#chakrabarty-li-nguyen-van-ness-method). All three algorithms utilize the quote and tick rule to a varying extent. Basic rules are selected based on the proximity of the trade price to the quotes.
 
-As put forth by Grauer et al. [-@grauerOptionTradeClassification2022], basic or hybrid rules can be combined through stacking. This approach generalizes the aforementioned algorithms, as the applied rule is no longer dependent on the proximity to the quotes, but rather on the classifiability of the trade with the primary rules given by the domains and their ordering.
+As put forth by Grauer et al. (2023), basic or hybrid rules can be combined through stacking. This approach generalizes the aforementioned algorithms, as the applied rule is no longer dependent on the proximity to the quotes, but rather on the classifiability of the trade with the primary rules given by the domains and their ordering.
 
 ### Lee and Ready Algorithm
 
-The LR algorithm [@leeInferringTradeDirection1991, p. 745] combines the (reverse) tick test and quote rule into a single rule, which is derived from two observations. First, Lee and Ready [-@leeInferringTradeDirection1991, pp. 735-745] observe a higher precision of the quote rule over the tick rule, which makes it their preferred choice. Second, by the means of a simple model, the authors demonstrate that the tick test can correctly classify on average 85.4 % of all midspread trades if the model's assumptions of constant quotes between trades and the arrival of the market and standing orders following a Poisson process are met. Outside the model's tight assumptions, the expected accuracy of the tick test can be unmet.
+The LR algorithm (Lee & Ready, 1991, p. 745) combines the (reverse) tick test and quote rule into a single rule, which is derived from two observations. First, Lee and Ready (1991, pp. 735–745) observe a higher precision of the quote rule over the tick rule, which makes it their preferred choice. Second, by the means of a simple model, the authors demonstrate that the tick test can correctly classify on average 85.4 % of all midspread trades if the model's assumptions of constant quotes between trades and the arrival of the market and standing orders following a Poisson process are met. Outside the model's tight assumptions, the expected accuracy of the tick test can be unmet.
 
 In combination, the algorithm primarily signs trades according to the quote rule. Trades at the midpoint of the spread, unclassifiable by the quote rule, are classified by the tick test. Overall:
 
@@ -172,7 +172,7 @@ clf.fit(X)
 
 ### Ellis-Michaely-O'Hara Rule
 
-Ellis et al. [-@ellisAccuracyTradeClassification2000, pp. 535--536] examine the performance of the previous algorithms for stocks traded at NASDAQ. By analyzing miss-classified trades with regard to the proximity of the trade to the quotes, they observe, that the quote rule and by extension, the [LR algorithm](#lee-and-ready-algorithm), perform particularly well at classifying trades executed at the bid and the ask price but trail the performance of the tick rule for trades inside or outside the spread [@ellisAccuracyTradeClassification2000, pp. 535--536]. The authors combine these observations into a single rule, known as the EMO algorithm.
+Ellis et al. (2000, pp. 535–536) examine the performance of the previous algorithms for stocks traded at NASDAQ. By analyzing miss-classified trades with regard to the proximity of the trade to the quotes, they observe, that the quote rule and by extension, the [LR algorithm](#lee-and-ready-algorithm), perform particularly well at classifying trades executed at the bid and the ask price but trail the performance of the tick rule for trades inside or outside the spread (Ellis et al., 2000, pp. 535–536). The authors combine these observations into a single rule, known as the EMO algorithm.
 
 The EMO algorithm extends the tick rule by classifying trades at the quotes using the quote rule, and all other trades with the tick test. Formally, the classification rule is given by:
 
@@ -197,7 +197,7 @@ clf.fit(X)
 
 ### Chakrabarty-Li-Nguyen-Van-Ness Method
 
-Like the previous two algorithms, the CLNV method [@chakrabartyTradeClassificationAlgorithms2007, pp. 3811-3812]  is a hybrid of the quote and tick rule and extends the EMO rule by a differentiated treatment of trades inside the quotes, which are notoriously hard to classify. The authors segment the bid-ask spread into deciles (ten equal-width bins) and classify trades around the midpoint (fourth to seventh decile) by the tick rule and trades close or outside the quotes are categorized by the tick rule.
+Like the previous two algorithms, the CLNV method (Chakrabarty et al., 2007, pp. 3811–3812) is a hybrid of the quote and tick rule and extends the EMO rule by a differentiated treatment of trades inside the quotes, which are notoriously hard to classify. The authors segment the bid-ask spread into deciles (ten equal-width bins) and classify trades around the midpoint (fourth to seventh decile) by the tick rule and trades close or outside the quotes are categorized by the tick rule.
 
 $$
     \operatorname{clnv} \colon \mathbb{N}^2 \to \mathcal{Y}, \quad
@@ -220,9 +220,9 @@ clf.fit(X)
 
 ### Stacked Rule
 
-The previous algorithms are static concerning the used base rules and their alignment. Combining arbitrary rules into a single algorithm requires a generic procedure. Grauer et al.[-@grauerOptionTradeClassification2022, p. 15] combine basic and hybrid rules through stacking. In this setting, the trade traverses a stack of pre-defined rules until a rule can classify the trade or the end of the stack is reached. The classification is now dependent on the employed rules but also on their relative ordering.
+The previous algorithms are static concerning the used base rules and their alignment. Combining arbitrary rules into a single algorithm requires a generic procedure. Grauer et al. (2023, p. 15) combine basic and hybrid rules through stacking. In this setting, the trade traverses a stack of pre-defined rules until a rule can classify the trade or the end of the stack is reached. The classification is now dependent on the employed rules but also on their relative ordering.
 
-The most basic application is in the [LR algorithm](#lee-and-ready-algorithm), combining $\operatorname{quote}$ and $\operatorname{tick}$. For a more complex example consider the hybrid rule consisting of $\operatorname{tsize}_{\mathrm{ex}}$, $\operatorname{quote}_{\mathrm{nbbo}}$, $\operatorname{quote}_{\mathrm{ex}}$, $\operatorname{depth}_{\mathrm{nbbo}}$, $\operatorname{depth}_{\mathrm{ex}}$ and  $\operatorname{rtick}_{\mathrm{all}}$ popularized in Grauer et al. [-@grauerOptionTradeClassification2022, p. 15].
+The most basic application is in the [LR algorithm](#lee-and-ready-algorithm), combining $\operatorname{quote}$ and $\operatorname{tick}$. For a more complex example consider the hybrid rule consisting of $\operatorname{tsize}_{\mathrm{ex}}$, $\operatorname{quote}_{\mathrm{nbbo}}$, $\operatorname{quote}_{\mathrm{ex}}$, $\operatorname{depth}_{\mathrm{nbbo}}$, $\operatorname{depth}_{\mathrm{ex}}$ and  $\operatorname{rtick}_{\mathrm{all}}$ popularized in Grauer et al. (2023, p. 15).
 
 In practice, rules may be ordered greedily and new rules added if there are unclassified trades.
 
@@ -241,5 +241,23 @@ layers = [
 clf = ClassicalClassifier(layers=layers, strategy="random")
 clf.fit(X)
 ```
-## Footnotes
-\bibliography
+
+## References
+
+Chakrabarty, B., Li, B., Nguyen, V., & Van Ness, R. A. (2007). Trade classification algorithms for electronic communications network trades. *Journal of Banking & Finance*, *31*(12), 3806–3821. <https://doi.org/10.1016/j.jbankfin.2007.03.003>
+
+Ellis, K., Michaely, R., & O'Hara, M. (2000). The accuracy of trade classification rules: Evidence from Nasdaq. *The Journal of Financial and Quantitative Analysis*, *35*(4), 529–551. <https://doi.org/10.2307/2676254>
+
+Grauer, C., Schuster, P., & Uhrig-Homburg, M. (2023). Option trade classification. *SSRN Working Paper*. <https://doi.org/10.2139/ssrn.4098475>
+
+Harris, L. (1989). A day-end transaction price anomaly. *The Journal of Financial and Quantitative Analysis*, *24*(1), 29–37. <https://doi.org/10.2307/2330746>
+
+Hasbrouck, J. (1988). Trades, quotes, inventories, and information. *Journal of Financial Economics*, *22*(2), 229–252. <https://doi.org/10.1016/0304-405X(88)90070-0>
+
+Holthausen, R. W., Leftwich, R. W., & Mayers, D. (1987). The effect of large block transactions on security prices: A cross-sectional analysis. *Journal of Financial Economics*, *19*(2), 237–267. <https://doi.org/10.1016/0304-405X(87)90004-3>
+
+Lee, C., & Radhakrishna, B. (2000). Inferring investor behavior: Evidence from TORQ data. *Journal of Financial Markets*, *3*(2), 83–111. <https://doi.org/10.1016/S1386-4181(00)00002-1>
+
+Lee, C., & Ready, M. J. (1991). Inferring trade direction from intraday data. *The Journal of Finance*, *46*(2), 733–746. <https://doi.org/10.1111/j.1540-6261.1991.tb02683.x>
+
+Odders-White, E. R. (2000). On the occurrence and consequences of inaccurate trade classification. *Journal of Financial Markets*, *3*(3), 259–286. <https://doi.org/10.1016/S1386-4181(00)00006-9>
