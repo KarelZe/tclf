@@ -2,8 +2,8 @@
 comments: true
 ---
 ## Setup Rules
-This tutorial aims to reproduce plots from a working paper by Grauer et al. [-@grauerOptionTradeClassification2022], which achieves state-of-the-art performance in option trade classification. The authors recommend to classify option trades by:
-> [...] our new trade size rule together with quote rules successively applied to NBBO and quotes on the trading venue. Quotes at the midpoint on both the NBBO and the exchange should be classified first with the depth rule and any remaining trades with the reverse tick test.
+This tutorial aims to reproduce plots from a working paper by Grauer et al. (2023), which achieves state-of-the-art performance in option trade classification. The authors recommend to classify option trades by:
+> \[...\] our new trade size rule together with quote rules successively applied to NBBO and quotes on the trading venue. Quotes at the midpoint on both the NBBO and the exchange should be classified first with the depth rule and any remaining trades with the reverse tick test.
 
 
 There's a lot going on.🥵
@@ -127,5 +127,6 @@ plt.show()
 
 Pretty close to the author's work. Just spanning a shorter period of time.🙂
 
-## Footnotes
-\bibliography
+## References
+
+Grauer, C., Schuster, P., & Uhrig-Homburg, M. (2023). Option trade classification. *SSRN Working Paper*. <https://doi.org/10.2139/ssrn.4098475>

@@ -1,0 +1,142 @@
+[project]
+site_name = "tclf"
+site_description = "tclf, a scikit-learn-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades."
+site_url = "https://karelze.github.io/tclf/"
+site_author = "Markus Bilz"
+copyright = "Copyright &copy; 2024 Markus Bilz"
+
+repo_name = "karelze/tclf"
+repo_url = "https://github.com/karelze/tclf"
+edit_uri = "edit/main/docs/"
+
+nav = [
+  {"Home" = "index.md"},
+  {"Rules" = "rules.md"},
+  {"API reference" = "reference.md"},
+  {"Examples" = [
+    {"Option trade classification" = "option_trade_classification.md"},
+  ]},
+  {"More" = [
+    {"Naming conventions" = "naming_conventions.md"},
+    {"Handling of NaNs" = "nan_handling.md"},
+  ]},
+]
+
+extra_css = [
+  "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css",
+]
+
+extra_javascript = [
+  "javascripts/katex.js",
+  "https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js",
+]
+
+# ---------------------------------------------------------------------------
+# Theme
+# ---------------------------------------------------------------------------
+
+[project.theme]
+
+custom_dir = "docs/overrides"
+logo = "img/logo.png"
+favicon = "img/favicon.ico"
+language = "en"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "content.code.copy",
+  "navigation.tabs",
+  "navigation.instant",
+  "navigation.instant.progress",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "search.suggest",
+]
+
+[project.theme.icon]
+repo = "fontawesome/brands/github"
+
+# Three-way colour palette: auto → light → dark
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+scheme = "default"
+primary = "black"
+accent = "indigo"
+toggle.icon = "material/brightness-auto"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "black"
+accent = "indigo"
+toggle.icon = "material/brightness-7"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "black"
+accent = "indigo"
+toggle.icon = "material/brightness-4"
+toggle.name = "Switch to system preference"
+
+# ---------------------------------------------------------------------------
+# Extra / social / analytics
+# ---------------------------------------------------------------------------
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/karelze/tclf"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/linkedin"
+link = "https://www.linkedin.com/in/markus-bilz/"
+
+[project.extra.analytics]
+provider = "google"
+property = "G-H3H7C48XJR"
+
+# ---------------------------------------------------------------------------
+# Plugins
+# ---------------------------------------------------------------------------
+
+[project.plugins.search]
+
+[project.plugins.mkdocstrings]
+default_handler = "python"
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "google"
+show_source = true
+inherited_members = true
+
+# ---------------------------------------------------------------------------
+# Markdown extensions
+# ---------------------------------------------------------------------------
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.admonition]
+
+[project.markdown_extensions.footnotes]
+
+[project.markdown_extensions.pymdownx.details]
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  {name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format"},
+]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.pymdownx.arithmatex]
+generic = true
