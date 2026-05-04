@@ -15,13 +15,9 @@ Key constraints for any change:
   (see `docs/naming_conventions.md` and `README.md`).
 
 ## Environment Setup
-- Python ≥ 3.10
+- Python >= 3.9
 - Install: `pip install -e ".[dev]"`
 - Development uses `tox` with `uv` as the backend.
-
-## Environment Setup
-- Python >= 3.10
-- Install: `pip install ".[dev]"`
 
 ## Testing
 - run tests in tox environment: `tox -e test`
