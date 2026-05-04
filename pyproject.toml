@@ -4,12 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tclf"
-authors = [
-  { name="Markus Bilz", email="github@markusbilz.com" },
-]
+authors = [{ name = "Markus Bilz", email = "github@markusbilz.com" }]
 description = "Classify trades using trade classification algorithms 🐍"
 readme = "README.md"
-license = {file = "LICENSE.txt"}
+license = { file = "LICENSE.txt" }
 requires-python = ">=3.9"
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -27,11 +25,7 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
-dependencies = [
-  "numpy >1.24.4,<2.0.0",
-  "pandas",
-  "scikit-learn",
-]
+dependencies = ["numpy >1.24.4,<2.0.0", "pandas", "scikit-learn"]
 
 dynamic = ["version"]
 
@@ -53,11 +47,11 @@ dev = [
   "tox>=4.23.2",
   "pytest-codspeed",
   "commitizen",
-  "pypandoc-binary"
+  "pypandoc-binary",
 ]
 
 [tool.setuptools.dynamic]
-version = {file = "version"}
+version = { file = "version" }
 
 [project.urls]
 "Homepage" = "https://github.com/KarelZe/tclf"
@@ -77,34 +71,27 @@ pythonpath = ["src"]
 testpaths = ["tests"]
 
 [tool.coverage.run]
-omit = [
-    "debug_*.py",
-    "tclf/tests/*",
-]
+omit = ["debug_*.py", "tests/*"]
 branch = true
 
 [tool.coverage.report]
 exclude_also = [
-    "def __repr__",
-    "if self\\.debug",
-    "raise AssertionError",
-    "raise NotImplementedError",
-    "if 0:",
-    "if __name__ == .__main__.:",
-    "@(abc\\.)?abstractmethod",
-    "if self.verbose:"
-    ]
+  "def __repr__",
+  "if self\\.debug",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+  "@(abc\\.)?abstractmethod",
+  "if self.verbose:",
+]
 show_missing = true
 
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.3.0"
 tag_format = "$version"
-version_files = [
-    "docs/index.md:version",
-    "pyproject.toml:version",
-    "version",
-]
+version_files = ["docs/index.md:version", "pyproject.toml:version", "version"]
 bump_message = "bump: version $current_version → $new_version"
 update_changelog_on_bump = true
 annotated_tag = true
@@ -116,34 +103,34 @@ annotated_tag = true
 
 # See rules: https://beta.ruff.rs/docs/rules/
 select = [
-    "C",    # flake8-comprehensions
-    "D",    # pydocstyle
-    "DOC",  # pydoclint
-    "E",    # pycodestyle errors
-    "F",    # pyflakes
-    "FURB", # refurb
-    "I",    # isort
-    "N",    # pep8-naming
-    "NPY",  # numpy
-    "PD",   # pandas-vet
-    "PIE",  # misc lints
-    "PT",   # pytest
-    "PTH",  # flake8-use-pathlib
-    "PGH",  # pygrep
-    "RET",  # return
-    "RUF",  # ruff-specific rules
-    "UP",   # pyupgrade
-    "SIM",  # flake8-simplify
-    "W",    # pycodestyle warnings
+  "C",    # flake8-comprehensions
+  "D",    # pydocstyle
+  "DOC",  # pydoclint
+  "E",    # pycodestyle errors
+  "F",    # pyflakes
+  "FURB", # refurb
+  "I",    # isort
+  "N",    # pep8-naming
+  "NPY",  # numpy
+  "PD",   # pandas-vet
+  "PIE",  # misc lints
+  "PT",   # pytest
+  "PTH",  # flake8-use-pathlib
+  "PGH",  # pygrep
+  "RET",  # return
+  "RUF",  # ruff-specific rules
+  "UP",   # pyupgrade
+  "SIM",  # flake8-simplify
+  "W",    # pycodestyle warnings
 ]
 
 ignore = [
-    "E501",  # line too long, handled by black
-    "N803",  # argument name should be lowercase
-    "N806",  # variable name should be lowercase
-    "C901",  # too complex
-    "D206",  # indent with white space
-    "W191",  # tab identation
+  "E501", # line too long, handled by black
+  "N803", # argument name should be lowercase
+  "N806", # variable name should be lowercase
+  "C901", # too complex
+  "D206", # indent with white space
+  "W191", # tab identation
 ]
 
 preview = true
@@ -153,10 +140,19 @@ preview = true
 
 [tool.ruff.lint.isort]
 known-first-party = ["tclf"]
-section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "first-party",
+  "local-folder",
+]
 
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["D104", "F401"]  # disable missing docstrings in __init__, unused imports
+"__init__.py" = [
+  "D104",
+  "F401",
+] # disable missing docstrings in __init__, unused imports
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -174,29 +170,61 @@ with_dev = true
 [tool.tox.env.clean]
 description = "cleanup tasks (remove build artifacts and cache)"
 commands = [
-    ["coverage", "erase"],
-    ["sh", "-c", "rm -rf .mypy_cache .pytest_cache .ruff_cache dist mlruns reports"]
+  [
+    "coverage",
+    "erase",
+  ],
+  [
+    "sh",
+    "-c",
+    "rm -rf .mypy_cache .pytest_cache .ruff_cache dist mlruns reports",
+  ],
 ]
 
 [tool.tox.env.doc]
 description = "writing documentation using zensical"
-commands = [
-    ["zensical", "serve"]
-]
+commands = [["zensical", "serve"]]
 
 
 [tool.tox.env.format]
 description = "code formatting using ruff"
 commands = [
-    ["ruff", "format", { replace = "posargs", default = ["src", "tests"], extend = true }]
+  [
+    "ruff",
+    "format",
+    { replace = "posargs", default = [
+      "src",
+      "tests",
+    ], extend = true },
+  ],
 ]
 
 [tool.tox.env.lint]
 description = "linting and syntax checks"
 commands = [
-    ["ruff", "check", { replace = "posargs", default = ["src", "tests"], extend = true} ],
-    ["ruff", "format", "--check", { replace = "posargs", default = ["src", "tests"], extend = true} ],
-    ["mypy", { replace = "posargs", default = ["src"], extend = true} ]
+  [
+    "ruff",
+    "check",
+    { replace = "posargs", default = [
+      "src",
+      "tests",
+    ], extend = true },
+  ],
+  [
+    "ruff",
+    "format",
+    "--check",
+    { replace = "posargs", default = [
+      "src",
+      "tests",
+    ], extend = true },
+  ],
+  [
+    "mypy",
+    { replace = "posargs", default = [
+      "src",
+    ], extend = true },
+  ],
 ]
 
 [tool.tox.env.pre-commit]
@@ -206,9 +234,7 @@ commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
 [tool.tox.env.test]
 description = "tests"
 
-extras = [
-    "dev"
-]
+extras = ["dev"]
 commands = [["pytest", "-v", "tests", "--cov=src", "--cov-report=xml"]]
 
 [tool.tox.env.build]
