@@ -23,7 +23,7 @@ Key constraints for any change:
 - run tests in tox environment: `tox -e test`
 
 ## Documentation
-- serve documentation from tox environment `tox -e docs`, then access http://localhost:8000
+- serve documentation from tox environment `tox -e doc`, then access http://localhost:8000
 
 ## Development Workflow
 - Run tests: `tox -e test`
