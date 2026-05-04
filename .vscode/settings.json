@@ -2,5 +2,8 @@
     "sonarlint.connectedMode.project": {
         "connectionId": "vscode",
         "projectKey": "KarelZe_tclf"
-    }
+    },
+    "cSpell.words": [
+        "scikit"
+    ]
 }
