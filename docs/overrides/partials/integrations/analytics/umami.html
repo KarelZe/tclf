@@ -1,0 +1,7 @@
+{% if config.extra.analytics %}
+  <script
+    defer
+    src="https://insights.alexbilz.com/script.js"
+    data-website-id="{{ config.extra.analytics.property }}"
+  ></script>
+{% endif %}
