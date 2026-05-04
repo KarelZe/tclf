@@ -25,7 +25,7 @@ Key constraints for any change:
 ## Documentation
 - serve documentation from tox environment `tox -e docs`, then access http://localhost:8000
 
-## Code Style
+## Development Workflow
 - Run tests: `tox -e test`
 - Lint (ruff + mypy): `tox -e lint`
 - Format: `tox -e format`
