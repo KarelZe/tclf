@@ -10,16 +10,16 @@ repo_url = "https://github.com/karelze/tclf"
 edit_uri = "edit/main/docs/"
 
 nav = [
-  {"Home" = "index.md"},
-  {"Rules" = "rules.md"},
-  {"API reference" = "reference.md"},
-  {"Examples" = [
-    {"Option trade classification" = "option_trade_classification.md"},
-  ]},
-  {"More" = [
-    {"Naming conventions" = "naming_conventions.md"},
-    {"Handling of NaNs" = "nan_handling.md"},
-  ]},
+  { "Home" = "index.md" },
+  { "Rules" = "rules.md" },
+  { "API reference" = "reference.md" },
+  { "Examples" = [
+    { "Option trade classification" = "option_trade_classification.md" },
+  ] },
+  { "More" = [
+    { "Naming conventions" = "naming_conventions.md" },
+    { "Handling of NaNs" = "nan_handling.md" },
+  ] },
 ]
 
 extra_css = [
@@ -132,7 +132,7 @@ permalink = true
 
 [project.markdown_extensions.pymdownx.superfences]
 custom_fences = [
-  {name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format"},
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
 ]
 
 [project.markdown_extensions.pymdownx.tabbed]
