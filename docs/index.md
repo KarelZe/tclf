@@ -129,14 +129,14 @@ tox -e build
 If you are using the package in publications, please cite as:
 
 ```latex
-@software{bilz_tclf_2023,
+@software{bilz_tclf_2024,
     author = {Bilz, Markus},
     license = {BSD 3},
-    month = nov,
+    month = feb,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.0.1},
-    year = {2023}
+    version = {0.3.0},
+    year = {2024}
 }
 ```
 
