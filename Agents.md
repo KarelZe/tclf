@@ -30,7 +30,7 @@ Key constraints for any change:
 - Lint (ruff + mypy): `tox -e lint`
 - Format: `tox -e format`
 - Build distribution: `tox -e build`
-- Serve docs: `tox -e docs` → http://localhost:8000
+- Serve docs: `tox -e doc` → http://localhost:8000
 
 For ad-hoc fixes outside tox: `ruff check . --fix`. For unsafe fixes, run
 `ruff check . --fix --unsafe-fixes --diff` first and review the diff before
