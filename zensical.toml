@@ -3,23 +3,22 @@ site_name = "tclf"
 site_description = "tclf, a scikit-learn-compatible implementation of popular trade classification algorithms to classify financial markets transactions into buyer- and seller-initiated trades."
 site_url = "https://karelze.github.io/tclf/"
 site_author = "Markus Bilz"
-copyright = "Copyright &copy; 2024 Markus Bilz"
 
 repo_name = "karelze/tclf"
 repo_url = "https://github.com/karelze/tclf"
 edit_uri = "edit/main/docs/"
 
 nav = [
-  {"Home" = "index.md"},
-  {"Rules" = "rules.md"},
-  {"API reference" = "reference.md"},
-  {"Examples" = [
-    {"Option trade classification" = "option_trade_classification.md"},
-  ]},
-  {"More" = [
-    {"Naming conventions" = "naming_conventions.md"},
-    {"Handling of NaNs" = "nan_handling.md"},
-  ]},
+  { "Home" = "index.md" },
+  { "Rules" = "rules.md" },
+  { "API reference" = "reference.md" },
+  { "Examples" = [
+    { "Option trade classification" = "option_trade_classification.md" },
+  ] },
+  { "More" = [
+    { "Naming conventions" = "naming_conventions.md" },
+    { "Handling of NaNs" = "nan_handling.md" },
+  ] },
 ]
 
 extra_css = [
@@ -60,29 +59,19 @@ features = [
 repo = "fontawesome/brands/github"
 
 # Three-way colour palette: auto → light → dark
-[[project.theme.palette]]
-media = "(prefers-color-scheme)"
-scheme = "default"
-primary = "black"
-accent = "indigo"
-toggle.icon = "material/brightness-auto"
-toggle.name = "Switch to light mode"
-
+# Palette toggle for light mode
 [[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
 scheme = "default"
-primary = "black"
-accent = "indigo"
-toggle.icon = "material/brightness-7"
+toggle.icon = "lucide/sun"
 toggle.name = "Switch to dark mode"
 
+# Palette toggle for dark mode
 [[project.theme.palette]]
 media = "(prefers-color-scheme: dark)"
 scheme = "slate"
-primary = "black"
-accent = "indigo"
-toggle.icon = "material/brightness-4"
-toggle.name = "Switch to system preference"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
 
 # ---------------------------------------------------------------------------
 # Extra / social / analytics
@@ -97,8 +86,9 @@ icon = "fontawesome/brands/linkedin"
 link = "https://www.linkedin.com/in/markus-bilz/"
 
 [project.extra.analytics]
-provider = "google"
-property = "G-H3H7C48XJR"
+provider = "umami"
+property = "8e64b217-2297-4cec-9006-60314a629b93"
+
 
 # ---------------------------------------------------------------------------
 # Plugins
@@ -132,7 +122,7 @@ permalink = true
 
 [project.markdown_extensions.pymdownx.superfences]
 custom_fences = [
-  {name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format"},
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
 ]
 
 [project.markdown_extensions.pymdownx.tabbed]
