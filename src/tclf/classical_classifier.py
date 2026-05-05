@@ -483,8 +483,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         self.columns_ = self.features
         if _is_frame(X):
             nw_X = nw.from_native(X, eager_only=True)
-            self.columns_ = nw_X.columns
-            X = nw_X.to_numpy()
+            if self.columns_ is None:
+                self.columns_ = nw_X.columns
+            X = nw_X.select(self.columns_).to_numpy()
 
         _check_sample_weight(sample_weight, X)
 
@@ -545,8 +546,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             npt.NDArray: Predicted traget values for X.
         """
         check_is_fitted(self)
+        assert self.columns_ is not None  # set during fit
         if _is_frame(X):
-            X = nw.from_native(X, eager_only=True).to_numpy()
+            X = nw.from_native(X, eager_only=True).select(self.columns_).to_numpy()
 
         X = self._validate_data(
             X,
