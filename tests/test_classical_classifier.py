@@ -284,7 +284,7 @@ class TestClassicalClassifier:
         self,
         x_train: pd.DataFrame,
         x_test: pd.DataFrame,
-        y_test: pd.DataFrame,
+        y_test: pd.Series,
         layers: list[tuple[ALLOWED_FUNC_LITERALS, str]],
         random_state: int = 7,
     ) -> None:
@@ -293,7 +293,7 @@ class TestClassicalClassifier:
         Args:
             x_train (pd.DataFrame): training features
             x_test (pd.DataFrame): test features
-            y_test (pd.DataFrame): true labels
+            y_test (pd.Series): true labels
             layers (list[tuple[ALLOWED_FUNC_LITERALS, str]]): layers
             random_state (int, optional): random state. Defaults to 7.
         """
@@ -555,6 +555,9 @@ class TestClassicalClassifier:
         """Test, if the trade size algorithm is correctly applied.
 
         Tests cases where relevant data is present or missing.
+
+        Args:
+            x_train (pd.DataFrame): training set
         """
         # first two by trade size, random, at bid size, random, random.
         x_test = pd.DataFrame(
@@ -576,6 +579,9 @@ class TestClassicalClassifier:
         """Test, if the depth rule is correctly applied.
 
         Tests cases where relevant data is present or missing.
+
+        Args:
+            x_train (pd.DataFrame): training set
         """
         # first three by depth, all other random as mid is different from trade price.
         x_test = pd.DataFrame(
