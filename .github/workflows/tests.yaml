@@ -39,5 +39,6 @@ jobs:
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       uses: CodSpeedHQ/action@c381be0bfd20e844fb45594f6aa182ffcd94545c # v4.15.0
       with:
+        mode: simulation
         token: ${{ secrets.CODSPEED_TOKEN }}
         run: uv run pytest tests/ -m benchmark --codspeed -p no:cov
