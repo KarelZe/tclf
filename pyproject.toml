@@ -41,7 +41,7 @@ dev = [
   "pytest-cov",
   # linting",
   "pre-commit",
-  "mypy",
+  "ty",
   "ruff",
   "tox-uv>=1.13.1",
   "tox>=4.23.2",
@@ -57,12 +57,13 @@ version = { file = "version" }
 "Homepage" = "https://github.com/KarelZe/tclf"
 "Bug Tracker" = "https://github.com/KarelZe/tclf/issues"
 
-[tool.mypy]
-# https://github.com/python/mypy/issues/2410
-ignore_missing_imports = true
-disallow_untyped_defs = true
-disallow_untyped_calls = true
-disallow_incomplete_defs = true
+[tool.ty.rules]
+unresolved-import = "error"
+unused-ignore-comment = "warn"
+possibly-unresolved-reference = "error"
+division-by-zero = "error"
+redundant-cast = "error"
+deprecated = "error"
 
 [tool.pytest.ini_options]
 minversion = 7.0
@@ -220,7 +221,8 @@ commands = [
     ], extend = true },
   ],
   [
-    "mypy",
+    "ty",
+    "check",
     { replace = "posargs", default = [
       "src",
     ], extend = true },

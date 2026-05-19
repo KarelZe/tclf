@@ -7,7 +7,7 @@ ci:
     autoupdate_branch: ''
     autoupdate_commit_msg: 'ci: pre-commit autoupdate'
     autoupdate_schedule: weekly
-    skip: []
+    skip: ["ty"] # See: https://github.com/astral-sh/ty/issues/269
     submodules: false
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
@@ -27,13 +27,14 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v2.1.0'
+  - repo: local
     hooks:
-      - id: mypy
-        # yaml requires additional stubs.
-        # Similar to: https://stackoverflow.com/a/73603491/5755604
-        additional_dependencies: ['types-PyYAML']
+      - id: ty
+        name: ty
+        entry: ty check .
+        language: system
+        types: [python]
+        pass_filenames: true
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.13
     hooks:
@@ -44,8 +45,8 @@ repos:
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v4.16.2
     hooks:
-    - id: commitizen
-      stages: [commit-msg]
+      - id: commitizen
+        stages: [commit-msg]
   - repo: https://github.com/ComPWA/taplo-pre-commit
     rev: v0.9.3
     hooks:
