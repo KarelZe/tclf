@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 import pandas as pd
@@ -150,7 +150,7 @@ class TestClassicalClassifier:
         assert check_is_fitted(fitted_classifier) is None
 
     def test_strategy_const(self, x_train: pd.DataFrame, x_test: pd.DataFrame) -> None:
-        """Test, if strategy 'const' returns correct proabilities.
+        """Test, if strategy 'const' returns correct probabilities.
 
         A classifier with strategy 'constant' should return class probabilities
         of (0.5, 0.5), if a trade can not be classified.
