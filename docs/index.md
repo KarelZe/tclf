@@ -17,6 +17,7 @@ The key features are:
 * **Easy**: Easy to use and learn.
 * **Sklearn-compatible**: Compatible to the sklearn API. Use sklearn metrics and visualizations.
 * **Feature complete**: Wide range of supported algorithms. Use the algorithms individually or stack them like LEGO blocks.
+* **DataFrame-agnostic**: Works with any [narwhals](https://narwhals-dev.github.io/narwhals/)-compatible DataFrame, including pandas, Polars, and cuDF.
 
 ## Installation
 
@@ -46,7 +47,28 @@ For a primer on trade classification rules visit the [rules section 🆕](https:
 
 Let's start simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.
 
-Create a `main.py` with:
+`tclf` accepts any [narwhals](https://narwhals-dev.github.io/narwhals/)-compatible DataFrame — pandas, Polars, cuDF, and more — as well as plain numpy arrays.
+
+**Polars**
+```python title="main.py"
+import polars as pl
+
+from tclf.classical_classifier import ClassicalClassifier
+
+X = pl.DataFrame(
+    {
+        "trade_price": [1.5, 2.5, 1.5, 2.5, 1.0, 3.0],
+        "bid_ex": [1.0, 1.0, 3.0, 3.0, None, None],
+        "ask_ex": [3.0, 3.0, 1.0, 1.0, 1.0, None],
+    }
+)
+
+clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="random")
+clf.fit(X)
+probs = clf.predict_proba(X)
+```
+
+**pandas**
 ```python title="main.py"
 import numpy as np
 import pandas as pd
@@ -69,11 +91,12 @@ clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="random")
 clf.fit(X)
 probs = clf.predict_proba(X)
 ```
+
 Run your script with
 ```console
 $ python main.py
 ```
-In this example, input data is available as a pd.DataFrame with columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
+In this example, input data has columns conforming to our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
 
 The parameter `layers=[("quote", "ex")]` sets the quote rule at the exchange level and `strategy="random"` specifies the fallback strategy for unclassified trades.
 

@@ -6,11 +6,15 @@ Both simple rules like quote rule or tick test or hybrids are included.
 from __future__ import annotations
 
 import re
-from typing import Literal, get_args
+from typing import TYPE_CHECKING, Literal, get_args
 
+if TYPE_CHECKING:
+    from narwhals.typing import IntoDataFrame
+    from typing_extensions import TypeGuard
+
+import narwhals.stable.v2 as nw
 import numpy as np
 import numpy.typing as npt
-import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import (
@@ -37,6 +41,28 @@ ALLOWED_FUNC_LITERALS = Literal[
 ALLOWED_FUNC_STR: tuple[ALLOWED_FUNC_LITERALS, ...] = get_args(ALLOWED_FUNC_LITERALS)
 
 
+def _is_frame(X: object) -> TypeGuard[IntoDataFrame]:
+    """Check if X is a narwhals-compatible eager DataFrame.
+
+    Returns:
+        TypeGuard[IntoDataFrame]: True if X is a narwhals-compatible DataFrame.
+    """
+    return nw.dependencies.is_into_dataframe(X)
+
+
+class _Frame:
+    """Lightweight internal frame backed by numpy arrays for column access."""
+
+    def __init__(self, data: npt.NDArray, columns: list[str]) -> None:
+        self._cols: dict[str, npt.NDArray] = {
+            col: data[:, i] for i, col in enumerate(columns)
+        }
+        self.shape = data.shape
+
+    def __getitem__(self, key: str) -> npt.NDArray:
+        return self._cols[key]
+
+
 class ClassicalClassifier(ClassifierMixin, BaseEstimator):
     """ClassicalClassifier implements several trade classification rules.
 
@@ -56,7 +82,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         base estimator (BaseEstimator): base estimator for basic functionality, such as `transform()`
     """
 
-    X_: pd.DataFrame
+    X_: _Frame
 
     def __init__(
         self,
@@ -75,25 +101,29 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         """Initialize a ClassicalClassifier.
 
         Examples:
-            >>> X = pd.DataFrame(
-            ... [
-            ...     [1.5, 1, 3],
-            ...     [2.5, 1, 3],
-            ...     [1.5, 3, 1],
-            ...     [2.5, 3, 1],
-            ...     [1, np.nan, 1],
-            ...     [3, np.nan, np.nan],
-            ... ],
-            ... columns=["trade_price", "bid_ex", "ask_ex"],
+            >>> import numpy as np
+            >>> X = np.array(
+            ...     [
+            ...         [1.5, 1, 3],
+            ...         [2.5, 1, 3],
+            ...         [1.5, 3, 1],
+            ...         [2.5, 3, 1],
+            ...         [1.0, np.nan, 1.0],
+            ...         [3.0, np.nan, np.nan],
+            ...     ]
             ... )
-            >>> clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="const")
-            >>> clf.fit(X)
-            ClassicalClassifier(layers=[('quote', 'ex')], strategy='const')
+            >>> clf = ClassicalClassifier(
+            ...     layers=[("quote", "ex")],
+            ...     strategy="const",
+            ...     features=["trade_price", "bid_ex", "ask_ex"],
+            ... )
+            >>> clf.fit(X)  # doctest: +ELLIPSIS
+            ClassicalClassifier(...)
             >>> pred = clf.predict_proba(X)
 
         Args:
             layers (List[tuple[ALLOWED_FUNC_LITERALS, str]]): Layers of classical rule and subset name. Supported rules: "tick", "rev_tick", "quote", "lr", "rev_lr", "emo", "rev_emo", "trade_size", "depth", and "nan". Defaults to None, which results in classification by 'strategy' parameter.
-            features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if `pd.DataFrame` is passed. Defaults to None.
+            features (List[str] | None, optional): List of feature names in order of columns. Required to match columns in feature matrix with label. Can be `None`, if a DataFrame (e.g., `pd.DataFrame` or `pl.DataFrame`) is passed. Defaults to None.
             random_state (float | None, optional): random seed. Defaults to 42.
             strategy (Literal[&quot;random&quot;, &quot;const&quot;], optional): Strategy to fill unclassfied. Randomly with uniform probability or with constant 0. Defaults to &quot;random&quot;.
         """
@@ -226,7 +256,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             np.nan,
         )
 
-    def _is_at_ask_xor_bid(self, subset: str) -> pd.Series:
+    def _is_at_ask_xor_bid(self, subset: str) -> npt.NDArray:
         """Check if the trade price is at the ask xor bid.
 
         Args:
@@ -234,7 +264,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             'ex' or 'best'.
 
         Returns:
-            pd.Series: boolean series with result.
+            npt.NDArray: boolean array with result.
         """
         at_ask = np.isclose(self.X_["trade_price"], self.X_[f"ask_{subset}"], atol=1e-4)
         at_bid = np.isclose(self.X_["trade_price"], self.X_[f"bid_{subset}"], atol=1e-4)
@@ -242,7 +272,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
     def _is_at_upper_xor_lower_quantile(
         self, subset: str, quantiles: float = 0.3
-    ) -> pd.Series:
+    ) -> npt.NDArray:
         """Check if the trade price is at the ask xor bid.
 
         Args:
@@ -250,7 +280,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             quantiles (float, optional): percentage of quantiles. Defaults to 0.3.
 
         Returns:
-            pd.Series: boolean series with result.
+            npt.NDArray: boolean array with result.
         """
         in_upper = (
             (1.0 - quantiles) * self.X_[f"ask_{subset}"]
@@ -412,8 +442,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             ValueError: columns missing in dataframe.
         """
         columns = self.columns_ + missing_columns if self.columns_ else missing_columns
-        # pandas-stubs SequenceNotStr false positive on list `columns=`
-        self.X_ = pd.DataFrame(np.zeros(shape=(1, len(columns))), columns=columns)  # ty: ignore[invalid-argument-type]
+        self.X_ = _Frame(np.zeros(shape=(1, len(columns))), columns)
         try:
             self._predict()
         except KeyError as e:
@@ -451,6 +480,12 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             ValueError: Unknown function string e. g., 'lee-ready'
             ValueError: Multi output is not supported.
         """
+        self.columns_ = self.features
+        if _is_frame(X):
+            nw_X = nw.from_native(X, eager_only=True)
+            self.columns_ = nw_X.columns
+            X = nw_X.to_numpy()
+
         _check_sample_weight(sample_weight, X)
 
         funcs = (
@@ -469,11 +504,6 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         )
 
         self.func_mapping_ = dict(zip(ALLOWED_FUNC_STR, funcs))
-
-        # create working copy to be altered and try to get columns from df
-        self.columns_ = self.features
-        if isinstance(X, pd.DataFrame):
-            self.columns_ = X.columns.tolist()
 
         X = self._validate_data(
             X,
@@ -515,6 +545,9 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             npt.NDArray: Predicted traget values for X.
         """
         check_is_fitted(self)
+        if _is_frame(X):
+            X = nw.from_native(X, eager_only=True).to_numpy()
+
         X = self._validate_data(
             X,
             dtype=[np.float64, np.float32],
@@ -524,8 +557,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         rs = check_random_state(self.random_state)
 
-        # pandas-stubs SequenceNotStr false positive on list `columns=`
-        self.X_ = pd.DataFrame(data=X, columns=self.columns_)  # ty: ignore[invalid-argument-type]
+        self.X_ = _Frame(X, self.columns_)  # ty:ignore[invalid-argument-type]
         pred = self._predict()
 
         # fill NaNs randomly with -1 and 1 or with constant zero
@@ -569,7 +601,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             npt.NDArray: probabilities
         """
         # assign 0.5 to all classes. Required for strategy 'constant'.
-        prob = np.full((X.shape[0], 2), 0.5)
+        prob = np.full((X.shape[0], 2), 0.5)  # ty:ignore[unresolved-attribute]
 
         # Class can be assumed to be -1 or 1 for strategy 'random'.
         # Class might be zero though for strategy constant. Mask non-zeros.
