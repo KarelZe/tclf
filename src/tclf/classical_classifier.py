@@ -56,7 +56,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
         base estimator (BaseEstimator): base estimator for basic functionality, such as `transform()`
     """
 
-    X_ = pd.DataFrame
+    X_: pd.DataFrame
 
     def __init__(
         self,
@@ -412,7 +412,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             ValueError: columns missing in dataframe.
         """
         columns = self.columns_ + missing_columns if self.columns_ else missing_columns
-        self.X_ = pd.DataFrame(np.zeros(shape=(1, len(columns))), columns=columns)
+        # pandas-stubs SequenceNotStr false positive on list `columns=`
+        self.X_ = pd.DataFrame(np.zeros(shape=(1, len(columns))), columns=columns)  # ty: ignore[invalid-argument-type]
         try:
             self._predict()
         except KeyError as e:
@@ -523,7 +524,8 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         rs = check_random_state(self.random_state)
 
-        self.X_ = pd.DataFrame(data=X, columns=self.columns_)
+        # pandas-stubs SequenceNotStr false positive on list `columns=`
+        self.X_ = pd.DataFrame(data=X, columns=self.columns_)  # ty: ignore[invalid-argument-type]
         pred = self._predict()
 
         # fill NaNs randomly with -1 and 1 or with constant zero
@@ -567,7 +569,7 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             npt.NDArray: probabilities
         """
         # assign 0.5 to all classes. Required for strategy 'constant'.
-        prob = np.full((len(X), 2), 0.5)
+        prob = np.full((X.shape[0], 2), 0.5)
 
         # Class can be assumed to be -1 or 1 for strategy 'random'.
         # Class might be zero though for strategy constant. Mask non-zeros.

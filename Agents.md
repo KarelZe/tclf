@@ -27,7 +27,7 @@ Key constraints for any change:
 
 ## Development Workflow
 - Run tests: `tox -e test`
-- Lint (ruff + mypy): `tox -e lint`
+- Lint (ruff + ty): `tox -e lint`
 - Format: `tox -e format`
 - Build distribution: `tox -e build`
 - Serve docs: `tox -e doc` → http://localhost:8000
@@ -38,7 +38,7 @@ applying.
 
 ## Before Committing
 - `tox -e test` passes
-- `tox -e lint` passes (ruff + mypy clean)
+- `tox -e lint` passes (ruff + ty clean)
 - `pre-commit run --all-files` passes
 - Commit message follows Conventional Commits with a trailing emoji:
   - `feat: … ✨`  `fix: … 🐛`  `perf: … ⚡`
