@@ -1,11 +1,11 @@
 """Common type hints."""
 
-from typing import Union
+from typing import TypeAlias
 
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
 from scipy.sparse import spmatrix
 
-MatrixLike = Union[np.ndarray, pd.DataFrame, spmatrix]
-ArrayLike = Union[npt.ArrayLike, pd.Series]
+MatrixLike: TypeAlias = np.ndarray | pd.DataFrame | spmatrix
+ArrayLike: TypeAlias = npt.ArrayLike | pd.Series

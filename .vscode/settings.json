@@ -4,8 +4,18 @@
         "projectKey": "KarelZe_tclf"
     },
     "cSpell.words": [
+        "allclose",
+        "CLNV",
+        "Grauer",
+        "ndarrays",
+        "pred",
+        "proba",
+        "pyproject",
         "pytest",
         "scikit",
+        "sklearn",
+        "tclf",
+        "tradesize",
         "zensical"
     ]
 }
