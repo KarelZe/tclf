@@ -9,8 +9,9 @@ import re
 from typing import TYPE_CHECKING, Literal, get_args
 
 if TYPE_CHECKING:
+    from typing import TypeGuard
+
     from narwhals.typing import IntoDataFrame
-    from typing_extensions import TypeGuard
 
 import narwhals.stable.v2 as nw
 import numpy as np
@@ -20,6 +21,7 @@ from sklearn.utils import check_random_state
 from sklearn.utils.validation import (
     _check_sample_weight,
     check_is_fitted,
+    validate_data,
 )
 
 from tclf.types import ArrayLike, MatrixLike
@@ -506,23 +508,20 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         self.func_mapping_ = dict(zip(ALLOWED_FUNC_STR, funcs))
 
-        X = self._validate_data(
+        X = validate_data(
+            self,
             X,
             y="no_validation",
             dtype=[np.float64, np.float32],
             accept_sparse=False,
-            force_all_finite=False,
+            ensure_all_finite=False,
         )
 
         self.classes_ = np.array([-1, 1])
 
-        # if no features are provided or inferred, use default
-        if self.columns_ is None:
-            self.columns_ = [str(i) for i in range(X.shape[1])]
-
-        if len(self.columns_) > 0 and X.shape[1] != len(self.columns_):
+        if len(self.columns_) > 0 and X.shape[1] != len(self.columns_):  # ty:ignore[invalid-argument-type]
             raise ValueError(
-                f"Expected {len(self.columns_)} columns, got {X.shape[1]}."
+                f"Expected {len(self.columns_)} columns, got {X.shape[1]}."  # ty:ignore[invalid-argument-type]
             )
 
         self._layers = self.layers if self.layers is not None else []
@@ -544,22 +543,27 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
 
         Returns:
             npt.NDArray: Predicted traget values for X.
+
+        Raises:
+            ValueError: columns are no set.
         """
         check_is_fitted(self)
-        assert self.columns_ is not None  # set during fit
+        if self.columns_ is None:
+            raise ValueError("'columns_' is not set. Call 'fit' before 'predict'.")
         if _is_frame(X):
             X = nw.from_native(X, eager_only=True).select(self.columns_).to_numpy()
 
-        X = self._validate_data(
+        X = validate_data(
+            self,
             X,
             dtype=[np.float64, np.float32],
             accept_sparse=False,
-            force_all_finite=False,
+            ensure_all_finite=False,
         )
 
         rs = check_random_state(self.random_state)
 
-        self.X_ = _Frame(X, self.columns_)  # ty:ignore[invalid-argument-type]
+        self.X_ = _Frame(X, self.columns_)
         pred = self._predict()
 
         # fill NaNs randomly with -1 and 1 or with constant zero

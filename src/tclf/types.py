@@ -9,5 +9,5 @@ from scipy.sparse import spmatrix
 
 # IntoDataFrame covers any narwhals-compatible DataFrame:
 # pd.DataFrame, pl.DataFrame, cuDF DataFrame, Modin DataFrame, …
-MatrixLike: TypeAlias  = np.ndarray| IntoDataFrame| spmatrix
-ArrayLike: TypeAlias  = npt.ArrayLike
+MatrixLike: TypeAlias = np.ndarray | IntoDataFrame | spmatrix
+ArrayLike: TypeAlias = npt.ArrayLike
