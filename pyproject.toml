@@ -249,3 +249,6 @@ commands = [["pytest", "-v", "tests", "--cov=src", "--cov-report=xml"]]
 [tool.tox.env.build]
 description = "build the project"
 commands = [["uv", "build"]]
+
+[tool.uv]
+exclude-newer = "7 days"
