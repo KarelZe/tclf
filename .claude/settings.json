@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && uv run --no-sync ruff check --fix . >&2 && uv run --no-sync ruff format . >&2 || exit 2",
+            "timeout": 60,
+            "statusMessage": "Running ruff (check & format)…"
+          },
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && uv run --no-sync ty check src >&2 || exit 2",
+            "timeout": 60,
+            "statusMessage": "Running ty…"
+          }
+        ]
+      }
+    ]
+  }
+}
