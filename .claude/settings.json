@@ -13,7 +13,7 @@
           },
           {
             "type": "command",
-            "command": "cd \"$CLAUDE_PROJECT_DIR\" && uv run --no-sync ty check >&2 || exit 2",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && uv run --no-sync ty check src >&2 || exit 2",
             "timeout": 60,
             "statusMessage": "Running ty…"
           }
