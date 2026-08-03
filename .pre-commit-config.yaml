@@ -36,14 +36,14 @@ repos:
         types: [python]
         pass_filenames: true
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.0
+    rev: v0.16.1
     hooks:
     - id: ruff
       args:
       - --fix
     - id: ruff-format
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.16.5
+    rev: v4.17.0
     hooks:
       - id: commitizen
         stages: [commit-msg]
