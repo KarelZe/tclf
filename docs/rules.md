@@ -37,6 +37,7 @@ The quote rule cannot classify trades at the midpoint of the quoted spread. A so
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("quote", "subset")])
 clf.fit(X)
 ```
@@ -65,6 +66,7 @@ The tick rule can sign all trades as long as a last differing trade price exists
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("tick", "subset")], strategy="random")
 clf.fit(X)
 ```
@@ -89,6 +91,7 @@ As denoted in the equation, the trade is classified as seller-initiated, if the 
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("rev_tick", "subset")], strategy="random")
 clf.fit(X)
 ```
@@ -113,6 +116,7 @@ The depth rule classifies midspread trades only, if the ask size is different fr
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("depth", "subset")])
 clf.fit(X)
 ```
@@ -135,6 +139,7 @@ When both the size of the ask and bid correspond with the trade size or the trad
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("trade_size", "subset")])
 clf.fit(X)
 ```
@@ -166,6 +171,7 @@ $$
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("lr", "subset")])
 clf.fit(X)
 ```
@@ -191,6 +197,7 @@ The EMO algorithm embeds both the quote and tick rule. As trades off the quotes 
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("emo", "subset")])
 clf.fit(X)
 ```
@@ -214,6 +221,7 @@ It is derived from a performance comparison of the tick rule ([EMO rule](#ellis-
 **Code**
 ```python
 from tclf.classical_classifier import ClassicalClassifier
+
 clf = ClassicalClassifier(layers=[("clnv", "subset")])
 clf.fit(X)
 ```

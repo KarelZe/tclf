@@ -55,13 +55,11 @@ import polars as pl
 
 from tclf.classical_classifier import ClassicalClassifier
 
-X = pl.DataFrame(
-    {
-        "trade_price": [1.5, 2.5, 1.5, 2.5, 1.0, 3.0],
-        "bid_ex": [1.0, 1.0, 3.0, 3.0, None, None],
-        "ask_ex": [3.0, 3.0, 1.0, 1.0, 1.0, None],
-    }
-)
+X = pl.DataFrame({
+    "trade_price": [1.5, 2.5, 1.5, 2.5, 1.0, 3.0],
+    "bid_ex": [1.0, 1.0, 3.0, 3.0, None, None],
+    "ask_ex": [3.0, 3.0, 1.0, 1.0, 1.0, None],
+})
 
 clf = ClassicalClassifier(layers=[("quote", "ex")], strategy="random")
 clf.fit(X)
@@ -109,16 +107,14 @@ from sklearn.metrics import accuracy_score
 
 from tclf.classical_classifier import ClassicalClassifier
 
-X = np.array(
-    [
-        [1.5, 1, 3, 2, 2.5],
-        [2.5, 1, 3, 1, 3],
-        [1.5, 3, 1, 1, 3],
-        [2.5, 3, 1, 1, 3],
-        [1, np.nan, 1, 1, 3],
-        [3, np.nan, np.nan, 1, 3],
-    ]
-)
+X = np.array([
+    [1.5, 1, 3, 2, 2.5],
+    [2.5, 1, 3, 1, 3],
+    [1.5, 3, 1, 1, 3],
+    [2.5, 3, 1, 1, 3],
+    [1, np.nan, 1, 1, 3],
+    [3, np.nan, np.nan, 1, 3],
+])
 y_true = np.array([-1, 1, 1, -1, -1, 1])
 features = ["trade_price", "bid_ex", "ask_ex", "bid_best", "ask_best"]
 
