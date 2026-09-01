@@ -33,9 +33,7 @@ import pandas as pd
 
 fs = gcsfs.GCSFileSystem()
 
-gcs_loc = fs.glob(
-        "gs://tclf/bucket_name/dir_name/*"
-)
+gcs_loc = fs.glob("gs://tclf/bucket_name/dir_name/*")
 X = pd.read_parquet(gcs_loc, engine="pyarrow", filesystem=fs)
 ```
 Unfortunately, the dataset does not yet follow the [naming conventions](https://karelze.github.io/tclf/naming_conventions/) and is missing columns required by `tclf`. We take care of this next.😅
