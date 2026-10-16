@@ -134,13 +134,17 @@ For more practical examples, see our [examples section](https://karelze.github.i
 
 ## Development
 
-We are using [`tox`](https://tox.wiki/en/latest/user_guide.html) with [`uv`](https://docs.astral.sh/uv/) for development.
+We are using [`uv`](https://docs.astral.sh/uv/) for development. `uv sync` creates a virtual environment with all development dependencies.
 
 ```bash
-tox -e lint
-tox -e format
-tox -e test
-tox -e build
+uv sync                                      # install package and dev dependencies
+uv run pytest                                # run tests
+uv run ruff check src tests                  # lint
+uv run ruff format src tests                 # format
+uv run ty check src                          # type check
+uv run pre-commit run --all-files            # run pre-commit hooks
+uv run zensical serve                        # serve docs at http://localhost:8000
+uv build                                     # build distribution
 ```
 
 ## Citation

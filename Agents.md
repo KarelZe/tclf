@@ -16,30 +16,30 @@ Key constraints for any change:
 
 ## Environment Setup
 - Python >= 3.10
-- Install: `pip install -e ".[dev]"`
-- Development uses `tox` with `uv` as the backend.
+- Install: `uv sync` (installs the package plus the `dev` dependency group)
+- Dependency groups: `test`, `docs`, and `dev` (includes both)
 
 ## Testing
-- run tests in tox environment: `tox -e test`
+- Run tests: `uv run pytest`
+- Run benchmarks: `uv run pytest tests/ -m benchmark --no-cov`
 
 ## Documentation
-- serve documentation from tox environment `tox -e doc`, then access http://localhost:8000
+- Serve docs: `uv run zensical serve`, then access http://localhost:8000
 
 ## Development Workflow
-- Run tests: `tox -e test`
-- Lint (ruff + ty): `tox -e lint`
-- Format: `tox -e format`
-- Build distribution: `tox -e build`
-- Serve docs: `tox -e doc` → http://localhost:8000
+- Lint: `uv run ruff check src tests` and `uv run ruff format --check src tests`
+- Type check: `uv run ty check src`
+- Format: `uv run ruff format src tests`
+- Build distribution: `uv build`
 
-For ad-hoc fixes outside tox: `ruff check . --fix`. For unsafe fixes, run
-`ruff check . --fix --unsafe-fixes --diff` first and review the diff before
-applying.
+For ad-hoc fixes: `uv run ruff check . --fix`. For unsafe fixes, run
+`uv run ruff check . --fix --unsafe-fixes --diff` first and review the diff
+before applying.
 
 ## Before Committing
-- `tox -e test` passes
-- `tox -e lint` passes (ruff + ty clean)
-- `pre-commit run --all-files` passes
+- `uv run pytest` passes
+- ruff and `uv run ty check src` are clean
+- `uv run pre-commit run --all-files` passes
 - Commit message follows Conventional Commits with a trailing emoji:
   - `feat: … ✨`  `fix: … 🐛`  `perf: … ⚡`
   - `docs: … 📝`  `test: … ✅`  `style: … 💄`  `build: … 🔧`

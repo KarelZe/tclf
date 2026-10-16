@@ -5,8 +5,8 @@
 
 version: 2
 updates:
-  # Maintain dependencies for pip
-  - package-ecosystem: "pip"
+  # Maintain dependencies for uv
+  - package-ecosystem: "uv"
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
