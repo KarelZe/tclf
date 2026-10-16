@@ -35,12 +35,13 @@ jobs:
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
         with:
           enable-cache: true
+          python-version: "3.12"
 
       - name: Install dependencies
-        run: uv sync --frozen --no-default-groups --group docs
+        run: uv sync --frozen --no-build --no-default-groups --group docs
 
       - name: Build docs
-        run: uv run --frozen --no-sync zensical build --strict
+        run: uv run --frozen --no-sync --no-build zensical build --strict
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
