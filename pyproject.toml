@@ -35,26 +35,16 @@ dependencies = [
 
 dynamic = ["version"]
 
-[project.optional-dependencies]
+[dependency-groups]
+test = ["pandas", "pytest", "pytest-cov", "pytest-codspeed"]
+docs = ["zensical", "mkdocstrings-python"]
 dev = [
-  # doc
-  "zensical",
-  "mkdocstrings-python",
-  # build
-  "build",
-  # test
-  "pandas",
-  "pytest",
-  "pytest-cov",
-  # linting",
-  "pre-commit",
-  "ty",
-  "ruff",
-  "tox-uv>=1.13.1",
-  "tox>=4.23.2",
-  "pytest-codspeed",
+  { include-group = "test" },
+  { include-group = "docs" },
   "commitizen",
-  "pypandoc-binary",
+  "pre-commit",
+  "ruff",
+  "ty",
 ]
 
 [tool.setuptools.dynamic]
@@ -164,91 +154,6 @@ section-order = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-
-[tool.tox]
-env_list = ["format", "lint", "pre-commit"]
-min_version = "4.23"
-
-[tool.tox.env_run_base]
-runner = "uv-venv-lock-runner"
-allowlist_externals = ["/bin/sh"]
-skip_install = true
-with_dev = true
-
-[tool.tox.env.clean]
-description = "cleanup tasks (remove build artifacts and cache)"
-commands = [
-  [
-    "coverage",
-    "erase",
-  ],
-  [
-    "sh",
-    "-c",
-    "rm -rf .mypy_cache .pytest_cache .ruff_cache dist mlruns reports",
-  ],
-]
-
-[tool.tox.env.doc]
-description = "writing documentation using zensical"
-commands = [["zensical", "serve"]]
-
-
-[tool.tox.env.format]
-description = "code formatting using ruff"
-commands = [
-  [
-    "ruff",
-    "format",
-    { replace = "posargs", default = [
-      "src",
-      "tests",
-    ], extend = true },
-  ],
-]
-
-[tool.tox.env.lint]
-description = "linting and syntax checks"
-commands = [
-  [
-    "ruff",
-    "check",
-    { replace = "posargs", default = [
-      "src",
-      "tests",
-    ], extend = true },
-  ],
-  [
-    "ruff",
-    "format",
-    "--check",
-    { replace = "posargs", default = [
-      "src",
-      "tests",
-    ], extend = true },
-  ],
-  [
-    "ty",
-    "check",
-    { replace = "posargs", default = [
-      "src",
-    ], extend = true },
-  ],
-]
-
-[tool.tox.env.pre-commit]
-description = "pre-commit hooks"
-commands = [["pre-commit", "run", "--all-files", "--show-diff-on-failure"]]
-
-[tool.tox.env.test]
-description = "tests"
-
-extras = ["dev"]
-commands = [["pytest", "-v", "tests", "--cov=src", "--cov-report=xml"]]
-
-[tool.tox.env.build]
-description = "build the project"
-commands = [["uv", "build"]]
 
 [tool.uv]
 exclude-newer = "7 days"
