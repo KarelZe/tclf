@@ -1,13 +1,15 @@
 [build-system]
-requires = ["setuptools >= 61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.12.24,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "tclf"
+version = "0.3.0"
 authors = [{ name = "Markus Bilz", email = "github@markusbilz.com" }]
 description = "Classify trades using trade classification algorithms 🐍"
 readme = "README.md"
-license = { file = "LICENSE.txt" }
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -33,8 +35,6 @@ dependencies = [
   "typing_extensions; python_version < '3.10'",
 ]
 
-dynamic = ["version"]
-
 [dependency-groups]
 test = ["pandas", "pytest", "pytest-cov", "pytest-codspeed"]
 docs = ["zensical", "mkdocstrings-python"]
@@ -46,9 +46,6 @@ dev = [
   "ruff",
   "ty",
 ]
-
-[tool.setuptools.dynamic]
-version = { file = "version" }
 
 [project.urls]
 "Homepage" = "https://github.com/KarelZe/tclf"
@@ -87,9 +84,9 @@ show_missing = true
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.3.0"
+version_provider = "pep621"
 tag_format = "$version"
-version_files = ["docs/index.md:version", "pyproject.toml:version", "version"]
+version_files = ["docs/index.md:version"]
 bump_message = "bump: version $current_version → $new_version"
 update_changelog_on_bump = true
 annotated_tag = true
