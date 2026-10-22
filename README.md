@@ -159,7 +159,7 @@ If you are using the package in publications, please cite as:
     month = nov,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.3.0},
+    version = {0.4.0},
     year = {2023}
 }
 ```
