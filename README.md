@@ -151,6 +151,7 @@ uv build                                     # build distribution
 
 If you are using the package in publications, please cite as:
 
+<!-- x-release-please-start-version -->
 ```latex
 @software{bilz_tclf_2023,
     author = {Bilz, Markus},
@@ -158,10 +159,11 @@ If you are using the package in publications, please cite as:
     month = nov,
     title = {{tclf} -- trade classification with python},
     url = {https://github.com/KarelZe/tclf},
-    version = {0.0.1},
+    version = {0.3.0},
     year = {2023}
 }
 ```
+<!-- x-release-please-end -->
 
 ## Footnotes
 

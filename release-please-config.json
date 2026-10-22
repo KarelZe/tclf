@@ -36,6 +36,10 @@
         {
           "type": "generic",
           "path": "docs/index.md"
+        },
+        {
+          "type": "generic",
+          "path": "README.md"
         }
       ]
     }
