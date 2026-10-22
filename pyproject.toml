@@ -41,7 +41,6 @@ docs = ["zensical", "mkdocstrings-python"]
 dev = [
   { include-group = "test" },
   { include-group = "docs" },
-  "commitizen",
   "pre-commit",
   "ruff",
   "ty",
@@ -81,16 +80,6 @@ exclude_also = [
   "if self.verbose:",
 ]
 show_missing = true
-
-[tool.commitizen]
-name = "cz_conventional_commits"
-version_provider = "pep621"
-tag_format = "$version"
-version_files = ["docs/index.md:version"]
-bump_message = "bump: version $current_version → $new_version"
-update_changelog_on_bump = true
-annotated_tag = true
-
 
 [tool.ruff]
 
