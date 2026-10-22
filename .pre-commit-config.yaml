@@ -42,11 +42,6 @@ repos:
       args:
       - --fix
     - id: ruff-format
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.19.2
-    hooks:
-      - id: commitizen
-        stages: [commit-msg]
   - repo: https://github.com/ComPWA/taplo-pre-commit
     rev: v0.9.3
     hooks:

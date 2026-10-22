@@ -151,6 +151,7 @@ uv build                                     # build distribution
 
 If you are using the package in publications, please cite as:
 
+<!-- x-release-please-start-version -->
 ```latex
 @software{bilz_tclf_2024,
     author = {Bilz, Markus},
@@ -162,6 +163,7 @@ If you are using the package in publications, please cite as:
     year = {2024}
 }
 ```
+<!-- x-release-please-end -->
 
 ## Footnotes
 
