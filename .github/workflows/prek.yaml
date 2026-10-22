@@ -1,0 +1,20 @@
+# see: https://prek.j178.dev/integrations/?h=ci+#verifying-images
+name: prek checks
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  prek:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          enable-cache: true
+          python-version: "3.12"
+      # The local ty hook runs from the project environment.
+      - run: uv sync --frozen --no-build
+      - run: echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - uses: j178/prek-action@1382ad72dea72f9d53832f2bcb65b3e87a947204 # v3.0.1

@@ -142,7 +142,7 @@ uv run pytest                                # run tests
 uv run ruff check src tests                  # lint
 uv run ruff format src tests                 # format
 uv run ty check src                          # type check
-uv run pre-commit run --all-files            # run pre-commit hooks
+uv run prek run --all-files                  # run prek hooks
 uv run zensical serve                        # serve docs at http://localhost:8000
 uv build                                     # build distribution
 ```
