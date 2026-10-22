@@ -39,7 +39,7 @@ before applying.
 ## Before Committing
 - `uv run pytest` passes
 - ruff and `uv run ty check src` are clean
-- `uv run pre-commit run --all-files` passes
+- `uv run prek run --all-files` passes
 - Commit message follows Conventional Commits with a trailing emoji:
   - `feat: … ✨`  `fix: … 🐛`  `perf: … ⚡`
   - `docs: … 📝`  `test: … ✅`  `style: … 💄`  `build: … 🔧`

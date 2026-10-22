@@ -41,7 +41,7 @@ docs = ["zensical", "mkdocstrings-python"]
 dev = [
   { include-group = "test" },
   { include-group = "docs" },
-  "pre-commit",
+  "prek",
   "ruff",
   "ty",
 ]
