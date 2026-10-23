@@ -109,12 +109,12 @@ select = [
 ]
 
 ignore = [
-  "E501", # line too long, handled by black
-  "N803", # argument name should be lowercase
-  "N806", # variable name should be lowercase
-  "C901", # too complex
-  "D206", # indent with white space
-  "W191", # tab identation
+  "line-too-long",                      # line too long, handled by black
+  "invalid-argument-name",              # argument name should be lowercase
+  "non-lowercase-variable-in-function", # variable name should be lowercase
+  "complex-structure",                  # too complex
+  "docstring-tab-indentation",          # indent with white space
+  "tab-indentation",                    # tab identation
 ]
 
 preview = true
@@ -134,8 +134,8 @@ section-order = [
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = [
-  "D104",
-  "F401",
+  "undocumented-public-package",
+  "unused-import",
 ] # disable missing docstrings in __init__, unused imports
 
 [tool.ruff.lint.pydocstyle]

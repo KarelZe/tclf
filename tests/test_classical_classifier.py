@@ -31,7 +31,7 @@ class TestClassicalClassifier:
         """
         return pd.DataFrame(
             np.zeros(shape=(1, 14)),
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "ask_size_ex",
                 "bid_size_ex",
                 "ask_best",
@@ -58,7 +58,7 @@ class TestClassicalClassifier:
         """
         return pd.DataFrame(
             [[1, 2], [3, 4], [1, 2], [3, 4]],
-            columns=["ask_best", "bid_best"],  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=["ask_best", "bid_best"],
         )
 
     @pytest.fixture
@@ -217,7 +217,7 @@ class TestClassicalClassifier:
         columns = ["trade_price", "price_ex_lag", "price_all_lead"]
         x_test = pd.DataFrame(
             [[1, 2, 0], [2, 1, 3]],
-            columns=columns,  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=columns,
         )
         y_test = pd.Series([-1, 1])
         y_pred = (
@@ -271,7 +271,7 @@ class TestClassicalClassifier:
                 [1, np.nan, 1],  # missing data
                 [3, np.nan, np.nan],  # missing_data
             ],
-            columns=columns,  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=columns,
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         y_pred = (
@@ -321,7 +321,7 @@ class TestClassicalClassifier:
         """
         x_test = pd.DataFrame(
             [[1, 2], [2, 1], [1, 1], [1, np.nan]],
-            columns=["trade_price", f"price_{subset}_lag"],  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=["trade_price", f"price_{subset}_lag"],
         )
 
         # first two by rule (see p. 28 Grauer et al.), remaining two by random chance.
@@ -341,7 +341,7 @@ class TestClassicalClassifier:
         """
         x_test = pd.DataFrame(
             [[1, 2], [2, 1], [1, 1], [1, np.nan]],
-            columns=["trade_price", f"price_{subset}_lead"],  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=["trade_price", f"price_{subset}_lead"],
         )
         # first two by rule (see p. 28 Grauer et al.), remaining two by random chance.
         y_test = pd.Series([-1, 1, 1, -1])
@@ -368,7 +368,7 @@ class TestClassicalClassifier:
                 [1, np.nan, 1],
                 [3, np.nan, np.nan],
             ],
-            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=["trade_price", f"bid_{subset}", f"ask_{subset}"],
         )
         y_test = pd.Series([-1, 1, 1, -1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("quote", subset)], 45)
@@ -387,7 +387,7 @@ class TestClassicalClassifier:
         # first two by quote rule, remaining two by tick rule.
         x_test = pd.DataFrame(
             [[1, 1, 3, 0], [3, 1, 3, 0], [1, 1, 1, 0], [3, 2, 4, 4]],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "trade_price",
                 f"bid_{subset}",
                 f"ask_{subset}",
@@ -418,7 +418,7 @@ class TestClassicalClassifier:
                 [1, 1, np.nan, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "trade_price",
                 f"bid_{subset}",
                 f"ask_{subset}",
@@ -449,7 +449,7 @@ class TestClassicalClassifier:
                 [1, 1, np.inf, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "trade_price",
                 f"bid_{subset}",
                 f"ask_{subset}",
@@ -480,7 +480,7 @@ class TestClassicalClassifier:
                 [1, 1, np.inf, np.nan],
                 [1, 1, np.nan, np.nan],
             ],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "trade_price",
                 f"bid_{subset}",
                 f"ask_{subset}",
@@ -511,7 +511,7 @@ class TestClassicalClassifier:
                 [1.7, 3, 1, 0],  # tick rule
                 [1.3, 3, 1, 1],  # quote rule
             ],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "trade_price",
                 f"ask_{subset}",
                 f"bid_{subset}",
@@ -541,7 +541,7 @@ class TestClassicalClassifier:
                 [1.7, 3, 1, 0],  # rev tick rule
                 [1.3, 3, 1, 1],  # quote rule
             ],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "trade_price",
                 f"ask_{subset}",
                 f"bid_{subset}",
@@ -570,7 +570,7 @@ class TestClassicalClassifier:
                 [1, np.inf, 2],
                 [1, np.inf, 2],
             ],
-            columns=["trade_size", "ask_size_ex", "bid_size_ex"],  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=["trade_size", "ask_size_ex", "bid_size_ex"],
         )
         y_test = pd.Series([-1, 1, -1, 1, -1, 1])
         self._apply_rule(x_train, x_test, y_test, [("trade_size", "ex")], 42)
@@ -593,7 +593,7 @@ class TestClassicalClassifier:
                 [2, 1, 2, 4, 2],
                 [2, 1, 2, 4, 2],
             ],
-            columns=[  # ty: ignore[invalid-argument-type]  # pandas-stubs SequenceNotStr FP
+            columns=[
                 "ask_size_ex",
                 "bid_size_ex",
                 "ask_ex",
