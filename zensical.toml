@@ -18,6 +18,7 @@ nav = [
   { "More" = [
     { "Naming conventions" = "naming_conventions.md" },
     { "Handling of NaNs" = "nan_handling.md" },
+    { "Array API support" = "array_api.md" },
   ] },
 ]
 
