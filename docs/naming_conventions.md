@@ -1,4 +1,4 @@
-For `tclf` to work, we impose constraints on the column names. The following input is required by each rule. Data requirements are additive, if multiple rules are applied.
+For `tclf` to work, we impose constraints on the column names. Column names are taken from the DataFrame columns, the keys of a `dict` of arrays, or the `features` parameter for plain arrays. The following input is required by each rule. Data requirements are additive, if multiple rules are applied.
 
 
 

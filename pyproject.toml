@@ -10,11 +10,10 @@ description = "Classify trades using trade classification algorithms 🐍"
 readme = "README.md"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -27,16 +26,16 @@ classifiers = [
 ]
 
 dependencies = [
-  "numpy >1.24.4,<2.0.0",
+  # array API: scikit-learn moves arrays across devices via numpy.from_dlpack(device=, copy=)
+  "numpy >=2.1",
   "narwhals >=2.0",
-  "scikit-learn >=1.6",
-  "scipy",
-  # TypeGuard backport for Python 3.9; drop together with 3.9 support
-  "typing_extensions; python_version < '3.10'",
+  "scikit-learn >=1.8",
+  # array API dispatch in scikit-learn requires scipy >= 1.14
+  "scipy >=1.14",
 ]
 
 [dependency-groups]
-test = ["pandas", "pytest", "pytest-cov", "pytest-codspeed"]
+test = ["array-api-strict", "pandas", "pytest", "pytest-cov", "pytest-codspeed"]
 docs = ["zensical", "mkdocstrings-python"]
 dev = [
   { include-group = "test" },

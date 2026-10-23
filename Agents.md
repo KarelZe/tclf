@@ -15,7 +15,7 @@ Key constraints for any change:
   (see `docs/naming_conventions.md` and `README.md`).
 
 ## Environment Setup
-- Python >= 3.10
+- Python >= 3.11
 - Install: `uv sync` (installs the package plus the `dev` dependency group)
 - Dependency groups: `test`, `docs`, and `dev` (includes both)
 
