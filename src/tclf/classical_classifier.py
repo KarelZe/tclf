@@ -534,8 +534,11 @@ class ClassicalClassifier(ClassifierMixin, BaseEstimator):
             nw_X = nw.from_native(X, eager_only=True)
             if columns is None:
                 columns = list(nw_X.columns)
-            # nw.col also selects non-string column names e. g., integers.
-            X = nw_X.select(nw.col(*columns)).to_numpy()
+            # selecting by str is fast; nw.col is needed for non-str names e. g., int.
+            if all(isinstance(col, str) for col in columns):
+                X = nw_X.select(columns).to_numpy()
+            else:
+                X = nw_X.select(nw.col(*columns)).to_numpy()
         elif isinstance(X, Mapping) and not sp.issparse(X):
             data = cast("Mapping[str, Any]", X)
             if columns is None:
