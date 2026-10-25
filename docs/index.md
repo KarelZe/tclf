@@ -47,7 +47,7 @@ For a primer on trade classification rules visit the [rules section 🆕](https:
 
 Let's start simple: classify all trades by the quote rule and all other trades, which cannot be classified by the quote rule, randomly.
 
-`tclf` accepts any [narwhals](https://narwhals-dev.github.io/narwhals/)-compatible DataFrame — pandas, Polars, cuDF, and more — as well as plain numpy arrays.
+`tclf` accepts any [narwhals](https://narwhals-dev.github.io/narwhals/)-compatible DataFrame — pandas, Polars, cuDF, and more — as well as plain numpy arrays, dicts of arrays, and [Array API](https://karelze.github.io/tclf/array_api/) compatible arrays.
 
 **Polars**
 ```python title="main.py"
@@ -127,6 +127,29 @@ acc = accuracy_score(y_true, clf.predict(X))
 In this example, input data is available as np.arrays with both exchange (`"ex"`) and nbbo data (`"best"`). We set the layers parameter to `layers=[("quote", "ex"), ("quote", "best")]` to classify trades first on subset `"ex"` and remaining trades on subset `"best"`. Additionally, we have to set `ClassicalClassifier(..., features=features)` to pass column information to the classifier.
 
 Like before, column/feature names must follow our [naming conventions](https://karelze.github.io/tclf/naming_conventions/).
+
+## Array API Example
+
+`tclf` supports scikit-learn's [Array API dispatch](https://scikit-learn.org/stable/modules/array_api.html), e.g., to classify trades on the GPU with PyTorch or CuPy. As arrays have no column names, pass a `dict` of 1-D arrays (or a 2-D array with `features=[...]`):
+
+```python title="main.py"
+import torch
+from sklearn import config_context
+
+from tclf.classical_classifier import ClassicalClassifier
+
+X = {
+    "trade_price": torch.tensor([1.5, 2.5, 1.5, 2.5], device="cuda"),
+    "bid_ex": torch.tensor([1.0, 1.0, 3.0, 3.0], device="cuda"),
+    "ask_ex": torch.tensor([3.0, 3.0, 1.0, 1.0], device="cuda"),
+}
+
+with config_context(array_api_dispatch=True):
+    clf = ClassicalClassifier(layers=[("quote", "ex")]).fit(X)
+    probs = clf.predict_proba(X)  # torch.Tensor on cuda
+```
+
+Run your script with `SCIPY_ARRAY_API=1 python main.py`. See the [Array API section](https://karelze.github.io/tclf/array_api/) for details.
 
 ## Other Examples
 
